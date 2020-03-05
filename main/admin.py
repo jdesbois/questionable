@@ -1,3 +1,5 @@
 from django.contrib import admin
+from main.models import Lecture, Question
 
-# Register your models here.
+admin.site.register(Lecture)
+admin.site.register(Question)
