@@ -40,8 +40,22 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'registration',
     'main',
 ]
+
+#Registration variables
+# If True, users can register
+REGISTRATION_OPEN = True
+
+# If True, the user will be automatically logged in after registering.
+REGISTRATION_AUTO_LOGIN = True
+
+# The URL that Django redirects the users to after logging in.
+LOGIN_REDIRECT_URL = 'index'
+
+#The page users are directed to if they are not logged in.
+LOGIN_URL = 'auth_login'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
