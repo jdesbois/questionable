@@ -1,0 +1,4 @@
+certifi==2019.11.28
+Django==2.1.5
+django-registration-redux==2.2
+pytz==2019.3

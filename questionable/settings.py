@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'registration',
     'main',
+    'registration',
 ]
 
 #Registration variables
