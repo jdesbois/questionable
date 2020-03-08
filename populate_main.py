@@ -69,22 +69,18 @@ def populate():
     courses = {'Programming': {'lectures': programming_lectures},
                'Databases': {'lectures': database_lectures}}
 
-    # lectures = {'Programming': {'questions': programming_questions},
-    #             'Databases': {'questions': databases_questions}}
-
-
     ##############
     # Users
     ##############
-    # User.objects.create_user('John', 'noreply@apple.com', 'johnpassword1')
-    # User.objects.create_user('Andrew', 'noreply@apple.com', 'andrewpassword1')
-    # User.objects.create_user('Rebecca', 'noreply@apple.com', 'rebeccapassword1')
-    # User.objects.create_user('Aaron', 'noreply@apple.com', 'aaronpassword1')
+    user1 =  User.objects.create_user('John', 'noreply@apple.com', 'johnpassword1')
+    user2 = User.objects.create_user('Andrew', 'noreply@apple.com', 'andrewpassword1')
+    user3 = User.objects.create_user('Rebecca', 'noreply@apple.com', 'rebeccapassword1')
+    user4 = User.objects.create_user('Aaron', 'noreply@apple.com', 'aaronpassword1')
 
-    add_student(User.objects.create_user('John', 'noreply@apple.com', 'johnpassword1'))
-    add_student(User.objects.create_user('Andrew', 'noreply@apple.com', 'andrewpassword1'))
-    add_tutor(User.objects.create_user('Rebecca', 'noreply@apple.com', 'rebeccapassword1'))
-    add_tutor(User.objects.create_user('Aaron', 'noreply@apple.com', 'aaronpassword1'))
+    add_student(user1)
+    add_student(user2)
+    add_tutor(user3)
+    add_tutor(user4)
 
     for course, course_data in courses.items():
         c = add_course(course)
@@ -93,17 +89,6 @@ def populate():
             for question in lecture_data['questions']:
                 q = add_question(l, question['title'], question['question'])
                 # add_reply(question, "Test reply text")
-
-
-    # for lect, lect_data in lectures.items():
-    #     l = add_lecture(lect)
-    #     for q in lect_data['questions']:
-    #         add_question(l, q['title'], q['question'])
-
-    # # print lectures
-    # for l in Lecture.objects.all():
-    #     for q in Question.objects.filter(lecture=l):
-    #         print(f'- {l}: {q}')
 
 
 def add_reply(question, reply):

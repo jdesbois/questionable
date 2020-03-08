@@ -18,6 +18,7 @@ class Tutor(models.Model):
 
 class Course(models.Model):
     name = models.CharField(max_length=128, unique=True)
+    user = models.ForeignKey(Tutor, on_delete=models.CASCADE, null=True, blank=True, default=None)
 
     def __str__(self):
         return self.name
@@ -34,6 +35,7 @@ class Lecture(models.Model):
 
 class Question(models.Model):
     lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE)
+    user = models.ForeignKey(Student, on_delete=models.CASCADE, null=True, blank=True, default=None)
     title = models.CharField(max_length=128)
     question = models.CharField(max_length=512)
 
