@@ -4,7 +4,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'questionable.settings')
 import django
 django.setup()
 
-from main.models import Course, Lecture, Question, Reply
+from main.models import Course, Lecture, Question, Reply, Tutor, Student
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -80,6 +80,8 @@ def populate():
     User.objects.create_user('Andrew', 'noreply@apple.com', 'andrewpassword1')
     User.objects.create_user('Rebecca', 'noreply@apple.com', 'rebeccapassword1')
     User.objects.create_user('Aaron', 'noreply@apple.com', 'aaronpassword1')
+
+    # Student.user.objects.create_User('Mike', 'noreply@apple.com', 'mikepassword1')
 
 
     for course, course_data in courses.items():
