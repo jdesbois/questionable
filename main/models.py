@@ -5,9 +5,15 @@ from django.contrib.auth.models import User
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.user.username
+
 
 class Tutor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.username
 
 
 class Course(models.Model):
@@ -42,7 +48,7 @@ class Reply(models.Model):
 
     def __str__(self):
         # identify by primary key
-        return "Reply: " + self.pk
+        return "Reply: " + str(self.pk)
 
 
 class Comment(models.Model):
@@ -52,16 +58,22 @@ class Comment(models.Model):
 
     def __str__(self):
         # identify by primary key
-        return "Reply: " + self.pk
+        return "Reply: " + str(self.pk)
 
 
 class Upvote(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     user = models.ForeignKey(Student, on_delete=models.CASCADE, default=None)
 
+    def __str__(self):
+        return "Upvote: " + str(self.pk)
+
 
 class Enrollment(models.Model):
     user = models.ForeignKey(Student, on_delete=models.CASCADE, default=None)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "Enrollment: " + str(self.pk)
 
 

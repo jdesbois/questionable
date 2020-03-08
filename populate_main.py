@@ -76,13 +76,15 @@ def populate():
     ##############
     # Users
     ##############
-    User.objects.create_user('John', 'noreply@apple.com', 'johnpassword1')
-    User.objects.create_user('Andrew', 'noreply@apple.com', 'andrewpassword1')
-    User.objects.create_user('Rebecca', 'noreply@apple.com', 'rebeccapassword1')
-    User.objects.create_user('Aaron', 'noreply@apple.com', 'aaronpassword1')
+    # User.objects.create_user('John', 'noreply@apple.com', 'johnpassword1')
+    # User.objects.create_user('Andrew', 'noreply@apple.com', 'andrewpassword1')
+    # User.objects.create_user('Rebecca', 'noreply@apple.com', 'rebeccapassword1')
+    # User.objects.create_user('Aaron', 'noreply@apple.com', 'aaronpassword1')
 
-    # Student.user.objects.create_User('Mike', 'noreply@apple.com', 'mikepassword1')
-
+    add_student(User.objects.create_user('John', 'noreply@apple.com', 'johnpassword1'))
+    add_student(User.objects.create_user('Andrew', 'noreply@apple.com', 'andrewpassword1'))
+    add_tutor(User.objects.create_user('Rebecca', 'noreply@apple.com', 'rebeccapassword1'))
+    add_tutor(User.objects.create_user('Aaron', 'noreply@apple.com', 'aaronpassword1'))
 
     for course, course_data in courses.items():
         c = add_course(course)
@@ -128,24 +130,18 @@ def add_course(name):
     c.save()
     return c
 
+def add_student(user):
+    s = Student.objects.get_or_create(user=user)[0]
+    s.save()
+    return s
 
+def add_tutor(user):
+    t = Tutor.objects.get_or_create(user=user)[0]
+    t.save()
+    return t
 
 
 if __name__ == '__main__':
     print('Starting population script...')
     populate()
 
-
-    # programming_questions = [
-    #     {'title': 'Help, I\'ve deleted my path variable.',
-    #      'question': 'Where can I buy a new laptop?'},
-    #     {'title': 'What is MVC?',
-    #     'question': 'Unsure how to implement model, view controller.'}
-    # ]
-
-    # databases_questions = [
-    #     {'title': 'My database is odd',
-    #      'question': 'How can I normalize it?'},
-    #     {'title': 'SQL vs NoSQL',
-    #      'question': 'What is the difference between SQL and NoSQL?'}
-    # ]
