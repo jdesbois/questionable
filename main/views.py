@@ -74,7 +74,7 @@ def contact_page(request):
 
 
 def profile(request):
-    return render(request, 'registration/profiles.html')
+    return render(request, 'registration/profile.html')
 
 
 # CREATION VIEWS
