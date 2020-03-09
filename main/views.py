@@ -3,7 +3,7 @@ from main.forms import LectureForm, CourseForm, QuestionForm, CommentForm, Reply
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from main.models import Course, Lecture, Question, Reply, Comment, Tutor, Student, Upvote, Enrollment
-
+from django.contrib.auth.decorators import login_required
 
 # DISPLAY VIEWS
 
@@ -72,7 +72,7 @@ def show_comment(request, selected_comment):
 def contact_page(request):
     return
 
-
+@login_required(login_url='/accounts/login/')
 def profile(request):
     return render(request, 'registration/profile.html')
 
