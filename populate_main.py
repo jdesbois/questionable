@@ -4,7 +4,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'questionable.settings')
 import django
 django.setup()
 
-from main.models import Course, Lecture, Question, Reply
+from main.models import Course, Lecture, Question, Reply, Tutor, Student
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -69,18 +69,18 @@ def populate():
     courses = {'Programming': {'lectures': programming_lectures},
                'Databases': {'lectures': database_lectures}}
 
-    # lectures = {'Programming': {'questions': programming_questions},
-    #             'Databases': {'questions': databases_questions}}
-
-
     ##############
     # Users
     ##############
-    User.objects.create_user('John', 'noreply@apple.com', 'johnpassword1')
-    User.objects.create_user('Andrew', 'noreply@apple.com', 'andrewpassword1')
-    User.objects.create_user('Rebecca', 'noreply@apple.com', 'rebeccapassword1')
-    User.objects.create_user('Aaron', 'noreply@apple.com', 'aaronpassword1')
+    user1 =  User.objects.create_user('John', 'noreply@apple.com', 'johnpassword1')
+    user2 = User.objects.create_user('Andrew', 'noreply@apple.com', 'andrewpassword1')
+    user3 = User.objects.create_user('Rebecca', 'noreply@apple.com', 'rebeccapassword1')
+    user4 = User.objects.create_user('Aaron', 'noreply@apple.com', 'aaronpassword1')
 
+    add_student(user1)
+    add_student(user2)
+    add_tutor(user3)
+    add_tutor(user4)
 
     for course, course_data in courses.items():
         c = add_course(course)
@@ -89,17 +89,6 @@ def populate():
             for question in lecture_data['questions']:
                 q = add_question(l, question['title'], question['question'])
                 # add_reply(question, "Test reply text")
-
-
-    # for lect, lect_data in lectures.items():
-    #     l = add_lecture(lect)
-    #     for q in lect_data['questions']:
-    #         add_question(l, q['title'], q['question'])
-
-    # # print lectures
-    # for l in Lecture.objects.all():
-    #     for q in Question.objects.filter(lecture=l):
-    #         print(f'- {l}: {q}')
 
 
 def add_reply(question, reply):
@@ -126,24 +115,18 @@ def add_course(name):
     c.save()
     return c
 
+def add_student(user):
+    s = Student.objects.get_or_create(user=user)[0]
+    s.save()
+    return s
 
+def add_tutor(user):
+    t = Tutor.objects.get_or_create(user=user)[0]
+    t.save()
+    return t
 
 
 if __name__ == '__main__':
     print('Starting population script...')
     populate()
 
-
-    # programming_questions = [
-    #     {'title': 'Help, I\'ve deleted my path variable.',
-    #      'question': 'Where can I buy a new laptop?'},
-    #     {'title': 'What is MVC?',
-    #     'question': 'Unsure how to implement model, view controller.'}
-    # ]
-
-    # databases_questions = [
-    #     {'title': 'My database is odd',
-    #      'question': 'How can I normalize it?'},
-    #     {'title': 'SQL vs NoSQL',
-    #      'question': 'What is the difference between SQL and NoSQL?'}
-    # ]
