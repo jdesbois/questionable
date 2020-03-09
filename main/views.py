@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from main.forms import UserForm, TutorForm, StudentForm, LectureForm, CourseForm, QuestionForm, CommentForm, ReplyForm
+from main.forms import LectureForm, CourseForm, QuestionForm, CommentForm, ReplyForm
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from main.models import Course, Lecture, Question, Reply, Comment, Tutor, Student, Upvote, Enrollment
@@ -74,7 +74,7 @@ def contact_page(request):
 
 
 def profile(request):
-    return render(request, 'registration/profile.html')
+    return render(request)
 
 
 # CREATION VIEWS
