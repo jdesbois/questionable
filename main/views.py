@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from main.forms import LectureForm, CourseForm, QuestionForm, CommentForm, ReplyForm
 from django.http import HttpResponse
-from django.contrib.auth import authenticate, login, logout
 from main.models import Course, Lecture, Question, Reply, Comment, Tutor, Student, Upvote, Enrollment
 
 
@@ -152,25 +151,25 @@ def create_comment(request):
             print(form.errors)
 
 
-def user_login(request):
+#def user_login(request):
     # If request is HTTP POST, get relevant data
-    if request.method == 'POST':
+#    if request.method == 'POST':
         # Get username and password
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+#        username = request.POST.get('username')
+#       password = request.POST.get('password')
 
         # Check if username/password combination is valid
-        user = authenticate(username=username, password=password)
+ #      user = authenticate(username=username, password=password)
 
         # If authentication passed check if the account is active
-        if user:
-            if user.is_active:
+  #     if user:
+   #        if user.is_active:
                 # If account has not been disabled
-                login(request, user)
-            else:
-                return HttpResponse("Your account has been disabled, please contact a system administrator")
-        else:
-            return HttpResponse("Invalid login details, please try again!")
-    else:
-        return render(request,)
+    #           login(request, user)
+     #      else:
+      #         return HttpResponse("Your account has been disabled, please contact a system administrator")
+       #else:
+#            return HttpResponse("Invalid login details, please try again!")
+ #   else:
+  #      return render(request,)
 

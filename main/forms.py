@@ -1,6 +1,5 @@
 from django import forms
 from main.models import Course, Lecture, Question, Reply, Comment, Tutor, Student
-from django.contrib.auth.models import User
 
 
 # Creates a User creation form
