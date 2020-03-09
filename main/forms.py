@@ -35,7 +35,7 @@ class CourseForm(forms.ModelForm):
 
 
 # Creates a form for a Lecture tuple to add to database
-class LectureFrom(forms.ModelForm):
+class LectureForm(forms.ModelForm):
     name = forms.CharField(max_length=128,
                            help_text="Please enter lecture name")
 
