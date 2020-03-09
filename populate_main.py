@@ -5,6 +5,8 @@ import django
 django.setup()
 
 from main.models import Course, Lecture, Question, Reply
+from django.db import models
+from django.contrib.auth.models import User
 
 
 def populate():
@@ -71,7 +73,13 @@ def populate():
     #             'Databases': {'questions': databases_questions}}
 
 
-
+    ##############
+    # Users
+    ##############
+    User.objects.create_user('John', 'noreply@apple.com', 'johnpassword1')
+    User.objects.create_user('Andrew', 'noreply@apple.com', 'andrewpassword1')
+    User.objects.create_user('Rebecca', 'noreply@apple.com', 'rebeccapassword1')
+    User.objects.create_user('Aaron', 'noreply@apple.com', 'aaronpassword1')
 
 
     for course, course_data in courses.items():
@@ -117,6 +125,8 @@ def add_course(name):
     c = Course.objects.get_or_create(name=name)[0]
     c.save()
     return c
+
+
 
 
 if __name__ == '__main__':
