@@ -133,3 +133,6 @@ dmypy.json
 
 # IntelliJ project files
 .idea/
+
+.project
+.pydevproject
