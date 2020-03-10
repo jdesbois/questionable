@@ -1,4 +1,5 @@
 import os
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'questionable.settings')
 
 import django
@@ -6,7 +7,10 @@ django.setup()
 
 from main.models import Course, Lecture, Question, Reply, Tutor, Student
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group, Permission
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth import get_user_model
+
 
 
 def populate():
@@ -70,12 +74,48 @@ def populate():
                'Databases': {'lectures': database_lectures}}
 
     ##############
+    # Groups
+    ##############
+    lecturer = Group(name="Lecturer")
+    # lecturer = Group.objects.create(name='Lecturer')
+    lecturer.save()
+    student = Group(name="Student")
+    # student = Group.objects.create(name='Student')
+    student.save()
+
+    
+    content_type = ContentType.objects.get(app_label='main', model='lecture')
+
+    perms = Permission.objects.filter(content_type=content_type)
+    
+    for x in perms:
+        lecturer.permissions.add(x)
+    
+   
+
+    ##############
     # Users
     ##############
     user1 =  User.objects.create_user('John', 'noreply@apple.com', 'johnpassword1')
     user2 = User.objects.create_user('Andrew', 'noreply@apple.com', 'andrewpassword1')
     user3 = User.objects.create_user('Rebecca', 'noreply@apple.com', 'rebeccapassword1')
     user4 = User.objects.create_user('Aaron', 'noreply@apple.com', 'aaronpassword1')
+
+    user1.groups.add(lecturer)
+    user2.groups.add(lecturer)
+    user3.groups.add(student)
+    user4.groups.add(student)
+  
+
+    # Default admin for /admin (REMOVE BEFORE DEPLOYING)
+    admin = User.objects.create_user('admin', 'noreply@apple.com','HelloWorld123')
+    User1 = get_user_model()
+    user = User1.objects.get(username="admin")
+    user.is_staff = True
+    user.is_admin = True
+    user.is_superuser = True
+    user.save()
+
 
     add_student(user1)
     add_student(user2)
@@ -89,6 +129,8 @@ def populate():
             for question in lecture_data['questions']:
                 q = add_question(l, question['title'], question['question'])
                 # add_reply(question, "Test reply text")
+
+
 
 
 def add_reply(question, reply):
