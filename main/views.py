@@ -101,10 +101,10 @@ def show_reply(request, selected_reply):
     context_dict = {}
 
     try:
-        comment = Comment.objects.get(selected_reply)
+        comment = Reply.objects.get(selected_reply)
         context_dict['reply'] = comment
 
-    except Comment.DoesNotExist:
+    except Reply.DoesNotExist:
         context_dict['reply'] = None
 
     return render(request, 'main/course/lecture/question/reply.html', context=context_dict)
