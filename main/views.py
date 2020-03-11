@@ -15,11 +15,12 @@ def show_courses(request):
     context_dict = {}
     courses = Course.objects.all()
     context_dict['Courses'] = courses
+    return render(request, 'main/courses.html', context=context_dict)
 
 
 def show_course(request, selected_course):
     context_dict = {}
-    lecture_list = {}
+    lecture_list = Lecture.objects.filter(course=selected_course)
 
     try:
         course = Course.objects.get(selected_course)
@@ -27,11 +28,6 @@ def show_course(request, selected_course):
 
     except Course.DoesNotExist:
         context_dict['course'] = None
-
-    # Loops through all lectures to find those associated with this course
-    for lecture in Lecture.objects.all():
-        if lecture.course != selected_course:
-            lecture_list += lecture
 
     context_dict['lectures'] = lecture_list
     return render(request, 'main/course.html', context=context_dict)
@@ -52,18 +48,18 @@ def show_lecture(request, selected_lecture):
 
     try:
         lecture = Lecture.objects.get(selected_lecture)
+        comment_list = Comment.objects.filter(lecture=selected_lecture)
+        reply_list = Reply.objects.filter(lecture=selected_lecture)
         context_dict['lecture'] = lecture
+        context_dict['comments'] = comment_list
+        context_dict['reply'] = reply_list
 
     except Lecture.DoesNotExist:
         context_dict['lecture'] = None
+        context_dict['comments'] = None
+        context_dict['reply'] = None
 
-    return render(request, context=context_dict)
-
-
-# def show_questions(request):
-#     context_dict = {}
-#     questions = Question.objects.all()
-#     context_dict['Questions'] = questions
+    return render(request, 'main/course/lecture.html', context=context_dict)
 
 
 def show_question(request, selected_question):
@@ -71,18 +67,21 @@ def show_question(request, selected_question):
 
     try:
         question = Question.objects.get(selected_question)
+        comment_list = Comment.objects.filter(question=selected_question)
+        reply_list = Reply.objects.filter(question=selected_question)
+        upvotes = Upvote.objects.filter(question=selected_question)
         context_dict['question'] = question
+        context_dict['comments'] = comment_list
+        context_dict['replies'] = reply_list
+        context_dict['upvotes'] = upvotes
 
     except Question.DoesNotExist:
         context_dict['question'] = None
+        context_dict['comments'] = None
+        context_dict['replies'] = None
+        context_dict['upvotes'] = None
 
-    return render(request, context=context_dict)
-
-
-# def show_comments(request):
-#     context_dict = {}
-#     comments = Comment.objects.all()
-#     context_dict['Comments'] = comments
+    return render(request, 'main/course/lecture/question.html', context=context_dict)
 
 
 def show_comment(request, selected_comment):
@@ -95,7 +94,20 @@ def show_comment(request, selected_comment):
     except Comment.DoesNotExist:
         context_dict['comment'] = None
 
-    return render(request, context=context_dict)
+    return render(request, 'main/course/lecture/question/comment.html', context=context_dict)
+
+
+def show_reply(request, selected_reply):
+    context_dict = {}
+
+    try:
+        comment = Comment.objects.get(selected_reply)
+        context_dict['reply'] = comment
+
+    except Comment.DoesNotExist:
+        context_dict['reply'] = None
+
+    return render(request, 'main/course/lecture/question/reply.html', context=context_dict)
 
 
 def contact_page(request):
@@ -147,6 +159,22 @@ def create_lecture(request, course):
 
             print(form.errors)
 
+
+@login_required
+def create_question(request, lecture, user):
+    form = QuestionForm()
+
+    # If user inputs comment
+    if request.method == 'POST':
+        form = QuestionForm(request.POST)
+        # If input is valid
+        if form.is_valid():
+            # Save the form
+            question = form.save(commit=True)
+            question.lecture = lecture
+            question.user = user
+
+
 @login_required
 def create_reply(request, user, question):
     form = ReplyForm()
@@ -186,21 +214,6 @@ def create_comment(request, user, question):
         else:
 
             print(form.errors)
-
-
-@login_required
-def create_question(request, lecture, user):
-    form = QuestionForm()
-
-    # If user inputs comment
-    if request.method == 'POST':
-        form = QuestionForm(request.POST)
-        # If input is valid
-        if form.is_valid():
-            # Save the form
-            question = form.save(commit=True)
-            question.lecture = lecture
-            question.user = user
 
 
 @login_required
