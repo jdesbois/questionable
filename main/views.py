@@ -25,9 +25,11 @@ def show_course(request, selected_course):
     try:
         course = Course.objects.get(selected_course)
         context_dict['course'] = course
+        context_dict['lectures'] = lecture_list
 
     except Course.DoesNotExist:
         context_dict['course'] = None
+        context_dict['lectures'] = None
 
     context_dict['lectures'] = lecture_list
     return render(request, 'main/course.html', context=context_dict)
