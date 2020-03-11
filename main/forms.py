@@ -1,26 +1,5 @@
 from django import forms
-from main.models import Course, Lecture, Question, Reply, Comment, Tutor, Student
-
-
-# Creates a User creation form
-#class UserForm(forms.ModelForm):
-#    password = forms.CharField(widget=forms.PasswordInput())
-
-#    class Meta:
-#         model = User
-#         fields = ('username', 'email', 'password')
-
-
-# Creates a from for a course tuple to add to database
-#class TutorForm(forms.ModelForm):
-        #class Meta:
-        #model = Tutor
-
-
-# Creates a from for a course tuple to add to database
-#class StudentForm(forms.ModelForm):
-    #class Meta:
-        #model = Student
+from main.models import Course, Lecture, Question, Reply, Comment
 
 
 # Creates a from for a course tuple to add to database
@@ -59,7 +38,7 @@ class ReplyForm(forms.ModelForm):
 
     class Meta:
         model = Reply
-        exclude = ('question',)
+        exclude = ('question', 'user')
 
 
 # Creates a form for a Lecture tuple to add to database

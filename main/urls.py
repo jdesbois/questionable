@@ -7,4 +7,5 @@ app_name = 'main'
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('course/', views.show_course, name='course'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
