@@ -2,7 +2,7 @@ from django.shortcuts import render
 from main.forms import LectureForm, CourseForm, QuestionForm, CommentForm, ReplyForm
 from django.http import HttpResponse
 from main.models import Course, Lecture, Question, Reply, Comment, Tutor, Student, Upvote, Enrollment
-
+from django.contrib.auth.decorators import login_required, permission_required
 
 # DISPLAY VIEWS
 
@@ -41,6 +41,17 @@ def show_question(request, selected_question):
 
     return render(request, context=context_dict)
 
+# Added by John
+# Requires login and requires abillity to view_lecture in perms 
+# Displays a list of course names on page /main/lectures
+@login_required
+@permission_required('main.view_lecture')
+def show_lectures(request):
+    context_dict = {}
+    lectures = Lecture.objects.all()
+    context_dict['Lectures'] = lectures
+
+    return render(request, 'main/lectures.html', context=context_dict)
 
 def show_lecture(request, selected_lecture):
     context_dict = {}
@@ -71,14 +82,15 @@ def show_comment(request, selected_comment):
 def contact_page(request):
     return
 
-
+@login_required(login_url='/accounts/login/')
 def profile(request):
-    return render(request, 'registration/profiles.html')
+    return render(request, 'registration/profile.html')
 
 
 # CREATION VIEWS
 
 
+@login_required
 def create_course(request):
     form = CourseForm()
 
@@ -96,7 +108,7 @@ def create_course(request):
 
             print(form.errors)
 
-
+@login_required
 def create_lecture(request):
     form = LectureForm()
 
@@ -114,7 +126,7 @@ def create_lecture(request):
 
             print(form.errors)
 
-
+@login_required
 def create_reply(request):
     form = ReplyForm()
 
@@ -132,7 +144,7 @@ def create_reply(request):
 
             print(form.errors)
 
-
+@login_required
 def create_comment(request):
     form = CommentForm()
 
