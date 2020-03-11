@@ -23,6 +23,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('registration.backends.simple.urls')),
     path('accounts/profile', views.profile, name='profile'),
-    path('main/lectures/', views.show_lectures, name='show_lectures'),
-    path('main/create_lecture', views.create_lecture, name="create_lecture")
 ]
