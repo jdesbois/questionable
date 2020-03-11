@@ -46,7 +46,6 @@ def show_question(request, selected_question):
 # Requires login and requires abillity to view_lecture in perms 
 # Displays a list of course names on page /main/lectures
 @login_required
-@permission_required('main.view_lecture')
 def show_lectures(request):
     context_dict = {}
     lectures = Lecture.objects.all()
@@ -110,6 +109,7 @@ def create_course(request):
             print(form.errors)
 
 @login_required
+@permission_required("main.add_lecture")
 def create_lecture(request):
     form = LectureForm()
 
@@ -126,6 +126,7 @@ def create_lecture(request):
         else:
 
             print(form.errors)
+    return render(request, 'main/create_lecture.html', {'form': form})
 
 @login_required
 def create_reply(request):
