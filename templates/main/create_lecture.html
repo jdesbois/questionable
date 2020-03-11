@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <Title>Add a Lecture</Title>
+    </head>
+
+    <body>
+        <h1>Add a Lecture</h1>
+        <div>
+            <form id="lectureForm" method="POST" action="/create_lecture">
+                {% csrf_token %}
+                {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
+                {% for field in form.visible_fields %}
+                    {{ field.erros }}
+                    {{ field.help_text }}
+                    {{ field }}
+                {% endfor %}
+                <input type="submit" name="submit" value="Create Lecture" />
+            </form>
+        </div>
+    </body>
+</html>
