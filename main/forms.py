@@ -47,4 +47,4 @@ class CommentForm(forms.ModelForm):
 
     class Meta:
         model = Comment
-        exclude = ('question', 'user',)
+        exclude = ('question', 'user')
