@@ -1,7 +1,9 @@
-from django.shortcuts import render, redirect
-from main.forms import LectureForm, CourseForm, QuestionForm, CommentForm, ReplyForm
+from django.shortcuts import redirect, render
+from main.forms import LectureForm, CourseForm, QuestionForm, CommentForm, ReplyForm, UserForm, ProfileForm
 from main.models import Course, Lecture, Question, Reply, Comment, Upvote, Enrollment
 from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib import messages
+from django.db import transaction
 
 # DISPLAY VIEWS
 
@@ -115,7 +117,11 @@ def contact_page(request):
 
 @login_required(login_url='/accounts/login/')
 def profile(request):
-    return render(request, 'registration/profile.html')
+    current_user_picture = request.user.profile.picture
+    context_dict = {}
+    context_dict['current_user'] = current_user_picture
+    print(context_dict)
+    return render(request, 'main/profile.html', context=context_dict)
 
 
 # CREATION VIEWS
@@ -257,3 +263,23 @@ def enroll_user(request, user, course):
         enroll.user = user
 
     return render(request, 'main/courses', {'enrollment': enroll})
+
+@login_required
+@transaction.atomic
+def update_user(request):
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, ('Your profile was sucessfull updated!'))
+        else:
+            messages.error(request, ('Please correct the error(s) below:'))
+    else:
+        user_form = UserForm(instance=request.user)
+        profile_form = ProfileForm(instance=request.user.profile)
+    return render(request, 'main/update_user.html', {
+        'user_form': user_form,
+        'profile_form': profile_form
+    })

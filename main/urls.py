@@ -19,4 +19,6 @@ urlpatterns = [
     path('course/lecture/question/create_reply', views.create_reply, name='reply'),
     path('course/lecture/question/create_comment', views.create_comment, name='reply'),
     path('contact_page/', views.contact_page, name='contact_page'),
+    path('update_user/', views.update_user, name='update_user'),
+    path('profile/', views.profile, name='profile'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
