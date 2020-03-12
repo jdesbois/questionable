@@ -1,5 +1,7 @@
 from django import forms
-from main.models import Course, Lecture, Question, Reply, Comment
+from main.models import Course, Lecture, Question, Reply, Comment, Profile
+from django.contrib.auth.models import User
+
 
 
 # Creates a from for a course tuple to add to database
@@ -38,7 +40,7 @@ class ReplyForm(forms.ModelForm):
 
     class Meta:
         model = Reply
-        exclude = ('question', 'user')
+        exclude = ('question', 'user',)
 
 
 # Creates a form for a Lecture tuple to add to database
@@ -48,3 +50,13 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         exclude = ('question', 'user',)
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('username', 'email',)
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('bio', 'picture',)

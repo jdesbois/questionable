@@ -3,6 +3,7 @@ from main.forms import LectureForm, CourseForm, QuestionForm, CommentForm, Reply
 from main.models import Course, Lecture, Question, Reply, Comment, Upvote, Enrollment
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
+from django.db import transaction
 
 # DISPLAY VIEWS
 
@@ -119,7 +120,7 @@ def contact_page(request):
 
 @login_required(login_url='/accounts/login/')
 def profile(request):
-    return render(request, 'registration/profile.html')
+    return render(request, 'main/profile.html')
 
 
 # CREATION VIEWS
@@ -243,6 +244,7 @@ def enroll_user(request, user, course):
     return render(request, context=context_dict)
 
 @login_required
+@transaction.atomic
 def update_user(request):
     if request.method == 'POST':
         user_form = UserForm(request.POST, instance=request.user)
@@ -250,14 +252,14 @@ def update_user(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            messages.success(request, _('Your profile was sucessfull updated!'))
+            messages.success(request, ('Your profile was sucessfull updated!'))
             return redirect('main:profile')
         else:
-            messages.error(request, _('Please correct the error(s) below.'))
+            messages.error(request, ('Please correct the error(s) below.'))
     else:
         user_form = UserForm(instance=request.user)
         profile_form = ProfileForm(instance=request.user.profile)
-    return render(request, 'registration/profile.html', {
+    return render(request, 'main/update_user.html', {
         'user_form': user_form,
         'profile_form': profile_form
     })
