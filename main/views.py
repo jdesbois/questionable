@@ -1,7 +1,8 @@
-from django.shortcuts import render
-from main.forms import LectureForm, CourseForm, QuestionForm, CommentForm, ReplyForm
+from django.shortcuts import redirect, render
+from main.forms import LectureForm, CourseForm, QuestionForm, CommentForm, ReplyForm, UserForm, ProfileForm
 from main.models import Course, Lecture, Question, Reply, Comment, Upvote, Enrollment
 from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib import messages
 
 # DISPLAY VIEWS
 
@@ -240,3 +241,23 @@ def enroll_user(request, user, course):
         enroll.user = user
     context_dict = {'enrollment': enroll}
     return render(request, context=context_dict)
+
+@login_required
+def update_user(request):
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, instance=request.user.profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, _('Your profile was sucessfull updated!'))
+            return redirect('main:profile')
+        else:
+            messages.error(request, _('Please correct the error(s) below.'))
+    else:
+        user_form = UserForm(instance=request.user)
+        profile_form = ProfileForm(instance=request.user.profile)
+    return render(request, 'registration/profile.html', {
+        'user_form': user_form,
+        'profile_form': profile_form
+    })
