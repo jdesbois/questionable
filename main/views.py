@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from main.forms import LectureForm, CourseForm, QuestionForm, CommentForm, ReplyForm
 from main.models import Course, Lecture, Question, Reply, Comment, Upvote, Enrollment
 from django.contrib.auth.decorators import login_required, permission_required
@@ -20,29 +20,27 @@ def show_courses(request):
 
 def show_course(request, selected_course):
     context_dict = {}
-    lecture_list = Lecture.objects.filter(course=selected_course)
 
     try:
         course = Course.objects.get(selected_course)
+        lecture_list = Lecture.objects.filter(course=selected_course)
         context_dict['course'] = course
         context_dict['lectures'] = lecture_list
 
     except Course.DoesNotExist:
         context_dict['course'] = None
         context_dict['lectures'] = None
-
-    context_dict['lectures'] = lecture_list
     return render(request, 'main/course.html', context=context_dict)
 
 
-# @login_required
-# @permission_required('main.view_lecture')
-# def show_lectures(request):
-#     context_dict = {}
-#     lectures = Lecture.objects.all()
-#     context_dict['Lectures'] = lectures
-#
-#     return render(request, 'main/lectures.html', context=context_dict)
+@login_required
+@permission_required('main.view_lecture')
+def show_lectures(request):
+    context_dict = {}
+    lectures = Lecture.objects.all()
+    context_dict['Lectures'] = lectures
+
+    return render(request, 'main/lectures.html', context=context_dict)
 
 
 def show_lecture(request, selected_lecture):
@@ -60,7 +58,6 @@ def show_lecture(request, selected_lecture):
         context_dict['lecture'] = None
         context_dict['comments'] = None
         context_dict['reply'] = None
-
     return render(request, 'main/course/lecture.html', context=context_dict)
 
 
@@ -113,7 +110,7 @@ def show_reply(request, selected_reply):
 
 
 def contact_page(request):
-    return
+    return render(request, 'main/contact_page.html')
 
 
 @login_required(login_url='/accounts/login/')
@@ -135,12 +132,14 @@ def create_course(request):
         if form.is_valid():
             # Save the form
             form.save(commit=True)
-
-            return # Needs redirect
+            return redirect('/main/courses')
 
         else:
 
             print(form.errors)
+
+    return render(request, 'main/courses/create_course.html', {'form': form})
+
 
 @login_required
 def create_lecture(request, course):
@@ -155,11 +154,13 @@ def create_lecture(request, course):
             lecture = form.save(commit=True)
             lecture.course = course
 
-            return # Needs redirect
+            return redirect('/main/course')
 
         else:
 
             print(form.errors)
+
+    return render(request, 'main/course/create_lecture.html', {'form': form})
 
 
 @login_required
@@ -176,6 +177,14 @@ def create_question(request, lecture, user):
             question.lecture = lecture
             question.user = user
 
+            return redirect('/main/course/lecture')
+
+        else:
+
+            print(form.errors)
+
+    return render(request, 'main/course/lecture/create_question.html', {'form': form})
+
 
 @login_required
 def create_reply(request, user, question):
@@ -190,11 +199,13 @@ def create_reply(request, user, question):
             reply = form.save(commit=True)
             reply.user = user
             reply.question = question
-            return # Needs redirect
+            return redirect('/main/course/lecture/question')
 
         else:
 
             print(form.errors)
+
+    return render(request, 'main/course/lecture/question/create_reply.html', {'form': form})
 
 
 @login_required
@@ -211,32 +222,38 @@ def create_comment(request, user, question):
             comment.question = question
             comment.user = user
 
-            return # Needs redirect
+            return redirect('/main/course/lecture/question')
 
         else:
 
             print(form.errors)
 
+    return render(request, 'main/course/lecture/question/create_comment.html', {'form': form})
+
 
 @login_required
 def create_upvote(request, question, user):
+
+    upvote = None
 
     # If user upvotes question
     if request.method == 'POST':
         upvote = Upvote()
         upvote.question = question
         upvote.user = user
-    context_dict = {'upvote': upvote}
-    return render(request, context=context_dict)
+
+    return render(request, 'main/course/lecture/question', {'upvote': upvote})
 
 
 @login_required
 def enroll_user(request, user, course):
+
+    enroll = None
 
     # If user enrolls in course
     if request.method == 'POST':
         enroll = Enrollment()
         enroll.course = course
         enroll.user = user
-    context_dict = {'enrollment': enroll}
-    return render(request, context=context_dict)
+
+    return render(request, 'main/courses', {'enrollment': enroll})
