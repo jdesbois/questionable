@@ -12,6 +12,7 @@ urlpatterns = [
     path('course/lecture/', views.show_lecture, name='lecture'),
     path('course/lecture/question', views.show_question, name='question'),
     path('course/lecture/question/comment', views.show_comment, name='comment'),
+    path('course/lecture/question/reply', views.show_reply, name='reply'),
     path('courses/create_course', views.create_course, name='create_course'),
     path('course/create_lecture', views.create_lecture, name='create_lecture'),
     path('course/lecture/create_question', views.create_question, name='create_question'),
