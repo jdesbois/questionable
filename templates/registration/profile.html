@@ -8,11 +8,11 @@
         </title>
     </head>
     <body>
-        <h1>User Profile</h1> 
+        <h1>{{ user.username }}'s' Profile</h1> 
             {{ user.username }}
             {{ user.id }}
             {{ user.email }}
-
+           <img src="/static/images/{{ user.profile.picture }}" alt=""/> 
            
             <br />
             <a href="{% url 'main:index' %}">Return to index</a>
