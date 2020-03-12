@@ -55,8 +55,27 @@ class Reply(models.Model):
         return "Reply: " + str(self.pk)
 
 
+class Forum(models.Model):
+    # why doesn't this work without setting default?
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, default=None)
+    name = models.CharField(max_length=128)
+
+    def __str__(self):
+        return self.name
+
+
+class Post(models.Model):
+    forum = models.ForeignKey(Forum, on_delete=models.CASCADE)
+    user = models.ForeignKey(Student, on_delete=models.CASCADE, null=True, blank=True, default=None)
+    title = models.CharField(max_length=128)
+    post = models.CharField(max_length=512)
+
+    def __str__(self):
+        return self.title
+
+
 class Comment(models.Model):
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, default=None)
     comment = models.CharField(max_length=512)
     user = models.ForeignKey(Student, on_delete=models.CASCADE, default=None)
 

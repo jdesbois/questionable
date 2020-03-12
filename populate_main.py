@@ -5,7 +5,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'questionable.settings')
 import django
 django.setup()
 
-from main.models import Course, Lecture, Question, Reply, Tutor, Student
+from main.models import Course, Lecture, Question, Reply, Forum, Post, Comment, Tutor, Student
 from django.db import models
 from django.contrib.auth.models import User, Group, Permission
 from django.contrib.contenttypes.models import ContentType
@@ -66,12 +66,41 @@ def populate():
                          'SQL': {'questions': SQL_questions}}
 
 
+
+
+    ####################
+    # Posts (Forum)
+    ####################
+
+    programming_forum_posts = [
+        {'title': 'Book for sale - Big Java Late Objects',
+            'post': 'Book for sale, unused.'},
+        {'title': 'Group wanted.',
+            'post': 'Looking for group members for project.'}
+    ]
+
+    database_forum_posts = [
+        {'title': 'Anyone else having trouble with Postgres?',
+         'post': 'Server won\'t run.'},
+        {'title': 'Study buddies wanted - apply within.',
+         'post': 'Looking for people to study databases with'}
+    ]
+
+
+    ################
+    # Forums
+    ################
+
+    programming_forum = {'Porgramming Forum': {'posts': programming_forum_posts}}
+
+    database_forum = {'Database Forum': {'posts': database_forum_posts}}
+
     ##############
     # Courses
     ##############
 
-    courses = {'Programming': {'lectures': programming_lectures},
-               'Databases': {'lectures': database_lectures}}
+    courses = {'Programming': {'lectures': programming_lectures, 'forum': programming_forum},
+               'Databases': {'lectures': database_lectures, 'forum': database_forum}}
 
     ##############
     # Groups
@@ -129,7 +158,11 @@ def populate():
             for question in lecture_data['questions']:
                 q = add_question(l, question['title'], question['question'])
                 # add_reply(question, "Test reply text")
-
+        for forum, forum_data in course_data['forum'].items():
+            f = add_forum(c, forum)
+            for post in forum_data['posts']:
+                c = add_post(f, post['title'], post['post'])
+                # add_reply(question, "Test reply text")
 
 
 
@@ -139,10 +172,9 @@ def add_reply(question, reply):
     return r
 
 
-def add_question(lect, title, question, upvotes=0):
+def add_question(lect, title, question):
     q = Question.objects.get_or_create(lecture=lect, title=title)[0]
     q.question = question
-    q.upvotes = upvotes
     q.save()
     return q
 
@@ -151,6 +183,26 @@ def add_lecture(course, name):
     l = Lecture.objects.get_or_create(course=course, name=name)[0]
     l.save()
     return l
+
+
+def add_comment(post, comment):
+    c = Comment.objects.get_or_create(post=post, comment=comment)[0]
+    c.save()
+    return c
+
+
+def add_post(forum, title, post):
+    q = Post.objects.get_or_create(forum=forum, title=title)[0]
+    q.question = post
+    q.save()
+    return q
+
+
+def add_forum(course, name):
+    f = Forum.objects.get_or_create(course=course, name=name)[0]
+    f.save()
+    return f
+
 
 def add_course(name):
     c = Course.objects.get_or_create(name=name)[0]
@@ -171,4 +223,5 @@ def add_tutor(user):
 if __name__ == '__main__':
     print('Starting population script...')
     populate()
+    print('Finished.')
 
