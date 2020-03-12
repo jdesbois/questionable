@@ -6,16 +6,25 @@
         <title>
             Login
         </title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     </head>
     <body>
-        <h1>{{ user.username }}'s Profile</h1> 
-            {{ user.username }}
-            {{ user.id }}
-            {{ user.email }}
-           <img src="/static/images/{{ user.profile.picture }}" alt=""/> 
-           
-            <br />
-            <a href="{% url 'main:update_user' %}">update details</a>
-            <a href="{% url 'main:index' %}">Return to index</a>
+
+        <div class="card" style="width: 18rem;">
+            <img src="../media/{{ user.profile.picture }}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">{{ user.username }}'s Profile</h5>
+              <ul class="list-group">
+                <li class="list-group-item">Username: {{ user.username }}</li>
+                  <li class="list-group-item">Email: {{ user.email }}</li>
+              </ul><br/>
+              <h6>Biography:</h6>
+              <p class="card-text">{{ user.profile.bio }}</p>
+              <br/>
+              <a href="{% url 'main:update_user' %}" class="btn btn-primary">Update profile</a>
+              <a href="{% url 'main:index' %}" class="btn btn-primary">Return to index</a>
+              
+            </div>
+          </div>
     </body>
 </html>

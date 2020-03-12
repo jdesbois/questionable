@@ -117,7 +117,11 @@ def contact_page(request):
 
 @login_required(login_url='/accounts/login/')
 def profile(request):
-    return render(request, 'main/profile.html')
+    current_user_picture = request.user.profile.picture
+    context_dict = {}
+    context_dict['current_user'] = current_user_picture
+    print(context_dict)
+    return render(request, 'main/profile.html', context=context_dict)
 
 
 # CREATION VIEWS
@@ -265,14 +269,13 @@ def enroll_user(request, user, course):
 def update_user(request):
     if request.method == 'POST':
         user_form = UserForm(request.POST, instance=request.user)
-        profile_form = ProfileForm(request.POST, instance=request.user.profile)
+        profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
             messages.success(request, ('Your profile was sucessfull updated!'))
-            return redirect('main:profile')
         else:
-            messages.error(request, ('Please correct the error(s) below.'))
+            messages.error(request, ('Please correct the error(s) below:'))
     else:
         user_form = UserForm(instance=request.user)
         profile_form = ProfileForm(instance=request.user.profile)
