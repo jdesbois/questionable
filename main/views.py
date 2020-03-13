@@ -1,9 +1,10 @@
 from django.shortcuts import redirect, render
 from main.forms import LectureForm, CourseForm, QuestionForm, CommentForm, ReplyForm, UserForm, ProfileForm
-from main.models import Course, Lecture, Question, Reply, Comment, Upvote, Enrollment
+from main.models import Course, Lecture, Question, Reply, Comment, Upvote, Enrollment, Post, Student, Tutor
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.db import transaction
+from django.contrib.auth.models import User, Group
 
 # DISPLAY VIEWS
 
@@ -114,13 +115,24 @@ def show_reply(request, selected_reply):
 def contact_page(request):
     return render(request, 'main/contact_page.html')
 
-
+# View to generate profile page for logged in user (requires login)
 @login_required(login_url='/accounts/login/')
 def profile(request):
-    current_user_picture = request.user.profile.picture
+
+    current_user = request.user
     context_dict = {}
-    context_dict['current_user'] = current_user_picture
-    print(context_dict)
+    
+    try:
+        student = Student.objects.get(user=current_user)
+        questions = Question.objects.filter(user=student)
+        posts = Post.objects.filter(user=student)
+        context_dict['questions'] = questions
+        context_dict['student'] = True
+        context_dict['posts'] = posts
+
+    except:
+        context_dict = {}
+
     return render(request, 'main/profile.html', context=context_dict)
 
 
@@ -283,3 +295,13 @@ def update_user(request):
         'user_form': user_form,
         'profile_form': profile_form
     })
+
+
+def check_user(current_user):
+    result = -1
+    if Student.objects.get(user=current_user).exists():
+        result = 1
+    if Tutor.objects.get(user=current_user).exists():
+        result = 2
+    
+    return result
