@@ -11,8 +11,9 @@ urlpatterns = [
     path('course/', views.show_course, name='course'),
     path('course/lecture/', views.show_lecture, name='lecture'),
     path('course/lecture/question', views.show_question, name='question'),
-    path('course/lecture/question/comment', views.show_comment, name='comment'),
-    path('course/lecture/question/reply', views.show_reply, name='reply'),
+    path('course/forum/', views.show_forum, name='forum'),
+    path('course/forum/post', views.show_post, name='post'),
+    # Form pages
     path('courses/create_course', views.create_course, name='create_course'),
     path('course/create_lecture', views.create_lecture, name='create_lecture'),
     path('course/lecture/create_question', views.create_question, name='create_question'),

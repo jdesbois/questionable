@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
-from main.forms import LectureForm, CourseForm, QuestionForm, CommentForm, ReplyForm, UserForm, ProfileForm
-from main.models import Course, Lecture, Question, Reply, Comment, Upvote, Enrollment, Post, Student, Tutor
+from main.forms import LectureForm, CourseForm, QuestionForm, CommentForm, ReplyForm, UserForm, ProfileForm, ForumForm, \
+    PostForm
+from main.models import Course, Lecture, Question, Reply, Comment, Upvote, Enrollment, Post, Student, Tutor, Forum
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.db import transaction
@@ -27,23 +28,26 @@ def show_course(request):
     try:
         course = Course.objects.get(request.course)
         lecture_list = Lecture.objects.filter(course=course)
+        forum_list = Forum.objects.filter(course=course)
         context_dict['course'] = course
         context_dict['lectures'] = lecture_list
+        context_dict['forums'] = forum_list
 
     except Course.DoesNotExist:
         context_dict['course'] = None
         context_dict['lectures'] = None
+        context_dict['forums'] = None
     return render(request, 'main/course.html', context=context_dict)
 
 
-@login_required
-@permission_required('main.view_lecture')
-def show_lectures(request):
-    context_dict = {}
-    lectures = Lecture.objects.all()
-    context_dict['lectures'] = lectures
-
-    return render(request, 'main/lectures.html', context=context_dict)
+# @login_required
+# @permission_required('main.view_lecture')
+# def show_lectures(request):
+#     context_dict = {}
+#     lectures = Lecture.objects.all()
+#     context_dict['lectures'] = lectures
+#
+#     return render(request, 'main/lectures.html', context=context_dict)
 
 
 def show_lecture(request):
@@ -51,16 +55,13 @@ def show_lecture(request):
 
     try:
         lecture = Lecture.objects.get(request.lecture)
-        comment_list = Comment.objects.filter(lecture=lecture)
-        reply_list = Reply.objects.filter(lecture=lecture)
+        question_list = Question.objects.filter(lecture=lecture)
         context_dict['lecture'] = lecture
-        context_dict['comments'] = comment_list
-        context_dict['reply'] = reply_list
+        context_dict['questions'] = question_list
 
     except Lecture.DoesNotExist:
         context_dict['lecture'] = None
-        context_dict['comments'] = None
-        context_dict['reply'] = None
+        context_dict['questions'] = None
     return render(request, 'main/course/lecture.html', context=context_dict)
 
 
@@ -69,48 +70,76 @@ def show_question(request):
 
     try:
         question = request.question
-        comment_list = Comment.objects.filter(question=question)
         reply_list = Reply.objects.filter(question=question)
         upvotes = Upvote.objects.filter(question=question)
         context_dict['question'] = question
-        context_dict['comments'] = comment_list
         context_dict['replies'] = reply_list
         context_dict['upvotes'] = upvotes
 
     except Question.DoesNotExist:
         context_dict['question'] = None
-        context_dict['comments'] = None
         context_dict['replies'] = None
         context_dict['upvotes'] = None
 
     return render(request, 'main/course/lecture/question.html', context=context_dict)
 
 
-def show_comment(request):
+# def show_reply(request):
+#     context_dict = {}
+#
+#     try:
+#         reply = request.reply
+#         context_dict['reply'] = reply
+#
+#     except Reply.DoesNotExist:
+#         context_dict['reply'] = None
+#
+#     return render(request, 'main/course/lecture/question/reply.html', context=context_dict)
+
+
+def show_forum(request):
+    context_dict = {}
+    try:
+        forum = request.forum
+        post_list = Post.objects.filter(forum=forum)
+        context_dict['forum'] = forum
+        context_dict['posts'] = post_list
+    except Forum.DoesNotExist:
+        context_dict['forum'] = None
+        context_dict['posts'] = None
+    return render(request, 'main/course/forum.html', context=context_dict)
+
+
+def show_post(request):
     context_dict = {}
 
     try:
-        comment = request.comment
-        context_dict['comment'] = comment
+        question = request.question
+        comment_list = Reply.objects.filter(question=question)
+        upvotes = Upvote.objects.filter(question=question)
+        context_dict['forum'] = question
+        context_dict['comments'] = comment_list
+        context_dict['upvotes'] = upvotes
 
-    except Comment.DoesNotExist:
-        context_dict['comment'] = None
+    except Post.DoesNotExist:
+        context_dict['forum'] = None
+        context_dict['comments'] = None
+        context_dict['upvotes'] = None
 
-    return render(request, 'main/course/lecture/question/comment.html', context=context_dict)
+    return render(request, 'main/course/forum/post.html', context=context_dict)
 
 
-def show_reply(request):
-    context_dict = {}
-
-    try:
-        reply = request.reply
-        context_dict['reply'] = reply
-
-    except Reply.DoesNotExist:
-        context_dict['reply'] = None
-
-    return render(request, 'main/course/lecture/question/reply.html', context=context_dict)
-
+# def show_comment(request):
+#     context_dict = {}
+#
+#     try:
+#         comment = request.comment
+#         context_dict['comment'] = comment
+#
+#     except Comment.DoesNotExist:
+#         context_dict['comment'] = None
+#
+#     return render(request, 'main/course/lecture/question/comment.html', context=context_dict)
 
 def contact_page(request):
     return render(request, 'main/contact_page.html')
@@ -227,6 +256,51 @@ def create_reply(request):
 
 
 @login_required
+def create_forum(request):
+    form = ForumForm()
+
+    # If user inputs comment
+    if request.method == 'POST':
+        form = ForumForm(request.POST)
+        # If input is valid
+        if form.is_valid():
+            # Save the form
+            forum = form.save(commit=True)
+            forum.course = request.course
+
+            return redirect('/main/course')
+
+        else:
+
+            print(form.errors)
+
+    return render(request, 'main/course/create_forum.html', {'form': form})
+
+
+@login_required
+def create_post(request):
+    form = PostForm()
+
+    # If user inputs comment
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        # If input is valid
+        if form.is_valid():
+            # Save the form
+            post = form.save(commit=True)
+            post.forum = request.forum
+            post.user = request.user
+
+            return redirect('/main/course/forum')
+
+        else:
+
+            print(form.errors)
+
+    return render(request, 'main/course/forum/create_post.html', {'form': form})
+
+
+@login_required
 def create_comment(request):
     form = CommentForm()
 
@@ -237,16 +311,16 @@ def create_comment(request):
         if form.is_valid():
             # Save the form
             comment = form.save(commit=True)
-            comment.question = request.question
+            comment.post = request.post
             comment.user = request.user
 
-            return redirect('/main/course/lecture/question')
+            return redirect('/main/course/forum/post')
 
         else:
 
             print(form.errors)
 
-    return render(request, 'main/course/lecture/question/create_comment.html', {'form': form})
+    return render(request, 'main/course/forum/post/create_comment.html', {'form': form})
 
 
 @login_required
