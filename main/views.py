@@ -185,7 +185,7 @@ def create_course(request):
 
             print(form.errors)
 
-    return render(request, 'main/courses/create_course.html', {'form': form})
+    return render(request, 'main/courses/', {'form': form})
 
 
 @login_required
@@ -207,7 +207,7 @@ def create_lecture(request):
 
             print(form.errors)
 
-    return render(request, 'main/course/create_lecture.html', {'form': form})
+    return render(request, 'main/course/', {'form': form})
 
 
 @login_required
@@ -230,7 +230,7 @@ def create_question(request):
 
             print(form.errors)
 
-    return render(request, 'main/course/lecture/create_question.html', {'form': form})
+    return render(request, 'main/course/lecture/', {'form': form})
 
 
 @login_required
@@ -252,7 +252,7 @@ def create_reply(request):
 
             print(form.errors)
 
-    return render(request, 'main/course/lecture/question/create_reply.html', {'form': form})
+    return render(request, 'main/course/lecture/question/', {'form': form})
 
 
 @login_required
@@ -274,7 +274,7 @@ def create_forum(request):
 
             print(form.errors)
 
-    return render(request, 'main/course/create_forum.html', {'form': form})
+    return render(request, 'main/course/', {'form': form})
 
 
 @login_required
@@ -297,7 +297,7 @@ def create_post(request):
 
             print(form.errors)
 
-    return render(request, 'main/course/forum/create_post.html', {'form': form})
+    return render(request, 'main/course/forum/', {'form': form})
 
 
 @login_required
@@ -320,7 +320,7 @@ def create_comment(request):
 
             print(form.errors)
 
-    return render(request, 'main/course/forum/post/create_comment.html', {'form': form})
+    return render(request, 'main/course/forum/post/', {'form': form})
 
 
 @login_required
