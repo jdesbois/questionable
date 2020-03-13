@@ -120,20 +120,21 @@ def contact_page(request):
 def profile(request):
 
     current_user = request.user
-    context_dict = {}
+    check_user(current_user)
+    # context_dict = {}
     
-    try:
-        student = Student.objects.get(user=current_user)
-        questions = Question.objects.filter(user=student)
-        posts = Post.objects.filter(user=student)
-        context_dict['questions'] = questions
-        context_dict['student'] = True
-        context_dict['posts'] = posts
+    # try:
+    #     student = Student.objects.get(user=current_user)
+    #     questions = Question.objects.filter(user=student)
+    #     posts = Post.objects.filter(user=student)
+    #     context_dict['questions'] = questions
+    #     context_dict['student'] = True
+    #     context_dict['posts'] = posts
 
-    except:
-        context_dict = {}
+    # except:
+    #     context_dict = {}
 
-    return render(request, 'main/profile.html', context=context_dict)
+    return render(request, 'main/profile.html')
 
 
 # CREATION VIEWS
@@ -298,10 +299,18 @@ def update_user(request):
 
 
 def check_user(current_user):
-    result = -1
-    if Student.objects.get(user=current_user).exists():
-        result = 1
-    if Tutor.objects.get(user=current_user).exists():
-        result = 2
+    try:
+        Student.objects.get(user=current_user)
+        print(1)
+        return 1
+    except:
+        try:
+            Tutor.objects.get(user=current_user)
+            print(2)
+            return 2
+        except:
+            print(-1)
+            return -1
+
     
-    return result
+    

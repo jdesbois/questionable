@@ -102,7 +102,7 @@ class Enrollment(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=512)
-    picture = models.ImageField(upload_to='images/', default="images/default.jpg")
+    picture = models.ImageField(upload_to='images/', default="images/29511773_1650373861750562_982140361914727316_n.jpg")
 
     def __str__(self):
         return self.user.username
