@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html>
+    <head>
+        <title>
+            Login
+        </title>
+    </head>
+    <body>
+        <h1>{{ user.username }}'s Profile</h1> 
+            <form method="post" action="{% url 'main:update_user' %}" enctype="multipart/form-data">
+                {% csrf_token   %}
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li {% if message.tags %} class="{{message.tags }}" {% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {{ user_form.as_p }}
+                {{ profile_form.as_p }}
+                <input type="submit" value="Update">
+            </form>
+            <a href="{% url 'main:index' %}">Return to index</a>
+            <a href="{% url 'main:profile' %}">Return to profile</a>
+    </body>
+</html>
