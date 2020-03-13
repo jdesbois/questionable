@@ -2,29 +2,100 @@
 {% load staticfiles %}
 
 <html>
-    <head>
-        <title>
-            Login
-        </title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    </head>
-    <body>
 
+<head>
+  <title>
+    Login
+  </title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm">
         <div class="card" style="width: 18rem;">
-            <img src="../media/{{ user.profile.picture }}" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">{{ user.username }}'s Profile</h5>
-              <ul class="list-group">
-                <li class="list-group-item">Username: {{ user.username }}</li>
-                  <li class="list-group-item">Email: {{ user.email }}</li>
-              </ul><br/>
-              <h6>Biography:</h6>
-              <p class="card-text">{{ user.profile.bio }}</p>
-              <br/>
-              <a href="{% url 'main:update_user' %}" class="btn btn-primary">Update profile</a>
-              <a href="{% url 'main:index' %}" class="btn btn-primary">Return to index</a>
-              
-            </div>
+          <img src="../media/{{ user.profile.picture }}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{ user.username }}'s Profile</h5>
+            <ul class="list-group">
+              <li class="list-group-item">Username: {{ user.username }}</li>
+              <li class="list-group-item">Email: {{ user.email }}</li>
+            </ul><br />
+            <h6>Biography:</h6>
+            <p class="card-text">{{ user.profile.bio }}</p>
+            <br />
+            <a href="{% url 'main:update_user' %}" class="btn btn-primary">Update profile</a>
+            <a href="{% url 'auth_password_change' %}" class="btn btn-primary">Change password</a>
+            <a href="{% url 'main:index' %}" class="btn btn-primary">Return to index</a>
           </div>
-    </body>
+        </div>
+      </div>
+
+      <div class="col-sm">
+        <div class="card">
+          <div class="card-header">
+            Recent Questions
+          </div>
+          <div class="card-body">
+            {% if questions %}
+            {% for question in questions %}
+            <h6 class="card-title">{{question.title}}</h6>
+            <p class="card-text">{{ question.question }}</p>
+            {% endfor %}
+            {% else %}
+            <h6 class="card-title">Recent Questions</h6>
+            <p class="card-text">No recent questions to display</p>
+          </div>
+          {% endif %}
+        </div>
+
+
+
+
+        <div class="card">
+          <div class="card-header">
+            Recent Posts
+          </div>
+
+          <div class="card-body">
+            {% if posts %}
+            {% for post in posts %}
+            <h6 class="card-title">{{ post.title }}</h6>
+            <p class="card-text">{{ post.post }}</p>
+            {% endfor %}
+            {% else %}
+            <h6 class="card-title">No Posts</h6>
+            <p class="card-text">No recent posts to display</p>
+          </div>
+          {% endif %}
+        </div>
+
+
+
+
+        <div class="card">
+          <div class="card-header">
+            Recent Replies
+          </div>
+          <div class="card-body">
+            {% if replies %}
+            {% for reply in replies %}
+            <h6 class="card-title">{{reply.question.title}}</h6>
+            <p class="card-text">{{ qreply.reply }}</p>
+            {% endfor %}
+            {% else %}
+            <h6 class="card-title">Recent Replies</h6>
+            <p class="card-text">No recent replies to display</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</body>
+
 </html>
