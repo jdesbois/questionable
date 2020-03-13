@@ -14,16 +14,16 @@ def index(request):
 def show_courses(request):
     context_dict = {}
     courses = Course.objects.all()
-    context_dict['Courses'] = courses
+    context_dict['courses'] = courses
     return render(request, 'main/courses.html', context=context_dict)
 
 
-def show_course(request, selected_course):
+def show_course(request):
     context_dict = {}
 
     try:
-        course = Course.objects.get(selected_course)
-        lecture_list = Lecture.objects.filter(course=selected_course)
+        course = Course.objects.get(request.course)
+        lecture_list = Lecture.objects.filter(course=course)
         context_dict['course'] = course
         context_dict['lectures'] = lecture_list
 
@@ -38,18 +38,18 @@ def show_course(request, selected_course):
 def show_lectures(request):
     context_dict = {}
     lectures = Lecture.objects.all()
-    context_dict['Lectures'] = lectures
+    context_dict['lectures'] = lectures
 
     return render(request, 'main/lectures.html', context=context_dict)
 
 
-def show_lecture(request, selected_lecture):
+def show_lecture(request):
     context_dict = {}
 
     try:
-        lecture = Lecture.objects.get(selected_lecture)
-        comment_list = Comment.objects.filter(lecture=selected_lecture)
-        reply_list = Reply.objects.filter(lecture=selected_lecture)
+        lecture = Lecture.objects.get(request.lecture)
+        comment_list = Comment.objects.filter(lecture=lecture)
+        reply_list = Reply.objects.filter(lecture=lecture)
         context_dict['lecture'] = lecture
         context_dict['comments'] = comment_list
         context_dict['reply'] = reply_list
@@ -61,14 +61,14 @@ def show_lecture(request, selected_lecture):
     return render(request, 'main/course/lecture.html', context=context_dict)
 
 
-def show_question(request, selected_question):
+def show_question(request):
     context_dict = {}
 
     try:
-        question = Question.objects.get(selected_question)
-        comment_list = Comment.objects.filter(question=selected_question)
-        reply_list = Reply.objects.filter(question=selected_question)
-        upvotes = Upvote.objects.filter(question=selected_question)
+        question = request.question
+        comment_list = Comment.objects.filter(question=question)
+        reply_list = Reply.objects.filter(question=question)
+        upvotes = Upvote.objects.filter(question=question)
         context_dict['question'] = question
         context_dict['comments'] = comment_list
         context_dict['replies'] = reply_list
@@ -83,11 +83,11 @@ def show_question(request, selected_question):
     return render(request, 'main/course/lecture/question.html', context=context_dict)
 
 
-def show_comment(request, selected_comment):
+def show_comment(request):
     context_dict = {}
 
     try:
-        comment = Comment.objects.get(selected_comment)
+        comment = request.comment
         context_dict['comment'] = comment
 
     except Comment.DoesNotExist:
@@ -96,12 +96,12 @@ def show_comment(request, selected_comment):
     return render(request, 'main/course/lecture/question/comment.html', context=context_dict)
 
 
-def show_reply(request, selected_reply):
+def show_reply(request):
     context_dict = {}
 
     try:
-        comment = Reply.objects.get(selected_reply)
-        context_dict['reply'] = comment
+        reply = request.reply
+        context_dict['reply'] = reply
 
     except Reply.DoesNotExist:
         context_dict['reply'] = None
@@ -142,7 +142,7 @@ def create_course(request):
 
 
 @login_required
-def create_lecture(request, course):
+def create_lecture(request):
     form = LectureForm()
 
     # If user inputs comment
@@ -152,7 +152,7 @@ def create_lecture(request, course):
         if form.is_valid():
             # Save the form
             lecture = form.save(commit=True)
-            lecture.course = course
+            lecture.course = request.course
 
             return redirect('/main/course')
 
@@ -164,7 +164,7 @@ def create_lecture(request, course):
 
 
 @login_required
-def create_question(request, lecture, user):
+def create_question(request):
     form = QuestionForm()
 
     # If user inputs comment
@@ -174,8 +174,8 @@ def create_question(request, lecture, user):
         if form.is_valid():
             # Save the form
             question = form.save(commit=True)
-            question.lecture = lecture
-            question.user = user
+            question.lecture = request.lecture
+            question.user = request.user
 
             return redirect('/main/course/lecture')
 
@@ -187,7 +187,7 @@ def create_question(request, lecture, user):
 
 
 @login_required
-def create_reply(request, user, question):
+def create_reply(request):
     form = ReplyForm()
 
     # If user inputs comment
@@ -197,8 +197,8 @@ def create_reply(request, user, question):
         if form.is_valid():
             # Save the form
             reply = form.save(commit=True)
-            reply.user = user
-            reply.question = question
+            reply.user = request.user
+            reply.question = request.question
             return redirect('/main/course/lecture/question')
 
         else:
@@ -209,7 +209,7 @@ def create_reply(request, user, question):
 
 
 @login_required
-def create_comment(request, user, question):
+def create_comment(request):
     form = CommentForm()
 
     # If user inputs comment
@@ -219,8 +219,8 @@ def create_comment(request, user, question):
         if form.is_valid():
             # Save the form
             comment = form.save(commit=True)
-            comment.question = question
-            comment.user = user
+            comment.question = request.question
+            comment.user = request.user
 
             return redirect('/main/course/lecture/question')
 
@@ -232,28 +232,28 @@ def create_comment(request, user, question):
 
 
 @login_required
-def create_upvote(request, question, user):
+def create_upvote(request):
 
     upvote = None
 
     # If user upvotes question
     if request.method == 'POST':
         upvote = Upvote()
-        upvote.question = question
-        upvote.user = user
+        upvote.question = request.question
+        upvote.user = request.user
 
     return render(request, 'main/course/lecture/question', {'upvote': upvote})
 
 
 @login_required
-def enroll_user(request, user, course):
+def enroll_user(request):
 
     enroll = None
 
     # If user enrolls in course
     if request.method == 'POST':
         enroll = Enrollment()
-        enroll.course = course
-        enroll.user = user
+        enroll.course = request.course
+        enroll.user = request.user
 
     return render(request, 'main/courses', {'enrollment': enroll})
