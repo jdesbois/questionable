@@ -10,7 +10,7 @@ class CourseForm(forms.ModelForm):
 
     class Meta:
         model = Course
-        fields = 'name'
+        fields = ('name',)
 
 
 # Creates a form for a Lecture tuple to add to database
@@ -20,7 +20,7 @@ class LectureForm(forms.ModelForm):
 
     class Meta:
         model = Lecture
-        exclude = 'course'
+        exclude = ('course',)
 
 
 # Creates a form for a Lecture tuple to add to database
@@ -30,7 +30,7 @@ class QuestionForm(forms.ModelForm):
 
     class Meta:
         model = Question
-        exclude = 'lecture'
+        exclude = ('lecture',)
 
 
 # Creates a form for a Lecture tuple to add to database
@@ -49,7 +49,7 @@ class ForumForm(forms.ModelForm):
 
     class Meta:
         model = Forum
-        exclude = 'course'
+        exclude = ('course',)
 
 
 # Creates a form to add a post tuple to the database
@@ -59,7 +59,7 @@ class PostForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        exclude = ('forum', 'user')
+        exclude = ('forum', 'user',)
 
 
 # Creates a form for a Lecture tuple to add to database
@@ -68,16 +68,16 @@ class CommentForm(forms.ModelForm):
 
     class Meta:
         model = Comment
-        exclude = ('post', 'user')
+        exclude = ('post', 'user',)
 
 
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ('username', 'email')
+        fields = ('username', 'email',)
 
 
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('bio', 'picture')
+        fields = ('bio', 'picture',)
