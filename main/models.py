@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from django.template.defaultfilters import slugify
 
 
 class Student(models.Model):
@@ -21,6 +22,11 @@ class Tutor(models.Model):
 class Course(models.Model):
     name = models.CharField(max_length=128, unique=True)
     user = models.ForeignKey(Tutor, on_delete=models.CASCADE, null=True, blank=True, default=None)
+    slug = models.SlugField(unique=True, null=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Course, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -30,6 +36,11 @@ class Lecture(models.Model):
     # why doesn't this work without setting default?
     course = models.ForeignKey(Course, on_delete=models.CASCADE, default=None)
     name = models.CharField(max_length=128)
+    slug = models.SlugField(unique=True, null=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Lecture, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -59,6 +70,11 @@ class Forum(models.Model):
     # why doesn't this work without setting default?
     course = models.ForeignKey(Course, on_delete=models.CASCADE, default=None)
     name = models.CharField(max_length=128)
+    slug = models.SlugField(unique=True, null=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Forum, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
