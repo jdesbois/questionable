@@ -1,7 +1,10 @@
-from django.shortcuts import render, redirect
-from main.forms import LectureForm, CourseForm, QuestionForm, CommentForm, ReplyForm
-from main.models import Course, Lecture, Question, Reply, Comment, Upvote, Enrollment
+from django.shortcuts import redirect, render
+from main.forms import LectureForm, CourseForm, QuestionForm, CommentForm, ReplyForm, UserForm, ProfileForm
+from main.models import Course, Lecture, Question, Reply, Comment, Upvote, Enrollment, Post, Student, Tutor
 from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib import messages
+from django.db import transaction
+from django.contrib.auth.models import User, Group
 
 # DISPLAY VIEWS
 
@@ -112,10 +115,25 @@ def show_reply(request):
 def contact_page(request):
     return render(request, 'main/contact_page.html')
 
-
+# View to generate profile page for logged in user (requires login)
 @login_required(login_url='/accounts/login/')
 def profile(request):
-    return render(request, 'registration/profile.html')
+
+    current_user = request.user
+    context_dict = {}
+    
+    try:
+        student = Student.objects.get(user=current_user)
+        questions = Question.objects.filter(user=student)
+        posts = Post.objects.filter(user=student)
+        context_dict['questions'] = questions
+        context_dict['student'] = True
+        context_dict['posts'] = posts
+
+    except:
+        context_dict = {}
+
+    return render(request, 'main/profile.html', context=context_dict)
 
 
 # CREATION VIEWS
@@ -257,3 +275,33 @@ def enroll_user(request):
         enroll.user = request.user
 
     return render(request, 'main/courses', {'enrollment': enroll})
+
+@login_required
+@transaction.atomic
+def update_user(request):
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, ('Your profile was sucessfull updated!'))
+        else:
+            messages.error(request, ('Please correct the error(s) below:'))
+    else:
+        user_form = UserForm(instance=request.user)
+        profile_form = ProfileForm(instance=request.user.profile)
+    return render(request, 'main/update_user.html', {
+        'user_form': user_form,
+        'profile_form': profile_form
+    })
+
+
+def check_user(current_user):
+    result = -1
+    if Student.objects.get(user=current_user).exists():
+        result = 1
+    if Tutor.objects.get(user=current_user).exists():
+        result = 2
+    
+    return result

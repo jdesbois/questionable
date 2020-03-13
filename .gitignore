@@ -5,6 +5,7 @@ __pycache__/
 
 #Random bits
 .DS_Store
+media/
 
 # C extensions
 *.so

@@ -146,10 +146,10 @@ def populate():
     user.save()
 
 
-    add_student(user1)
-    add_student(user2)
-    add_tutor(user3)
-    add_tutor(user4)
+    add_student(user3)
+    add_student(user4)
+    add_tutor(user1)
+    add_tutor(user2)
 
     for course, course_data in courses.items():
         c = add_course(course)
