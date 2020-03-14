@@ -2,14 +2,73 @@
 {% load staticfiles %}
 
 <html>
-    <head>
-        <title>
-            Logout
-        </title>
-    </head>
-    <body>
-        <h1>Logged Out!</h1> 
-        <p>You have successfully logged out.</p>
-        <a href="{% url 'main:index' %}">Return to index</a>
-    </body>
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="{% static 'images/question.png' %}" type="image/png">
+    <title>Questionable</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'vendors/linericon/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendors/owl-carousel/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendors/nice-select/css/nice-select.css' %}">
+    <link rel="stylesheet" href="{% static 'vendors/animate-css/animate.css' %}">
+    <!-- main css -->
+    <link rel="stylesheet" href="{% static '/css/style.css' %}">
+    <title>
+        Logout
+    </title>
+</head>
+
+<body>
+    	<!--================ Start Header Menu Area =================-->
+        <header class="header_area">
+            <div class="header-top">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 col-sm-6 col-4 header-top-left">
+                        </div>
+                        <div class="col-lg-6 col-sm-6 col-8 header-top-right">
+                            <a href="#" class="text-uppercase">Login</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <div class="container">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <a class="navbar-brand logo_h" href="/"><img src="{% static 'images/question.png' %}" alt=""></a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+                            <ul class="nav navbar-nav menu_nav ml-auto">
+                                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                                <li class="nav-item"><a class="nav-link" href="about-us.html">About</a></li>
+                                <li class="nav-item submenu dropdown active">
+                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                                        aria-haspopup="true" aria-expanded="false">Courses</a>
+                                 
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+        <!--================ End Header Menu Area =================-->
+    <h1>Logged Out!</h1>
+    <p>You have successfully logged out.</p>
+    <a href="{% url 'main:index' %}">Return to index</a>
+</body>
+
 </html>
