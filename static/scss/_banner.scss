@@ -6,7 +6,7 @@
     min-height: 780px;
     display: flex;
     position: relative;
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(../img/banner/home-banner.jpg) no-repeat scroll center; // background-size: cover;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(/images/home-banner.jpg) no-repeat scroll center; // background-size: cover;
     .banner_inner {
         position: relative;
         z-index: 10;
