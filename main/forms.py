@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 class CourseForm(forms.ModelForm):
     name = forms.CharField(max_length=128,
                            help_text="Please enter the course name")
+    slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     class Meta:
         model = Course
@@ -17,6 +18,7 @@ class CourseForm(forms.ModelForm):
 class LectureForm(forms.ModelForm):
     name = forms.CharField(max_length=128,
                            help_text="Please enter lecture name")
+    slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     class Meta:
         model = Lecture
@@ -46,6 +48,7 @@ class ReplyForm(forms.ModelForm):
 class ForumForm(forms.ModelForm):
     name = forms.CharField(max_length=128,
                            help_text="Please enter forum name")
+    slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     class Meta:
         model = Forum
