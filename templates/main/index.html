@@ -35,26 +35,36 @@
 						</div>
 						<div class="desc">
 							<h4>New Questions</h4>
-							<p>
-								Post 1 <br>
-								Post 2 <br>
-								Post 3 <br>
-								
-							</p>
-						</div>
+							<	<h4>New Questions</h4>      
+							<div>
+							{% if newquestions %}
+								<ul>
+								{% for question in newquestions %}
+									<li>{{question.name}}</li>
+									{% endfor %}
+									</ul>
+								{% else %}
+							<strong> There are no questions </strong>
+								{% endif %}
+							</div>
 					</div>
 					<div class="single_feature d-flex flex-row pb-30">
 						<div class="icon">
 							<span class="fa fa-trophy"></span>
 						</div>
 						<div class="desc">
-							<h4>Top Questions</h4>      <!-- Need to put hyperlinks to questions here, ordered list in chrono AND  most upvoted-->
-							<p>
-								Post 1 <br>
-								Post 2 <br>
-								Post 3 <br>
-								
-							</p>
+							<h4>Top Questions</h4>      
+							<div>
+							{% if questions %}
+								<ul>
+								{% for question in questions %}
+									<li>{{question.name}}</li>
+									{% endfor %}
+									</ul>
+								{% else %}
+							<strong> There are no questions </strong>
+								{% endif %}
+							</div>
 						</div>
 					</div
 				</div>

@@ -11,7 +11,15 @@ from django.contrib.auth.models import User, Group
 
 
 def index(request):
+
+    question_list = Question.objects.order_by('-upvote')[:3]
+    question_new = Question.objects.order_by('upvote')[:3]
+    
+    context_dict = {}
     context_dict = {'message': 'Message sent from the view'}
+    context_dict['questions'] = question_list
+    context_dict['newquestions'] = question_new
+    
     return render(request, 'main/index.html', context=context_dict)
 
 
