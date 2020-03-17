@@ -148,22 +148,17 @@ def contact_page(request):
 @login_required(login_url='/accounts/login/')
 def profile(request):
 
-    current_user = request.user
-    check_user(current_user)
-    # context_dict = {}
+    context_dict = {}
+    questions = Question.objects.all()[:5]
+    posts = Post.objects.all()[:5]
+    replies = Reply.objects.all()[:5]
+    context_dict['questions'] = questions
+    context_dict['posts'] = posts
+    context_dict['replies'] = replies
     
-    # try:
-    #     student = Student.objects.get(user=current_user)
-    #     questions = Question.objects.filter(user=student)
-    #     posts = Post.objects.filter(user=student)
-    #     context_dict['questions'] = questions
-    #     context_dict['student'] = True
-    #     context_dict['posts'] = posts
+    
 
-    # except:
-    #     context_dict = {}
-
-    return render(request, 'main/profile.html')
+    return render(request, 'main/profile.html', context=context_dict)
 
 
 # CREATION VIEWS
