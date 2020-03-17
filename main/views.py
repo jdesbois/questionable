@@ -60,19 +60,19 @@ def show_lecture(request, course_name_slug, lecture_name_slug):
         lecture = Lecture.objects.get(slug=lecture_name_slug)
         question_list = Question.objects.filter(lecture=lecture)
 
-        reply_list = {}
+        reply_dict = {}
 
         for question in question_list:
-            reply_list[question] = Reply.objects.filter(question=question)
+            reply_dict[question.title] = Reply.objects.filter(question=question)
 
         context_dict['lecture'] = lecture
         context_dict['questions'] = question_list
-        context_dict['replies'] = reply_list
+        context_dict['reply_dict'] = reply_dict
 
     except Lecture.DoesNotExist:
         context_dict['lecture'] = None
         context_dict['questions'] = None
-        context_dict['replies'] = None
+        context_dict['reply_dict'] = None
 
     return render(request, 'main/lecture.html', context=context_dict)
 
