@@ -165,7 +165,6 @@ def populate():
                 # add_reply(question, "Test reply text")
 
 
-
 def add_reply(question, reply):
     r = Reply.objects.get_or_create(question=question, reply=reply)[0]
     r.save()

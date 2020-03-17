@@ -66,6 +66,7 @@ def show_lecture(request, course_name_slug, lecture_name_slug):
             reply_dict[question.title] = Reply.objects.filter(question=question)
 
         print(reply_dict)
+        # print(reply_dict['What is MVC?'])
         context_dict['lecture'] = lecture
         context_dict['questions'] = question_list
         context_dict['reply_dict'] = reply_dict

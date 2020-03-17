@@ -5,44 +5,57 @@
 </head>
 <body>
 
-{% for question in questions %}
-    <p>{{ question.title }}</p>
+<!--{% for question in questions %}-->
 
-    {% for reply in reply_dict %}
-        <p>{{ reply}} test</p>
-    {% endfor %}
-{% endfor %}
+<!--    {% for q, replies in reply_dict.items %}-->
+<!--        {% if q == question.title %}-->
+<!--        <strong>{{ question.title }}</strong>-->
+<!--        {% for reply in replies %}-->
+<!--        <p>{{ reply.reply }}</p>-->
+<!--        {% endfor %}-->
+<!--        {% endif %}-->
+<!--    {% endfor %}-->
+<!--{% endfor %}-->
 
 <div class="container">
-  <div class="row bg-secondary text-white rounded">
-     <div class="pl-5 pt-3">
-     	<h2>How do I write to a File in Java?</h2><br/>
-		<p>I have been trying to write to file to AE but keep getting errors.</p></div>
-	
-  </div>
-  <div class="row bg-light text-dark rounded pl-5 pt-3 pb-3">
-  	<strong>Answer:</strong><br/>
-  	If you already have the content you want to write to the file (and not generated on the fly), the java.nio.file.Files addition in Java 7 as part of native I/O provides the simplest and most efficient way to achieve your goals.<br/><br/>
+    {% for question in questions %}
 
-	Basically creating and writing to a file is one line only, moreover one simple method call!<br/>
-  </div>
-  <div class="row bg-white text-white rounded pl-5 pt-2 pb-2">
+        {% for q, replies in reply_dict.items %}
 
-  </div>
-  <div class="row bg-secondary text-white rounded pl-5 pt-2 pb-2">
-		<h5>Submit a question:</h5>
-  </div>
-  <div class="row bg-light text-dark rounded pl-5">
-  	<div class="form-group">
-	  	<input type="text" class="form-control mt-2 mb-2" placeholder="Enter question">
-	    <textarea class="form-control mt-2 mb-2" placeholder="Description" rows="3"></textarea>
-	    <button type="button" class="btn btn-dark">Submit</button>
-    </div>
-  </div>
-    <div>
-        <p>Test space</p>
-        <p>Lecture.name: {{ lecture.name }}</p>
-    </div>
+            {% if q == question.title %}
+
+              <div class="row bg-secondary text-white rounded">
+                 <div class="pl-5 pt-3">
+                    <h2>{{ question.title }}</h2><br/>
+                    <p>{{ question.question }}</p>
+                 </div>
+              </div>
+              {% for reply in replies %}
+              <div class="row bg-light text-dark rounded pl-5 pt-3 pb-3">
+                <strong>Answer:</strong><br/>
+               {{ reply.reply }}<br/>
+              </div>
+              <div class="row bg-white text-white rounded pl-5 pt-2 pb-2">
+
+              </div>
+              {% endfor %}
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+              <div class="row bg-secondary text-white rounded pl-5 pt-2 pb-2">
+                    <h5>Submit a question:</h5>
+              </div>
+              <div class="row bg-light text-dark rounded pl-5">
+                <div class="form-group">
+                    <input type="text" class="form-control mt-2 mb-2" placeholder="Enter question">
+                    <textarea class="form-control mt-2 mb-2" placeholder="Description" rows="3"></textarea>
+                    <button type="button" class="btn btn-dark">Submit</button>
+                </div>
+              </div>
+                <div>
+
+                </div>
+
 </div>
 
 
