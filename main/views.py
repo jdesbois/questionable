@@ -50,19 +50,28 @@ def show_course(request, course_name_slug):
 #     return render(request, 'main/lectures.html', context=context_dict)
 
 
-def show_lecture(request, lecture_slug_name):
+def show_lecture(request, course_name_slug, lecture_name_slug):
     context_dict = {}
 
     try:
-        lecture = Lecture.objects.get(slug=lecture_slug_name)
+        lecture = Lecture.objects.get(slug=lecture_name_slug)
         question_list = Question.objects.filter(lecture=lecture)
+
+        reply_list = {}
+
+        for question in question_list:
+            reply_list[question] = Reply.objects.filter(question=question)
+
         context_dict['lecture'] = lecture
         context_dict['questions'] = question_list
+        context_dict['replies'] = reply_list
 
     except Lecture.DoesNotExist:
         context_dict['lecture'] = None
         context_dict['questions'] = None
-    return render(request, 'main/course/<slug:course_name_slug>/lecture.html', context=context_dict)
+        context_dict['replies'] = None
+
+    return render(request, 'main/lecture.html', context=context_dict)
 
 
 def show_question(request):
