@@ -14,10 +14,6 @@ def index(request):
     context_dict = {'message': 'Message sent from the view'}
     return render(request, 'main/index.html', context=context_dict)
 
-def base(request):
-    context_dict = {'message': 'Base HTML'}
-    return render(request, 'main/base.html', context=context_dict)
-
 
 def show_courses(request):
     context_dict = {}
