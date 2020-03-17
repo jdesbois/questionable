@@ -60,7 +60,7 @@ REGISTRATION_AUTO_LOGIN = True
 LOGIN_REDIRECT_URL = 'index'
 
 #The page users are directed to if they are not logged in.
-LOGIN_URL = 'auth_login'
+LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 
 MIDDLEWARE = [
