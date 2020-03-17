@@ -26,9 +26,6 @@ MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 SOCIAL_AUTH_TWITTER_KEY = 'ooiEyimDSDzB8JCHWnTxg5BMx'
 SOCIAL_AUTH_TWITTER_SECRET = 'CcDXiq5orKC5e0keF3BAHGx5o59LQZZVTo9sC63qedE7z2FeBH'
 
-SOCIAL_AUTH_FACEBOOK_KEY = '302832277357230'
-SOCIAL_AUTH_FACEBOOK_SECRET ='6a3344dfd701bb7647b573160702c386'
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '12&g%q&00p*zoy7xs_0=p%9-x*1@rikxu#xc$*zaa%j3-i+hh1'
 
@@ -114,7 +111,6 @@ DATABASES = {
 #Authentication backends
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.twitter.TwitterOAuth',
-    'social_core.backends.facebook.FacebookOAuth2',
 
     'django.contrib.auth.backends.ModelBackend',
 )
