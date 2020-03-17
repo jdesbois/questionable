@@ -24,4 +24,5 @@ urlpatterns = [
     path('contact_page/', views.contact_page, name='contact_page'),
     path('update_user/', views.update_user, name='update_user'),
     path('profile/', views.profile, name='profile'),
+    path('double_response/', views.DoubleResponseView.as_view(), name='double_response'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -5,7 +5,20 @@ from main.models import Course, Lecture, Question, Reply, Comment, Upvote, Enrol
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.db import transaction
+from django.http import HttpResponse
 from django.contrib.auth.models import User, Group
+from django.views import View
+
+# Sandbox views
+
+
+# test for ajax, should receive a parameter, double it and return it
+class DoubleResponseView(View):
+
+    def get(self, request):
+        info_id = request.GET['info_id']
+
+        return HttpResponse(info_id*5)
 
 # DISPLAY VIEWS
 

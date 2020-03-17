@@ -24,11 +24,26 @@
               <li class="list-group-item">Email: {{ user.email }}</li>
             </ul><br />
             <h6>Biography:</h6>
+            <p>Some paragraph text. Hover over to turn red.</p>
+            <div id="msg">Div to add HTML too. </div>
             <p class="card-text">{{ user.profile.bio }}</p>
             <br />
             <a href="{% url 'main:update_user' %}" class="btn btn-primary">Update profile</a>
             <a href="{% url 'auth_password_change' %}" class="btn btn-primary">Change password</a>
             <a href="{% url 'main:index' %}" class="btn btn-primary">Return to index</a>
+            <button type="button" class="btn btn-primary" onclick="alert('You clicked the button using inline JavaScript.');">
+              Andrew's Button - plain JS
+            </button>
+            <button type="button" class="btn btn-info" id="jq-button">
+              Click me - I'm using JQuery
+            </button>
+            <button type="button" class="btn btn-info" id="add-html">
+              Add HTML
+            </button>
+            <button id="ajax_btn" data-infoid=2 type="button" class="btn btn-warning">AJAX Button</button>
+            <strong id="returned_info">space for returned info</strong>
+
+
           </div>
         </div>
       </div>
@@ -96,6 +111,10 @@
     </div>
 
   </div>
+
+  <script src="{% static 'js/jquery-3.3.1.min.js' %}" crossorigin="anonymous"></script>
+  <script src="{% static 'js/profile-jquery.js' %}" crossorigin="anonymous"></script>
+  <script src="{% static 'js/profile-ajax.js' %}" crossorigin="anonymous"></script>
 </body>
 
 </html>
