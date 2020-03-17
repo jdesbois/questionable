@@ -22,6 +22,13 @@ MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
+#AUTH KEYS
+SOCIAL_AUTH_TWITTER_KEY = 'ooiEyimDSDzB8JCHWnTxg5BMx'
+SOCIAL_AUTH_TWITTER_SECRET = 'CcDXiq5orKC5e0keF3BAHGx5o59LQZZVTo9sC63qedE7z2FeBH'
+
+SOCIAL_AUTH_FACEBOOK_KEY = '302832277357230'
+SOCIAL_AUTH_FACEBOOK_SECRET ='6a3344dfd701bb7647b573160702c386'
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '12&g%q&00p*zoy7xs_0=p%9-x*1@rikxu#xc$*zaa%j3-i+hh1'
 
@@ -42,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'registration',
     'main',
+    'social_django',
 ]
 
 #Registration variables
@@ -56,6 +64,7 @@ LOGIN_REDIRECT_URL = 'index'
 
 #The page users are directed to if they are not logged in.
 LOGIN_URL = 'auth_login'
+LOGOUT_URL = 'logout'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -65,6 +74,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'questionable.urls'
@@ -80,6 +91,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -97,7 +111,13 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+#Authentication backends
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.facebook.FacebookOAuth2',
 
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -140,3 +160,4 @@ STATICFILES_DIRS = [STATIC_DIR, ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+

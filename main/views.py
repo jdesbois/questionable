@@ -9,6 +9,9 @@ from django.contrib.auth.models import User, Group
 
 # DISPLAY VIEWS
 
+@login_required
+def home(request):
+    return render(request, 'core/home.html')
 
 def index(request):
     context_dict = {'message': 'Message sent from the view'}
