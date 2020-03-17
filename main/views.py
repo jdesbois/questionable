@@ -26,7 +26,7 @@ def show_course(request, course_name_slug):
     context_dict = {}
 
     try:
-        course = Course.objects.get(course_name_slug)
+        course = Course.objects.get(slug=course_name_slug)
         lecture_list = Lecture.objects.filter(course=course)
         forum_list = Forum.objects.filter(course=course)
         context_dict['course'] = course
@@ -54,7 +54,7 @@ def show_lecture(request, lecture_slug_name):
     context_dict = {}
 
     try:
-        lecture = Lecture.objects.get(lecture_slug_name)
+        lecture = Lecture.objects.get(slug=lecture_slug_name)
         question_list = Question.objects.filter(lecture=lecture)
         context_dict['lecture'] = lecture
         context_dict['questions'] = question_list
@@ -100,7 +100,7 @@ def show_question(request):
 def show_forum(request, forum_name_slug):
     context_dict = {}
     try:
-        forum = Forum.objects.get(forum_name_slug)
+        forum = Forum.objects.get(slug=forum_name_slug)
         post_list = Post.objects.filter(forum=forum)
         context_dict['forum'] = forum
         context_dict['posts'] = post_list
