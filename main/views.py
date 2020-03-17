@@ -22,11 +22,11 @@ def show_courses(request):
     return render(request, 'main/courses.html', context=context_dict)
 
 
-def show_course(request):
+def show_course(request, course_name_slug):
     context_dict = {}
 
     try:
-        course = Course.objects.get(request.course)
+        course = Course.objects.get(slug=course_name_slug)
         lecture_list = Lecture.objects.filter(course=course)
         forum_list = Forum.objects.filter(course=course)
         context_dict['course'] = course
@@ -50,11 +50,11 @@ def show_course(request):
 #     return render(request, 'main/lectures.html', context=context_dict)
 
 
-def show_lecture(request):
+def show_lecture(request, lecture_slug_name):
     context_dict = {}
 
     try:
-        lecture = Lecture.objects.get(request.lecture)
+        lecture = Lecture.objects.get(slug=lecture_slug_name)
         question_list = Question.objects.filter(lecture=lecture)
         context_dict['lecture'] = lecture
         context_dict['questions'] = question_list
@@ -97,10 +97,10 @@ def show_question(request):
 #     return render(request, 'main/course/lecture/question/reply.html', context=context_dict)
 
 
-def show_forum(request):
+def show_forum(request, forum_name_slug):
     context_dict = {}
     try:
-        forum = request.forum
+        forum = Forum.objects.get(slug=forum_name_slug)
         post_list = Post.objects.filter(forum=forum)
         context_dict['forum'] = forum
         context_dict['posts'] = post_list
@@ -143,6 +143,7 @@ def show_post(request):
 
 def contact_page(request):
     return render(request, 'main/contact_page.html')
+
 
 # View to generate profile page for logged in user (requires login)
 @login_required(login_url='/accounts/login/')
@@ -350,6 +351,7 @@ def enroll_user(request):
         enroll.user = request.user
 
     return render(request, 'main/courses', {'enrollment': enroll})
+
 
 @login_required
 @transaction.atomic
