@@ -57,11 +57,8 @@
                     <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                         <ul class="nav navbar-nav menu_nav ml-auto">
                             <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="about-us.html">About</a></li>
-                            <li class="nav-item submenu dropdown active">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                                    aria-haspopup="true" aria-expanded="false">Courses</a>
-                             
+                            <li class="nav-item"><a class="nav-link" href="{% url 'main:contact_page' %}">About</a></li>
+                             <li class="nav-item"><a class="nav-link" href="{% url 'main:courses' %}">Courses</a></li>
                                 </a>
                             </li>
                         </ul>
@@ -73,6 +70,8 @@
 	<!--================ End Header Menu Area =================-->
 	
 		<!--================ Start Home Banner Area =================-->
+	<div>
+	{% block banner_block %}
 	<section class="home_banner_area">
 		<div class="banner_inner">
 			<div class="container">
@@ -85,6 +84,8 @@
 			</div>
 		</div>
 	</section>
+	{% endblock %}
+	</div>
 	<!--================ End Home Banner Area =================-->
 	
 	<!--================ Start Body_Block Area  =================-->
