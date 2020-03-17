@@ -5,56 +5,49 @@
 </head>
 <body>
 
-<!--{% for question in questions %}-->
-
-<!--    {% for q, replies in reply_dict.items %}-->
-<!--        {% if q == question.title %}-->
-<!--        <strong>{{ question.title }}</strong>-->
-<!--        {% for reply in replies %}-->
-<!--        <p>{{ reply.reply }}</p>-->
-<!--        {% endfor %}-->
-<!--        {% endif %}-->
-<!--    {% endfor %}-->
-<!--{% endfor %}-->
-
 <div class="container">
+<!--    loop through questions-->
     {% for question in questions %}
-
+<!--        loop though questions: reply key: value pairs-->
         {% for q, replies in reply_dict.items %}
 
+<!--            only select replies for current question-->
             {% if q == question.title %}
 
-              <div class="row bg-secondary text-white rounded">
+<!--            Add question title-->
+            <div class="row bg-secondary text-white rounded">
                  <div class="pl-5 pt-3">
                     <h2>{{ question.title }}</h2><br/>
                     <p>{{ question.question }}</p>
                  </div>
-              </div>
-              {% for reply in replies %}
-              <div class="row bg-light text-dark rounded pl-5 pt-3 pb-3">
-                <strong>Answer:</strong><br/>
-               {{ reply.reply }}<br/>
-              </div>
-              <div class="row bg-white text-white rounded pl-5 pt-2 pb-2">
+            </div>
 
-              </div>
+<!--            Loop over and add replies-->
+            {% for reply in replies %}
+            <div class="row bg-light text-dark rounded pl-5 pt-3 pb-3">
+                <strong>Answer:</strong><br/>
+                    {{ reply.reply }}<br/>
+                </div>
+             <div class="row bg-white text-white rounded pl-5 pt-2 pb-2">
+
+             </div>
               {% endfor %}
             {% endif %}
         {% endfor %}
     {% endfor %}
-              <div class="row bg-secondary text-white rounded pl-5 pt-2 pb-2">
-                    <h5>Submit a question:</h5>
-              </div>
-              <div class="row bg-light text-dark rounded pl-5">
-                <div class="form-group">
-                    <input type="text" class="form-control mt-2 mb-2" placeholder="Enter question">
-                    <textarea class="form-control mt-2 mb-2" placeholder="Description" rows="3"></textarea>
-                    <button type="button" class="btn btn-dark">Submit</button>
-                </div>
-              </div>
-                <div>
 
-                </div>
+<!--    Submit question form-->
+    <div class="row bg-secondary text-white rounded pl-5 pt-2 pb-2">
+        <h5>Submit a question:</h5>
+    </div>
+
+    <div class="row bg-light text-dark rounded pl-5">
+        <div class="form-group">
+            <input type="text" class="form-control mt-2 mb-2" placeholder="Enter question">
+            <textarea class="form-control mt-2 mb-2" placeholder="Description" rows="3"></textarea>
+            <button type="button" class="btn btn-dark">Submit</button>
+        </div>
+    </div>
 
 </div>
 
