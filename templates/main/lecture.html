@@ -5,7 +5,13 @@
 </head>
 <body>
 
+{% for question in questions %}
+    <p>{{ question.title }}</p>
 
+    {% for reply in reply_dict %}
+        <p>{{ reply}} test</p>
+    {% endfor %}
+{% endfor %}
 
 <div class="container">
   <div class="row bg-secondary text-white rounded">
@@ -35,7 +41,7 @@
   </div>
     <div>
         <p>Test space</p>
-        <p>Lecutre.name: {{ lecture.name }}</p>
+        <p>Lecture.name: {{ lecture.name }}</p>
     </div>
 </div>
 

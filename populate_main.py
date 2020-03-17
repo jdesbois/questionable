@@ -157,7 +157,7 @@ def populate():
             l = add_lecture(c, lecture)
             for question in lecture_data['questions']:
                 q = add_question(l, question['title'], question['question'])
-                # add_reply(question, "Test reply text")
+                add_reply(q, "Test reply text")
         for forum, forum_data in course_data['forum'].items():
             f = add_forum(c, forum)
             for post in forum_data['posts']:
