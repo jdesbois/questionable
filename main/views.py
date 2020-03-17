@@ -62,7 +62,7 @@ def show_lecture(request, lecture_slug_name):
     except Lecture.DoesNotExist:
         context_dict['lecture'] = None
         context_dict['questions'] = None
-    return render(request, 'main/course/lecture.html', context=context_dict)
+    return render(request, 'main/course/<slug:course_name_slug>/lecture.html', context=context_dict)
 
 
 def show_question(request):
@@ -81,7 +81,7 @@ def show_question(request):
         context_dict['replies'] = None
         context_dict['upvotes'] = None
 
-    return render(request, 'main/course/lecture/question.html', context=context_dict)
+    return render(request, 'main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/question.html', context=context_dict)
 
 
 # def show_reply(request):
@@ -107,7 +107,7 @@ def show_forum(request, forum_name_slug):
     except Forum.DoesNotExist:
         context_dict['forum'] = None
         context_dict['posts'] = None
-    return render(request, 'main/course/forum.html', context=context_dict)
+    return render(request, 'main/course/<slug:course_name_slug>/forum.html', context=context_dict)
 
 
 def show_post(request):
@@ -126,7 +126,7 @@ def show_post(request):
         context_dict['comments'] = None
         context_dict['upvotes'] = None
 
-    return render(request, 'main/course/forum/post.html', context=context_dict)
+    return render(request, 'main/course/<slug:course_name_slug>/<slug:forum_name_slug>/post.html', context=context_dict)
 
 
 # def show_comment(request):
@@ -181,7 +181,7 @@ def create_course(request):
         if form.is_valid():
             # Save the form
             form.save(commit=True)
-            return redirect('/main/courses')
+            return redirect('/main/courses/')
 
         else:
 
@@ -203,13 +203,13 @@ def create_lecture(request):
             lecture = form.save(commit=True)
             lecture.course = request.course
 
-            return redirect('/main/course')
+            return redirect('/main/course/<slug:course_name_slug>/')
 
         else:
 
             print(form.errors)
 
-    return render(request, 'main/course/', {'form': form})
+    return render(request, 'main/course/<slug:course_name_slug>/create_lecture.html', {'form': form})
 
 
 @login_required
@@ -226,13 +226,13 @@ def create_question(request):
             question.lecture = request.lecture
             question.user = request.user
 
-            return redirect('/main/course/lecture')
+            return redirect('/main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/')
 
         else:
 
             print(form.errors)
 
-    return render(request, 'main/course/lecture/', {'form': form})
+    return render(request, 'main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/', {'form': form})
 
 
 @login_required
@@ -248,13 +248,13 @@ def create_reply(request):
             reply = form.save(commit=True)
             reply.user = request.user
             reply.question = request.question
-            return redirect('/main/course/lecture/question')
+            return redirect('/main/course/lecture/question/')
 
         else:
 
             print(form.errors)
 
-    return render(request, 'main/course/lecture/question/', {'form': form})
+    return render(request, 'main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/question/', {'form': form})
 
 
 @login_required
@@ -270,13 +270,13 @@ def create_forum(request):
             forum = form.save(commit=True)
             forum.course = request.course
 
-            return redirect('/main/course')
+            return redirect('/main/course/<slug:course_name_slug>/')
 
         else:
 
             print(form.errors)
 
-    return render(request, 'main/course/', {'form': form})
+    return render(request, 'main/course/<slug:course_name_slug>/', {'form': form})
 
 
 @login_required
@@ -293,13 +293,13 @@ def create_post(request):
             post.forum = request.forum
             post.user = request.user
 
-            return redirect('/main/course/forum')
+            return redirect('/main/course/<slug:course_name_slug>/<slug:forum_name_slug>/')
 
         else:
 
             print(form.errors)
 
-    return render(request, 'main/course/forum/', {'form': form})
+    return render(request, 'main/<slug:course_name_slug>/<slug:course_name_slug>/', {'form': form})
 
 
 @login_required
@@ -316,13 +316,13 @@ def create_comment(request):
             comment.post = request.post
             comment.user = request.user
 
-            return redirect('/main/course/forum/post')
+            return redirect('/main/course/<slug:course_name_slug>/<slug:forum_name_slug>/post/')
 
         else:
 
             print(form.errors)
 
-    return render(request, 'main/course/forum/post/', {'form': form})
+    return render(request, 'main/course/<slug:course_name_slug>/<slug:forum_name_slug>/post/', {'form': form})
 
 
 @login_required
@@ -336,7 +336,7 @@ def create_upvote(request):
         upvote.question = request.question
         upvote.user = request.user
 
-    return render(request, 'main/course/lecture/question', {'upvote': upvote})
+    return render(request, 'main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/question', {'upvote': upvote})
 
 
 @login_required
