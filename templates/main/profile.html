@@ -37,7 +37,7 @@ Profile
         </div>
       </div>
     </div>
-
+    <div class="col-sm-1"><p></p></div>
     <div class="col-sm-8">
 
       <div class="card">
@@ -48,7 +48,9 @@ Profile
           {% if questions %}
           {% for question in questions %}
           
-          <a href="/main/course/{{question.lecture.course.slug}}/{{question.lecture.slug}}/{{question.slug}}"><h6 class="card-title">{{question.title}}</h6></a>
+          <a href="/main/course/{{question.lecture.course.slug}}/{{question.lecture.slug}}/{{question.slug}}">
+            <h5 class="card-title">{{question.title}}</h5>
+          </a>
           <p class="card-text">{{ question.question }}</p>
           {% endfor %}
           {% else %}
@@ -64,13 +66,13 @@ Profile
         <div class="card-header">
           Recent Posts
         </div>
-
         <div class="card-body">
           {% if posts %}
-          {% for post in posts %}
-          <a href="/main/course/{{post.forum.course.slug}}/{{ post.forum.slug }}">
-          <h6 class="card-title">{{ post.title }}</h6></a>
-          <p class="card-text">{{ post.post }}</p>
+          {% for p in posts %}
+          <a href="/main/course/{{p.forum.course.slug}}/{{ p.forum.slug }}">
+          <h5 class="card-title">{{ p.title }}</h5>
+        </a>
+          <p class="card-text">{{ p.post }}</p>
           {% endfor %}
           {% else %}
           <h6 class="card-title">No Posts</h6>
@@ -80,24 +82,6 @@ Profile
       </div>
 
 
-
-
-      <div class="card">
-        <div class="card-header">
-          Recent Replies
-        </div>
-        <div class="card-body">
-          {% if replies %}
-          {% for reply in replies %}
-          <h6 class="card-title">{{reply.question.title}}</h6>
-          <p class="card-text">{{ reply.reply }}</p>
-          {% endfor %}
-          {% else %}
-          <h6 class="card-title">Recent Replies</h6>
-          <p class="card-text">No recent replies to display</p>
-          {% endif %}
-        </div>
-      </div>
     </div>
   </div>
 </div>
