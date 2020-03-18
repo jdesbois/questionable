@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.db import transaction
 from django.contrib.auth.models import User, Group
 from django.urls import reverse
+from django.views import View
 
 # DISPLAY VIEWS
 
@@ -268,6 +269,44 @@ def create_question(request, course_name_slug, lecture_name_slug):
                             kwargs={'course_name_slug': course_name_slug,
                                     'lecture_name_slug': lecture_name_slug}))
 
+
+class AddQuestion(View):
+    def get(self, request, course_name_slug, lecture_name_slug):
+        # find lecture object
+        try:
+            lecture = Lecture.objects.get(slug=lecture_name_slug)
+        except Lecture.DoesNoExist:
+            lecture = None
+
+        form = QuestionForm()
+
+        # If user inputs comment
+        if request.method == 'POST':
+            print("after post")
+            form = QuestionForm(request.POST)
+            # If input is valid
+            if form.is_valid():
+                # Save the form
+                question = form.save(commit=False)
+                question.lecture = lecture
+                # question.user = request.user
+                question.save()
+
+                # return redirect('/main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/')
+                return redirect(reverse('main:lecture',
+                                        kwargs={'course_name_slug': course_name_slug,
+                                                'lecture_name_slug': lecture_name_slug}))
+            else:
+                print(form.errors)
+
+        # why did we previously have to pass form here? Works without it for current setup?
+        # return render(request, 'main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/', {'form': form})
+        return redirect(reverse('main:lecture',
+                                kwargs={'course_name_slug': course_name_slug,
+                                        'lecture_name_slug': lecture_name_slug}))
+
+
+
 @login_required
 def create_reply(request):
     form = ReplyForm()
@@ -310,6 +349,8 @@ def create_forum(request):
             print(form.errors)
 
     return render(request, 'main/course/<slug:course_name_slug>/', {'form': form})
+
+
 
 
 @login_required
