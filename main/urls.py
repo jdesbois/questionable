@@ -19,7 +19,7 @@ urlpatterns = [
     # Form pages
     path('courses/create_course', views.create_course, name='create_course'),
     path('course/<slug:course_name_slug>/create_lecture', views.create_lecture, name='create_lecture'),
-    path('course/<slug:course_name_slug>/<slug:lecture_name_slug>/create_question',
+    path('course/<slug:course_name_slug>/<slug:lecture_name_slug>/create_question/',
          views.create_question, name='create_question'),
     path('course/<slug:course_name_slug>/<slug:lecture_name_slug>/question/create_reply',
          views.create_reply, name='create_reply'),
