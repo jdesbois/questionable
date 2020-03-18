@@ -11,6 +11,7 @@ urlpatterns = [
     path('contact_page/', views.contact_page, name='contact_page'),
     path('update_user/', views.update_user, name='update_user'),
     path('profile/', views.profile, name='profile'),
+    path('set_role', views.set_role, name="set_role"),
     path('course/<slug:course_name_slug>/', views.show_course, name='course'),
     path('course/<slug:course_name_slug>/<slug:lecture_name_slug>/', views.show_lecture, name='lecture'),
     path('course/<slug:course_name_slug>/<slug:lecture_name_slug>/question/', views.show_question, name='question'),

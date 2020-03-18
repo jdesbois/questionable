@@ -396,6 +396,9 @@ def update_user(request):
         'profile_form': profile_form
     })
 
+@login_required
+def set_role(request):
+    return render(request, 'main/index.html')
 
 def check_user(current_user):
     try:

@@ -28,7 +28,12 @@ Profile
             </a> <p></p>
             <a href="{% url 'auth_password_change' %}">
               <button class="btn btn-primary">Change password </button>
+            </a> <p></p>
+            {% if role == "Student" %}
+            <a href="{% url 'main:set_role' %}">
+              <button class="btn btn-primary">Upgrade to Lecturer </button>
             </a>
+            {% endif %}
         </div>
       </div>
     </div>
