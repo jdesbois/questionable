@@ -37,7 +37,11 @@
 					<div class="col-lg-6 col-sm-6 col-4 header-top-left">
 					</div>
 					<div class="col-lg-6 col-sm-6 col-8 header-top-right">
+						{% if user.is_authenticated %}
+						<a href="{% url 'main:profile' %}" class="text-uppercase">Welcome, {{ user.username }}</a> <a href="{% url 'auth_logout' %}" class="text-uppercase">Logout</a>
+						{% else %}
 						<a href="{% url 'auth_login' %}" class="text-uppercase">Login</a>
+						{% endif %}
 					</div>
 				</div>
 			</div>
@@ -70,41 +74,22 @@
 	</header>
 	<!--================ End Header Menu Area =================-->
 
-	<!--================ Start Home Banner Area =================-->
-	<div>
-
-		<section class="home_banner_area">
-			<div class="banner_inner">
-				<div class="container">
-					<div class="row">
-						<div class="col-lg-6">
-
-							<div class="banner_content">
-								{% block banner_block %}
-								{% endblock %}
-							</div>
-
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-
-	</div>
-	<!--================ End Home Banner Area =================-->
+	
 
 	<!--================ Start Body_Block Area  =================-->
 
 	<div class="container">
+
 		{% block body_block%}
 
 		{% endblock %}
+
 	</div>
 
 	<!--================ End Body_Block Area  =================-->
 
 	<!--================ Start footer Area  =================-->
-	<footer class="footer-area section_gap row">
+	<footer class="footer-area section_gap">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-2 col-md-6 single-footer-widget">

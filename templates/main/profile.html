@@ -3,12 +3,14 @@
 {% load staticfiles %}
 
 {% block title_block %}
-    Login
+   Questionable: Profile
 {% endblock %}
 
 {% block body_block %}
-<div class="container row">
 
+<br />
+
+<div class="col-sm-3">
         <div class="card" style="width: 18rem;">
           <img src="../media/{{ user.profile.picture }}" class="card-img-top" alt="...">
           <div class="card-body">
@@ -21,9 +23,9 @@
             <p class="card-text">{{ user.profile.bio }}</p>
             <br />
             <ul class="list-group">
-              <a href="{% url 'main:update_user' %}"><li class="list-group-item list-group-item-action">Update profile</li></a>
-              <a href="{% url 'auth_password_change' %}" ><li class="list-group-item list-group-item-action">Change password</li></a>
-              <a href="{% url 'main:index' %}"><li class="list-group-item list-group-item-action">Return to index</li></a>
+              <a href="{% url 'main:update_user' %}"><li class="list-group-item list-group-item-action list-group-item-info">Update profile</li></a>
+              <a href="{% url 'auth_password_change' %}" ><li class="list-group-item list-group-item-action list-group-item-info">Change password</li></a>
+              <a href="{% url 'main:index' %}"><li class="list-group-item list-group-item-action list-group-item-info">Return to index</li></a>
 
             </ul>
             
@@ -31,7 +33,9 @@
             
           </div>
         </div>
+      </div>
 
+      <div class="col-sm-8">
 
         <div class="card">
           <div class="card-header">
@@ -90,5 +94,6 @@
             {% endif %}
           </div>
         </div>
-    </div>
+      </div>
+
 {% endblock %}
