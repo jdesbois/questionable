@@ -32,12 +32,19 @@
                     <p>{{ question.question }}</p>
 
 <!--                     upvote button and votes-->
-                    <button type="button"
-                            class="btn btn-primary mb-2 upvote"
-                            id="upvote-{{ question.id }}"
-                            data-questionid="{{ question.id }}">
-                        Upvote
-                    </button> &nbsp &nbsp Votes: &nbsp
+                    {% for title, hasvoted in hasvoted_dict.items %}
+                        {% if title == question.title %}
+                            <button type="button"
+                                    class="btn btn-primary mb-2 upvote"
+                                    id="upvote-{{ question.id }}"
+                                    data-questionid="{{ question.id }}"
+                                    {% if hasvoted %} disabled {% endif %}>
+                                Upvote
+                            </button>
+                        {% endif %}
+                     {% endfor %}
+
+                     &nbsp &nbsp Votes: &nbsp
                      {% for title, count in upvote_dict.items %}
                         {% if title == question.title %}
                             <div class="upvotes" id="count-{{ question.id }}">{{ count }}</div><br/>
