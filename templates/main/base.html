@@ -1,14 +1,19 @@
 <!doctype html>
 
-{% extends 'main/base.html' %}
 {% load staticfiles %}
+
+<html lang="en">
 
 <head>
 	<!-- Required meta tags -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="icon" href="{% static 'images/question.png' %}" type="image/png">      
-	<title>Questionable</title>
+	<title>
+	Questionable
+	{% block title_block%}
+	{% endblock %}
+	</title>
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
 	<link rel="stylesheet" href="{% static 'vendors/linericon/style.css' %}">
@@ -21,8 +26,8 @@
 	<link rel="stylesheet" href="{% static '/css/style.css' %}">
 </head>
 
-<<<<<<< HEAD
 <body>
+
 
 	<!--================ Start Header Menu Area =================-->
 	   <header class="header_area">
@@ -32,12 +37,7 @@
                     <div class="col-lg-6 col-sm-6 col-4 header-top-left">
                     </div>
                     <div class="col-lg-6 col-sm-6 col-8 header-top-right">
-						{% if user.is_authenticated %}
-						<a href="{% url 'main:profile' %}">Welcome, {{ user.username }}</a>
-						<a href="{% url 'auth_logout' %}" class="text-uppercase">Logout</a>
-						{% else %}
-						<a href="{% url 'auth_login' %}" class="text-uppercase">Login</a>
-						{% endif %}
+                        <a href="#" class="text-uppercase">Login</a>
                     </div>
                 </div>
             </div>
@@ -46,7 +46,7 @@
             <nav class="navbar navbar-expand-lg navbar-light">
                 <div class="container">
                     <!-- Brand and toggle get grouped for better mobile display -->
-                    <a class="navbar-brand logo_h" href="{% url 'main:index' %} "><img src="{% static 'images/question.png' %}" alt=""></a>
+                    <a class="navbar-brand logo_h" href="/"><img src="{% static 'images/question.png' %}" alt=""></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="icon-bar"></span>
@@ -56,9 +56,9 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                         <ul class="nav navbar-nav menu_nav ml-auto">
-                            <li class="nav-item"><a class="nav-link" href="{% url 'main:index' %} ">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                             <li class="nav-item"><a class="nav-link" href="about-us.html">About</a></li>
-                            <li class="nav-item submenu dropdown">
+                            <li class="nav-item submenu dropdown active">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
                                     aria-haspopup="true" aria-expanded="false">Courses</a>
                              
@@ -71,8 +71,8 @@
         </div>
     </header>
 	<!--================ End Header Menu Area =================-->
-
-	<!--================ Start Home Banner Area =================-->
+	
+		<!--================ Start Home Banner Area =================-->
 	<section class="home_banner_area">
 		<div class="banner_inner">
 			<div class="container">
@@ -86,52 +86,43 @@
 		</div>
 	</section>
 	<!--================ End Home Banner Area =================-->
-=======
->>>>>>> master
-
-<body>
-	<!--================ Start Feature Area =================-->
-	{% block body_block %}
-	<section class="feature_area">
+	
+	<!--================ Start Body_Block Area  =================-->
+	<div>
+	{% block body_block%}
+	{% endblock %}
+	</div>
+	
+	<!--================ End Body_Block Area  =================-->
+	
+		<!--================ Start footer Area  =================-->
+	<footer class="footer-area section_gap">
 		<div class="container">
-			<div class="row justify-content-end">
-				<div class="col-lg-4">
-					<div class="single_feature d-flex flex-row pb-30">
-						<div class="icon">
-							<span class="lnr lnr-book"></span>
-						</div>
-						<div class="desc">
-							<h4>New Questions</h4>
-							<p>
-								Post 1 <br>
-								Post 2 <br>
-								Post 3 <br>
-								
-							</p>
-						</div>
+			<div class="row">
+				<div class="col-lg-2 col-md-6 single-footer-widget"
+				
+							<div style="position: absolute; left: -5000px;">
+								<input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
+							</div>
+
+							<div class="info"></div>
+						</form>
 					</div>
-					<div class="single_feature d-flex flex-row pb-30">
-						<div class="icon">
-							<span class="fa fa-trophy"></span>
-						</div>
-						<div class="desc">
-							<h4>Top Questions</h4>      <!-- Need to put hyperlinks to questions here, ordered list in chrono AND  most upvoted-->
-							<p>
-								Post 1 <br>
-								Post 2 <br>
-								Post 3 <br>
-								
-							</p>
-						</div>
-					</div
+				</div>
+			</div>
+			<div class="row footer-bottom d-flex justify-content-between">
+				<div class="col-lg-4 col-sm-12 footer-social">
+					<a href="#"><i class="fa fa-facebook"></i></a>
+					<a href="#"><i class="fa fa-twitter"></i></a>
+					<a href="#"><i class="fa fa-dribbble"></i></a>
+					<a href="#"><i class="fa fa-behance"></i></a>
 				</div>
 			</div>
 		</div>
-	</section>
-	{% endblock %}
-	<!--================ End Feature Area =================-->
-	
-		<!-- Optional JavaScript -->
+	</footer>
+	<!--================ End footer Area  =================-->
+
+	<!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
 	<script src="{% static 'js/popper.js' %}"></script>
@@ -144,8 +135,6 @@
 	<script src="{% static 'js/jquery.ajaxchimp.min.js' %}"></script>
 	<script src="{% static 'vendors/counter-up/jquery.counterup.js' %}"></script>
 	<script src="{% static 'js/mail-script.js' %}"></script>
-
-
 </body>
 
 </html>

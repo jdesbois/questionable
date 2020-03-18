@@ -2,6 +2,7 @@
 {% load staticfiles %}
 
 <html>
+<<<<<<< HEAD
 
 <head>
     <!-- Required meta tags -->
@@ -114,4 +115,24 @@
 	<script src="{% static 'js/mail-script.js' %}"></script>
 </body>
 
+=======
+    <head>
+        <title>
+            Login
+        </title>
+    </head>
+    <body>
+        <h1>Login</h1> 
+        <form method="post" action=".">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <input type="submit" value="Log In">
+            <input type="hidden" name="next" value="{{ next }}">
+        </form>   
+        <a href="{% url 'social:begin' 'twitter' %}"><button type="button">Login with Twitter</button></a>
+        <p>Not registered? <a href="{% url 'registration_register' %}">Register Here!</a></p>
+    </body>
+>>>>>>> master
 </html>

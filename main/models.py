@@ -59,7 +59,7 @@ class Question(models.Model):
 class Reply(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     reply = models.CharField(max_length=512)
-    user = models.ForeignKey(Tutor, on_delete=models.CASCADE, default=None)
+    user = models.ForeignKey(Tutor, on_delete=models.CASCADE, default=None, null=True)
 
     def __str__(self):
         # identify by primary key
