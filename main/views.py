@@ -170,9 +170,9 @@ def contact_page(request):
 def profile(request):
 
     context_dict = {}
-    questions = Question.objects.all()[:5]
-    posts = Post.objects.all()[:5]
-    replies = Reply.objects.all()[:5]
+    questions = Question.objects.all()[:3]
+    posts = Post.objects.all()[:3]
+    replies = Reply.objects.all()[:3]
     context_dict['questions'] = questions
     context_dict['posts'] = posts
     context_dict['replies'] = replies

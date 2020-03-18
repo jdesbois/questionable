@@ -22,17 +22,12 @@ Profile
           <h6>Biography:</h6>
           <p class="card-text">{{ user.profile.bio }}</p>
           <br />
-          <ul class="list-group">
             <a href="{% url 'main:update_user' %}">
-              <li class="list-group-item list-group-item-action list-group-item-info">Update profile</li>
-            </a>
+              <button class="btn btn-primary">Update profile</button>
+            </a> <p></p>
             <a href="{% url 'auth_password_change' %}">
-              <li class="list-group-item list-group-item-action list-group-item-info">Change password</li>
+              <button class="btn btn-primary">Change password </button>
             </a>
-          </ul>
-
-
-
         </div>
       </div>
     </div>
@@ -46,11 +41,11 @@ Profile
         <div class="card-body">
           {% if questions %}
           {% for question in questions %}
-          <h6 class="card-title">{{question.title}}</h6>
+          
+          <a href="/main/course/{{question.lecture.course.slug}}/{{question.lecture.slug}}/{{question.slug}}"><h6 class="card-title">{{question.title}}</h6></a>
           <p class="card-text">{{ question.question }}</p>
           {% endfor %}
           {% else %}
-          <h6 class="card-title">Recent Questions</h6>
           <p class="card-text">No recent questions to display</p>
         </div>
         {% endif %}
@@ -67,7 +62,8 @@ Profile
         <div class="card-body">
           {% if posts %}
           {% for post in posts %}
-          <h6 class="card-title">{{ post.title }}</h6>
+          <a href="/main/course/{{post.forum.course.slug}}/{{ post.forum.slug }}">
+          <h6 class="card-title">{{ post.title }}</h6></a>
           <p class="card-text">{{ post.post }}</p>
           {% endfor %}
           {% else %}
