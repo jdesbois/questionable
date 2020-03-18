@@ -73,14 +73,17 @@ def show_lecture(request, course_name_slug, lecture_name_slug):
         form = QuestionForm()
 
         reply_dict = {}
+        upvote_dict = {}
 
         for question in question_list:
             reply_dict[question.title] = Reply.objects.filter(question=question)
+            upvote_dict[question.title] = Upvote.objects.filter(question=question).count()
 
         context_dict['course'] = course
         context_dict['lecture'] = lecture
         context_dict['questions'] = question_list
         context_dict['reply_dict'] = reply_dict
+        context_dict['upvote_dict'] = upvote_dict
         context_dict['form'] = form
 
     except Lecture.DoesNotExist:

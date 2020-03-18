@@ -24,10 +24,15 @@
 
 <!--            Add question title-->
             <div class="row bg-secondary text-white rounded">
-                 <div class="pl-5 pt-3">
+                 <div class="pl-5 pt-3" id="{{ question.id }}">
                     <h2>{{ question.title }} </h2>
                     <p>{{ question.question }}</p>
-                    <button type="button" class="btn btn-primary mb-2">Upvote</button> &nbsp &nbsp Votes: &nbsp 0<br/>
+                    <button type="button" class="btn btn-primary mb-2">Upvote</button> &nbsp &nbsp Votes: &nbsp
+                     {% for title, count in upvote_dict.items %}
+                        {% if title == question.title %}
+                            {{ count }}<br/>
+                        {% endif %}
+                     {% endfor %}
                  </div>
             </div>
 
