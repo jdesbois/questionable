@@ -168,8 +168,9 @@ def contact_page(request):
 # View to generate profile page for logged in user (requires login)
 @login_required(login_url='/accounts/login/')
 def profile(request):
-
+    current_user = request.user
     context_dict = {}
+    role = None
     questions = Question.objects.all()[:3]
     posts = Post.objects.all()[:3]
     replies = Reply.objects.all()[:3]
@@ -177,7 +178,14 @@ def profile(request):
     context_dict['posts'] = posts
     context_dict['replies'] = replies
     
-    
+    if check_user(current_user) == 1:
+        role = "Student"
+    elif check_user(current_user) == 2:
+        role ="Lecturer"
+    else:
+        role = None
+
+    context_dict['role'] = role
 
     return render(request, 'main/profile.html', context=context_dict)
 
