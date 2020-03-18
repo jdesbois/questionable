@@ -6,6 +6,14 @@
 <body>
 
 <div class="container">
+    <div class="row bg-secondary text-white rounded">
+         <div class="pl-5 pt-3">
+            <h1>{{ course.name }} - {{ lecture.name }}</h1><br/>
+         </div>
+    </div>
+    <div class="row bg-white text-white rounded pl-5 pt-2 pb-2">
+
+    </div>
 <!--    loop through questions-->
     {% for question in questions %}
 <!--        loop though questions: reply key: value pairs-->
@@ -20,6 +28,10 @@
                     <h2>{{ question.title }}</h2><br/>
                     <p>{{ question.question }}</p>
                  </div>
+            </div>
+
+            <div class="row bg-white text-white rounded pl-5 pt-2 pb-2">
+
             </div>
 
 <!--            Loop over and add replies-->
@@ -41,13 +53,33 @@
         <h5>Submit a question:</h5>
     </div>
 
-    <div class="row bg-light text-dark rounded pl-5">
-        <div class="form-group">
-            <input type="text" class="form-control mt-2 mb-2" placeholder="Enter question">
-            <textarea class="form-control mt-2 mb-2" placeholder="Description" rows="3"></textarea>
-            <button type="button" class="btn btn-dark">Submit</button>
-        </div>
+<!--    <div class="row bg-light text-dark rounded pl-5">-->
+<!--        <div class="form-group">-->
+<!--            <input type="text" class="form-control mt-2 mb-2" placeholder="Enter question">-->
+<!--            <textarea class="form-control mt-2 mb-2" placeholder="Description" rows="3"></textarea>-->
+<!--            <button type="button" class="btn btn-dark">Submit</button>-->
+<!--        </div>-->
+<!--    </div>-->
+    <div class="row bg-white text-white rounded pl-5 pt-2 pb-2">
+
     </div>
+    <form id="question_form" method="post" action="/main/course/{{ course.slug }}/{{ lecture.slug }}/create_question/">
+        {% csrf_token %}
+        {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+        {% for field in form.visible_fields %}
+            {{ field.errors }}
+            {{ field.help_text }}
+            {{ field }}
+        {% endfor %}
+        <input type="submit" name="submit" value="Submit Question" />
+    </form>
+
+    <div class="row bg-white text-white rounded pl-5 pt-5 pb-5">
+
+    </div>
+
 
 </div>
 

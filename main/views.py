@@ -6,12 +6,15 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.db import transaction
 from django.contrib.auth.models import User, Group
+from django.urls import reverse
 
 # DISPLAY VIEWS
+
 
 @login_required
 def home(request):
     return render(request, 'core/home.html')
+
 
 def index(request):
 
@@ -48,7 +51,7 @@ def show_course(request, course_name_slug):
         context_dict['course'] = None
         context_dict['lectures'] = None
         context_dict['forums'] = None
-    return render(request, 'main/course.html', context=context_dict)
+    return render(request, 'main/course_details.html', context=context_dict)
 
 
 # @login_required
@@ -65,17 +68,21 @@ def show_lecture(request, course_name_slug, lecture_name_slug):
     context_dict = {}
 
     try:
+        course = Course.objects.get(slug=course_name_slug)
         lecture = Lecture.objects.get(slug=lecture_name_slug)
         question_list = Question.objects.filter(lecture=lecture)
+        form = QuestionForm()
 
         reply_dict = {}
 
         for question in question_list:
             reply_dict[question.title] = Reply.objects.filter(question=question)
 
+        context_dict['course'] = course
         context_dict['lecture'] = lecture
         context_dict['questions'] = question_list
         context_dict['reply_dict'] = reply_dict
+        context_dict['form'] = form
 
     except Lecture.DoesNotExist:
         context_dict['lecture'] = None
@@ -210,11 +217,20 @@ def create_course(request):
 
             print(form.errors)
 
-    return render(request, 'main/courses/', {'form': form})
+    return render(request, 'main/create_course.html', {'form': form})
 
 
 @login_required
-def create_lecture(request):
+def create_lecture(request, course_name_slug):
+
+    try:
+        course = Course.objects.get(slug=course_name_slug)
+    except Course.DoesNotExist:
+        course = None
+
+    if course is None:
+        return redirect('/main/course/<slug:course_name_slug>/')
+
     form = LectureForm()
 
     # If user inputs comment
@@ -223,40 +239,64 @@ def create_lecture(request):
         # If input is valid
         if form.is_valid():
             # Save the form
-            lecture = form.save(commit=True)
-            lecture.course = request.course
+            lecture = form.save(commit=False)
+            lecture.course = course
+            lecture.save()
 
-            return redirect('/main/course/<slug:course_name_slug>/')
+            return redirect(reverse('main:course',
+                                    kwargs={'course_name_slug': course_name_slug}))
 
         else:
 
             print(form.errors)
 
-    return render(request, 'main/course/<slug:course_name_slug>/create_lecture.html', {'form': form})
+    context_dict = {'form': form, 'course': course}
+    return render(request, 'main/create_lecture.html', context_dict)
 
 
 @login_required
-def create_question(request):
+def create_question(request, course_name_slug, lecture_name_slug):
+
+    # find lecture object
+    try:
+        lecture = Lecture.objects.get(slug=lecture_name_slug)
+    except Lecture.DoesNoExist:
+        lecture = None
+
+    try:
+        course = Course.objects.get(slug=course_name_slug)
+    except Course.DoesNotExist:
+        course = None
+
+    if course is None or lecture is None:
+        return redirect('/main/course/<slug:course_name_slug>/<slug:lecture_name_slug/')
+
     form = QuestionForm()
 
     # If user inputs comment
     if request.method == 'POST':
+        print("after post")
         form = QuestionForm(request.POST)
         # If input is valid
         if form.is_valid():
             # Save the form
-            question = form.save(commit=True)
-            question.lecture = request.lecture
-            question.user = request.user
+            question = form.save(commit=False)
+            question.lecture = lecture
+            # question.user = request.user
+            question.save()
 
-            return redirect('/main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/')
-
+            # return redirect('/main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/')
+            return redirect(reverse('main:lecture',
+                                    kwargs={'course_name_slug': course_name_slug,
+                                            'lecture_name_slug': lecture_name_slug}))
         else:
-
             print(form.errors)
 
-    return render(request, 'main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/', {'form': form})
-
+    # why did we previously have to pass form here? Works without it for current setup?
+    # return render(request, 'main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/', {'form': form})
+    return redirect(reverse('main:lecture',
+                            kwargs={'course_name_slug': course_name_slug,
+                                    'lecture_name_slug': lecture_name_slug}))
 
 @login_required
 def create_reply(request):

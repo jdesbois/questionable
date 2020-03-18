@@ -3,28 +3,12 @@
 {% extends 'main/base.html' %}
 {% load staticfiles %}
 
-<head>
-	<!-- Required meta tags -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="icon" href="{% static 'images/question.png' %}" type="image/png">      
-	<title>Questionable</title>
-	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
-	<link rel="stylesheet" href="{% static 'vendors/linericon/style.css' %}">
-	<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
-	<link rel="stylesheet" href="{% static 'vendors/lightbox/simpleLightbox.css' %}">
-	<link rel="stylesheet" href="{% static 'vendors/owl-carousel/owl.carousel.min.css' %}">
-	<link rel="stylesheet" href="{% static 'vendors/nice-select/css/nice-select.css' %}">
-	<link rel="stylesheet" href="{% static 'vendors/animate-css/animate.css' %}">
-	<!-- main css -->
-	<link rel="stylesheet" href="{% static '/css/style.css' %}">
-</head>
+	{% block title_block %}
+	Questionable
+	{% endblock %}
 
-<body>
-
-
-    <!--================Home Banner Area =================-->
+<div>
+{% block banner_block %}
     <section class="banner_area">
         <div class="banner_inner d-flex align-items-center">
             <div class="overlay"></div>
@@ -45,9 +29,10 @@
             </div>
         </div>
     </section>
-    <!--================End Home Banner Area =================-->
+{% endblock %}
+</div>
 
-    <!--================ Start Course Details Area =================-->
+
 	{% block body_block %}
     <section class="course_details_area section_gap">
         <div class="container">
@@ -64,48 +49,7 @@
                         <h4 class="title">Top Questions</h4>
                         <div class="content">
                             <ul class="course_list">
-                                <li class="justify-content-between d-flex">
-                                    <p>How does recursion work?</p>
-                                    <a class="primary-btn text-uppercase" href="#">View Question</a>
-                                </li>
-                                <li class="justify-content-between d-flex">
-                                    <p>What's the difference between an abstract class and a normal class?</p>
-                                    <a class="primary-btn text-uppercase" href="#">View Question</a>
-                                </li>
-                                <li class="justify-content-between d-flex">
-                                    <p>Why use generics?</p>
-                                    <a class="primary-btn text-uppercase" href="#">View Question</a>
-                                </li>
-                                <li class="justify-content-between d-flex">
-                                    <p>When should I use an interface?</p>
-                                    <a class="primary-btn text-uppercase" href="#">View Question</a>
-                                </li>
-                                <li class="justify-content-between d-flex">
-                                    <p>What is multithreading?</p>
-                                    <a class="primary-btn text-uppercase" href="#">View Question</a>
-                                </li>
-                                <li class="justify-content-between d-flex">
-                                    <p>How do I cast a variable?</p>
-                                    <a class="primary-btn text-uppercase" href="#">View Question</a>
-                                </li>
-                                <li class="justify-content-between d-flex">
-                                    <p>What is an iterator and how do I use them?</p>
-                                    <a class="primary-btn text-uppercase" href="#">View Question</a>
-                                </li>
-                                <li class="justify-content-between d-flex">
-                                    <p>When should I used a pattern?</p>
-                                    <a class="primary-btn text-uppercase" href="#">View Question</a>
-                                </li>
-                                <li class="justify-content-between d-flex">
-                                    <p>What's a ditributed system?</p>
-                                    <a class="primary-btn text-uppercase" href="#">View Question</a>
-                                </li>
-
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
+                              
 
                 <div class="col-lg-4 right-contents">
                     <ul>
@@ -143,20 +87,6 @@
         </div>
     </section>
 	{% endblock %}
-    <!--================ End Course Details Area =================-->
-		<!-- Optional JavaScript -->
-	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
-	<script src="{% static 'js/popper.js' %}"></script>
-	<script src="{% static 'js/bootstrap.min.js' %}"></script>
-	<script src="{% static 'js/stellar.js' %}"></script>
-	<script src="{% static 'js/countdown.js' %}"></script>
-	<script src="{% static 'vendors/nice-select/js/jquery.nice-select.min.js' %}"></script>
-	<script src="{% static 'vendors/owl-carousel/owl.carousel.min.js' %}"></script>
-	<script src="{% static 'js/owl-carousel-thumb.min.js' %}"></script>
-	<script src="{% static 'js/jquery.ajaxchimp.min.js' %}"></script>
-	<script src="{% static 'vendors/counter-up/jquery.counterup.js' %}"></script>
-	<script src="{% static 'js/mail-script.js' %}"></script>
 
 
 </body>

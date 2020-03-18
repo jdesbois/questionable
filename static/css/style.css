@@ -1,28 +1,4 @@
-/*----------------------------------------------------
-@File: Default Styles
-@Author: SPONDON IT
-Author E-mail: info@spondonit.com
 
-This file contains the styling for the actual theme, this
-is the file you need to edit to change the look of the
-theme.
----------------------------------------------------- */
-/*=====================================================================
-@Template Name: Medicare Medical
-@Author: Naim LAsker
-@Developed By: Naim LAsker
-
-
-=====================================================================*/
-/*----------------------------------------------------*/
-/*font Variables*/
-/*Color Variables*/
-/*=================== fonts ====================*/
-@import url("https://fonts.googleapis.com/css?family=Crimson+Text:400,400i,600|Montserrat:400,600");
-/*---------------------------------------------------- */
-/*----------------------------------------------------*/
-/*---------------------------------------------------- */
-/*----------------------------------------------------*/
 body {
   line-height: 25px;
   font-size: 16px;
@@ -332,41 +308,7 @@ button:focus {
     .header_area.navbar_fixed .main_menu .navbar .nav .nav-item .nav-link {
       line-height: 70px; }
 
-#search_input_box {
-  text-align: center;
-  padding: 5px 20px; }
-  #search_input_box .form-control {
-    padding-left: 0;
-    background: transparent;
-    border: 0;
-    color: #ffffff;
-    font-weight: 600;
-    font-size: 18px; }
-    #search_input_box .form-control:focus {
-      box-shadow: none;
-      outline: none; }
-  #search_input_box input.placeholder {
-    color: #ffffff;
-    font-size: 16px; }
-  #search_input_box input:-moz-placeholder {
-    color: #ffffff;
-    font-size: 16px; }
-  #search_input_box input::-moz-placeholder {
-    color: #ffffff;
-    font-size: 16px; }
-  #search_input_box input::-webkit-input-placeholder {
-    color: #ffffff;
-    font-size: 16px; }
-  #search_input_box .btn {
-    width: 0;
-    height: 0;
-    padding: 0;
-    border: 0; }
-  #search_input_box .lnr-cross {
-    color: #fff;
-    font-weight: 600;
-    cursor: pointer;
-    padding: 10px 0; }
+
 
 .header-top {
   background: #000000; }
@@ -503,49 +445,11 @@ button:focus {
       .home_banner_area .search_course_wrap .search_course_btn:hover {
         background-position: right center; }
 
-.blog_banner {
-  min-height: 780px;
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
-  margin-bottom: 0px; }
-  .blog_banner .banner_inner {
-    background: #04091e;
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    min-height: 780px;
-    z-index: 1; }
-    .blog_banner .banner_inner .overlay {
-      background: url(static/images/banner/banner-2.jpg) no-repeat center center;
-      opacity: 0.5;
-      height: 125%;
-      position: absolute;
-      left: 0px;
-      top: 0px;
-      width: 100%;
-      z-index: -1; }
-    .blog_banner .banner_inner .blog_b_text {
-      max-width: 700px;
-      margin: auto;
-      color: #fff;
-      margin-top: 40px; }
-      .blog_banner .banner_inner .blog_b_text h2 {
-        font-size: 60px;
-        font-weight: 500;
-        font-family: "Crimson Text", serif;
-        line-height: 66px;
-        margin-bottom: 15px; }
-      .blog_banner .banner_inner .blog_b_text p {
-        font-size: 16px;
-        margin-bottom: 35px; }
-      .blog_banner .banner_inner .blog_b_text #ffffff_bg_btn {
-        line-height: 42px;
-        padding: 0px 45px; }
+
 
 .banner_area {
   position: relative;
-  background: url(static/images/banner/banner.jpg) no-repeat center center;
+  background: url(/static/images/banner.jpg) no-repeat center center;
   z-index: 1;
   min-height: 392px;
   padding-top: 0 !important; }
