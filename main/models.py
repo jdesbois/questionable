@@ -102,7 +102,7 @@ class Comment(models.Model):
 
 class Upvote(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    user = models.ForeignKey(Student, on_delete=models.CASCADE, default=None)
+    user = models.ForeignKey(Student, on_delete=models.CASCADE, default=None, null=True, blank=True)
 
     def __str__(self):
         return "Upvote: " + str(self.pk)

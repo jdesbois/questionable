@@ -8,6 +8,7 @@ from django.db import transaction
 from django.contrib.auth.models import User, Group
 from django.urls import reverse
 from django.views import View
+from django.http import HttpResponse
 
 # DISPLAY VIEWS
 
@@ -273,41 +274,34 @@ def create_question(request, course_name_slug, lecture_name_slug):
                                     'lecture_name_slug': lecture_name_slug}))
 
 
-class AddQuestion(View):
-    def get(self, request, course_name_slug, lecture_name_slug):
-        # find lecture object
+class UpvoteQuestionView(View):
+    # @method_decorator(login_required)
+    def get(self, request):
+        question_id = request.GET['question_id']
+
+        # get question
         try:
-            lecture = Lecture.objects.get(slug=lecture_name_slug)
-        except Lecture.DoesNoExist:
-            lecture = None
+            question = Question.objects.get(id=int(question_id))
+        except Question.DoesNotExist:
+            return HttpResponse(-1)
+        except ValueError:
+            return HttpResponse(-1)
 
-        form = QuestionForm()
+        # create an upvote
+        u = Upvote.objects.get_or_create(question=question)
 
-        # If user inputs comment
-        if request.method == 'POST':
-            print("after post")
-            form = QuestionForm(request.POST)
-            # If input is valid
-            if form.is_valid():
-                # Save the form
-                question = form.save(commit=False)
-                question.lecture = lecture
-                # question.user = request.user
-                question.save()
+        # if a new object is created
+        if(u[1] == True):
+            u[0].save()
+        # else, this upvote has already been cast
+        else:
+            print("Object already exists")
 
-                # return redirect('/main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/')
-                return redirect(reverse('main:lecture',
-                                        kwargs={'course_name_slug': course_name_slug,
-                                                'lecture_name_slug': lecture_name_slug}))
-            else:
-                print(form.errors)
+        # count upvotes for given question
+        count = Upvote.objects.filter(question=question).count()
 
-        # why did we previously have to pass form here? Works without it for current setup?
-        # return render(request, 'main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/', {'form': form})
-        return redirect(reverse('main:lecture',
-                                kwargs={'course_name_slug': course_name_slug,
-                                        'lecture_name_slug': lecture_name_slug}))
-
+        # return updated count
+        return HttpResponse(count)
 
 
 @login_required
