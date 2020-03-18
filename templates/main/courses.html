@@ -3,28 +3,14 @@
 {% extends 'main/base.html' %}
 {% load staticfiles %}
 
-<head>
-	<!-- Required meta tags -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="icon" href="{% static 'images/question.png' %}" type="image/png">      
-	<title>Questionable</title>
-	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
-	<link rel="stylesheet" href="{% static 'vendors/linericon/style.css' %}">
-	<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
-	<link rel="stylesheet" href="{% static 'vendors/lightbox/simpleLightbox.css' %}">
-	<link rel="stylesheet" href="{% static 'vendors/owl-carousel/owl.carousel.min.css' %}">
-	<link rel="stylesheet" href="{% static 'vendors/nice-select/css/nice-select.css' %}">
-	<link rel="stylesheet" href="{% static 'vendors/animate-css/animate.css' %}">
-	<!-- main css -->
-	<link rel="stylesheet" href="{% static '/css/style.css' %}">
-</head>
-
+    
+	{% block title_block %}
+	Questionable
+	{% endblock %}
 
 <body>
 
-<!-- <div>
+<div>
 {% block banner_block %}
     <section class="banner_area">
         <div class="banner_inner d-flex align-items-center">
@@ -42,7 +28,7 @@
         </div>
     </section>
 	{% endblock %}
-</div> -->
+</div>
 
     <!--================ Start Popular Courses Area =================-->
 	{% block body_block %}
@@ -60,9 +46,8 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="single_course">
                         <div class="course_head overlay">
-                              <img class="img-fluid w-100" src="{% static 'images/trainer1.png' %}" alt="">
+                              <img class="img-fluid w-100" src="{% static 'images/trainer1.jpg' %}" alt="">
                             <div class="authr_meta">
-                                <img src="{% static 'images/author1.png' %}" alt="">
                                 <span>Professor Jameson</span>
                             </div>
                         </div>
@@ -91,9 +76,8 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="single_course">
                         <div class="course_head overlay">
-                            <img class="img-fluid w-100" src="{% static 'images/trainer1.png' %}" alt="">
+                            <img class="img-fluid w-100" src="{% static 'images/trainer1.jpg' %}" alt="">
                             <div class="authr_meta">
-                                <img src="{% static 'images/author1.png' %}" alt="">
                                 <span>Dr K.Mackenzie</span>
                             </div>
                         </div>
@@ -122,9 +106,8 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="single_course">
                         <div class="course_head overlay">
-                           <img class="img-fluid w-100" src="{% static 'images/trainer1.png' %}" alt="">
+                           <img class="img-fluid w-100" src="{% static 'images/trainer1.jpg' %}" alt="">
                             <div class="authr_meta">
-                                <img src="{% static 'images/author1.png' %}" alt="">
                                 <span>Professor P.Andrews</span>
                             </div>
                         </div>
@@ -153,9 +136,8 @@
                 <div class="col-lg-3 col-md-6">
                     <div class="single_course">
                         <div class="course_head overlay">
-                            <img class="img-fluid w-100" src="{% static 'images/trainer1.png' %}" alt="">
+                            <img class="img-fluid w-100" src="{% static 'images/trainer1.jpg' %}" alt="">
                             <div class="authr_meta">
-                                <img src="{% static 'images/author1.png' %}" alt="">
                                 <span>Dr L.Matthews</span>
                             </div>
                         </div>
@@ -186,19 +168,6 @@
 	{% endblock %}
     <!--================ End Popular Courses Area =================-->
 
-	<!-- Optional JavaScript -->
-	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
-	<script src="{% static 'js/popper.js' %}"></script>
-	<script src="{% static 'js/bootstrap.min.js' %}"></script>
-	<script src="{% static 'js/stellar.js' %}"></script>
-	<script src="{% static 'js/countdown.js' %}"></script>
-	<script src="{% static 'vendors/nice-select/js/jquery.nice-select.min.js' %}"></script>
-	<script src="{% static 'vendors/owl-carousel/owl.carousel.min.js' %}"></script>
-	<script src="{% static 'js/owl-carousel-thumb.min.js' %}"></script>
-	<script src="{% static 'js/jquery.ajaxchimp.min.js' %}"></script>
-	<script src="{% static 'vendors/counter-up/jquery.counterup.js' %}"></script>
-	<script src="{% static 'js/mail-script.js' %}"></script>
 	
 </body>
 
