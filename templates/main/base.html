@@ -10,7 +10,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="icon" href="{% static 'images/question.png' %}" type="image/png">
 	<title>
-		Questionable
+		Questionable - 
 		{% block title_block%}
 		{% endblock %}
 	</title>
@@ -70,7 +70,6 @@
 				</div>
 			</div>
 		</nav>
-		</div>
 	</header>
 	<!--================ End Header Menu Area =================-->
 
@@ -78,12 +77,12 @@
 
 	<!--================ Start Body_Block Area  =================-->
 
-
-
+	<div class="container-fluid">
+		
 		{% block body_block%}
 
 		{% endblock %}
-
+	</div>	
 
 
 	<!--================ End Body_Block Area  =================-->
@@ -102,7 +101,6 @@
 					</form>
 				</div>
 			</div>
-		</div>
 		<div class="row footer-bottom d-flex justify-content-between">
 			<div class="col-lg-4 col-sm-12 footer-social">
 				<a href="#"><i class="fa fa-facebook"></i></a>
@@ -110,6 +108,7 @@
 				<a href="#"><i class="fa fa-dribbble"></i></a>
 				<a href="#"><i class="fa fa-behance"></i></a>
 			</div>
+		</div>
 		</div>
 
 	</footer>
