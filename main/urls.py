@@ -28,4 +28,5 @@ urlpatterns = [
     path('course/<slug:course_name_slug>/<slug:forum_name_slug>/create_post', views.create_post, name='create_post'),
     path('course/<slug:course_name_slug>/<slug:forum_name_slug>/post/create_comment',
          views.create_comment, name='create_reply'),
+    path('upvote/',views.UpvoteQuestionView.as_view(), name='like_category'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

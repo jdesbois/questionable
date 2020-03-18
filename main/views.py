@@ -7,6 +7,8 @@ from django.contrib import messages
 from django.db import transaction
 from django.contrib.auth.models import User, Group
 from django.urls import reverse
+from django.views import View
+from django.http import HttpResponse
 
 # DISPLAY VIEWS
 
@@ -74,14 +76,24 @@ def show_lecture(request, course_name_slug, lecture_name_slug):
         form = QuestionForm()
 
         reply_dict = {}
+        upvote_dict = {}
+        hasvoted_dict = {}
 
         for question in question_list:
             reply_dict[question.title] = Reply.objects.filter(question=question)
+            upvotes = Upvote.objects.filter(question=question)
+            upvote_dict[question.title] = upvotes.count()
+            if upvotes.exists():
+                hasvoted_dict[question.title] = True
+            else:
+                hasvoted_dict[question.title] = False
 
         context_dict['course'] = course
         context_dict['lecture'] = lecture
         context_dict['questions'] = question_list
         context_dict['reply_dict'] = reply_dict
+        context_dict['upvote_dict'] = upvote_dict
+        context_dict['hasvoted_dict'] = hasvoted_dict
         context_dict['form'] = form
 
     except Lecture.DoesNotExist:
@@ -298,6 +310,37 @@ def create_question(request, course_name_slug, lecture_name_slug):
                             kwargs={'course_name_slug': course_name_slug,
                                     'lecture_name_slug': lecture_name_slug}))
 
+
+class UpvoteQuestionView(View):
+    # @method_decorator(login_required)
+    def get(self, request):
+        question_id = request.GET['question_id']
+
+        # get question
+        try:
+            question = Question.objects.get(id=int(question_id))
+        except Question.DoesNotExist:
+            return HttpResponse(-1)
+        except ValueError:
+            return HttpResponse(-1)
+
+        # create an upvote
+        u = Upvote.objects.get_or_create(question=question)
+
+        # if a new object is created
+        if(u[1] == True):
+            u[0].save()
+        # else, this upvote has already been cast
+        else:
+            print("Object already exists")
+
+        # count upvotes for given question
+        count = Upvote.objects.filter(question=question).count()
+
+        # return updated count
+        return HttpResponse(count)
+
+
 @login_required
 def create_reply(request):
     form = ReplyForm()
@@ -340,6 +383,8 @@ def create_forum(request):
             print(form.errors)
 
     return render(request, 'main/course/<slug:course_name_slug>/', {'form': form})
+
+
 
 
 @login_required
