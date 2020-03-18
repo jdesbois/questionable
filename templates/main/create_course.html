@@ -6,9 +6,9 @@
            Questionable: Create Course
 {% endblock %}
 
-{% block body_block%}
+{% block body_block %}
     <div>
-        <form id="courseForm" method="POST" action="/create_course">
+        <form id="courseForm" method="POST" action="{% url 'main:create_course' %}">
             {% csrf_token %}
             {% for hidden in form.hidden_fields %}
                 {{ hidden }}
