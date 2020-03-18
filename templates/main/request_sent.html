@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+{% extends 'main/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+Sent
+{% endblock %}
+
+{% block body_block %}
+<div class="container">
+    <h3>Request to upgrade to lecturer has been sent!</h3> 
+    <a href="{% url 'main:index' %}">Return to index</a>
+</div>
+{% endblock %}

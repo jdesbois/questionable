@@ -398,7 +398,7 @@ def update_user(request):
 
 @login_required
 def set_role(request):
-    return render(request, 'main/index.html')
+    return render(request, 'main/request_sent.html')
 
 def check_user(current_user):
     try:
