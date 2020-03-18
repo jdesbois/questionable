@@ -2,24 +2,10 @@
 
 {% extends 'main/base.html' %}
 {% load staticfiles %}
-
-<head>
-	<!-- Required meta tags -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="icon" href="{% static 'images/question.png' %}" type="image/png">      
-	<title>Questionable</title>
-	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
-	<link rel="stylesheet" href="{% static 'vendors/linericon/style.css' %}">
-	<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
-	<link rel="stylesheet" href="{% static 'vendors/lightbox/simpleLightbox.css' %}">
-	<link rel="stylesheet" href="{% static 'vendors/owl-carousel/owl.carousel.min.css' %}">
-	<link rel="stylesheet" href="{% static 'vendors/nice-select/css/nice-select.css' %}">
-	<link rel="stylesheet" href="{% static 'vendors/animate-css/animate.css' %}">
-	<!-- main css -->
-	<link rel="stylesheet" href="{% static '/css/style.css' %}">
-</head>
+    
+	{% block title_block %}
+	Questionable
+	{% endblock %}
 
 <<<<<<< HEAD
 <body>
@@ -89,9 +75,8 @@
 =======
 >>>>>>> master
 
-<body>
+{% block body_block %}
 	<!--================ Start Feature Area =================-->
-	{% block body_block %}
 	<section class="feature_area">
 		<div class="container">
 			<div class="row justify-content-end">
@@ -101,51 +86,43 @@
 							<span class="lnr lnr-book"></span>
 						</div>
 						<div class="desc">
-							<h4>New Questions</h4>
-							<p>
-								Post 1 <br>
-								Post 2 <br>
-								Post 3 <br>
-								
-							</p>
+							<h4>New Questions</h4> 
+							<div>
+							{% if newquestions %}
+								<ul>
+								{% for question in newquestions %}
+								<li>{{question.title}}</li>
+								{% endfor %}
+									
+							{% else %}
+								<li> There are no questions </li>
+							{% endif %}
+							</ul>
+								</div>
+							</div>
 						</div>
-					</div>
 					<div class="single_feature d-flex flex-row pb-30">
 						<div class="icon">
 							<span class="fa fa-trophy"></span>
 						</div>
 						<div class="desc">
-							<h4>Top Questions</h4>      <!-- Need to put hyperlinks to questions here, ordered list in chrono AND  most upvoted-->
-							<p>
-								Post 1 <br>
-								Post 2 <br>
-								Post 3 <br>
-								
-							</p>
+							<h4>Top Questions</h4>      
+							<div>
+							{% if questions %}
+								<ul>
+								{% for question in questions %}
+									<li>{{question.title}}</li>
+									{% endfor %}
+									</ul>
+								{% else %}
+							<strong> There are no questions </strong>
+								{% endif %}
+							</div>
 						</div>
-					</div
+					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 	</section>
 	{% endblock %}
-	<!--================ End Feature Area =================-->
-	
-		<!-- Optional JavaScript -->
-	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
-	<script src="{% static 'js/popper.js' %}"></script>
-	<script src="{% static 'js/bootstrap.min.js' %}"></script>
-	<script src="{% static 'js/stellar.js' %}"></script>
-	<script src="{% static 'js/countdown.js' %}"></script>
-	<script src="{% static 'vendors/nice-select/js/jquery.nice-select.min.js' %}"></script>
-	<script src="{% static 'vendors/owl-carousel/owl.carousel.min.js' %}"></script>
-	<script src="{% static 'js/owl-carousel-thumb.min.js' %}"></script>
-	<script src="{% static 'js/jquery.ajaxchimp.min.js' %}"></script>
-	<script src="{% static 'vendors/counter-up/jquery.counterup.js' %}"></script>
-	<script src="{% static 'js/mail-script.js' %}"></script>
-
-
-</body>
-
-</html>
