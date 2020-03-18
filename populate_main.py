@@ -152,7 +152,7 @@ def populate():
     add_tutor(user2)
 
     for course, course_data in courses.items():
-        c = add_course(course)
+        c = add_course(course, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse laoreet consectetur odio ut fermentum. Mauris eleifend facilisis placerat. Praesent nec velit consequat, suscipit dui quis, maximus tellus. Donec volutpat consectetur ex a ultrices. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean ullamcorper tempus egestas. In auctor a risus consectetur cursus. Phasellus in sodales nibh. Duis finibus diam lectus, et pellentesque massa feugiat at. Donec molestie rutrum varius. In sollicitudin, massa id tristique rhoncus, odio risus consectetur quam, vel iaculis neque nisi non arcu. Suspendisse vulputate dolor nulla, vel tristique purus pretium ut. In hac habitasse.")
         for lecture, lecture_data in course_data['lectures'].items():
             l = add_lecture(c, lecture)
             for question in lecture_data['questions']:
@@ -203,8 +203,8 @@ def add_forum(course, name):
     return f
 
 
-def add_course(name):
-    c = Course.objects.get_or_create(name=name)[0]
+def add_course(name, bio):
+    c = Course.objects.get_or_create(name=name, bio=bio)[0]
     c.save()
     return c
 

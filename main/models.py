@@ -21,6 +21,7 @@ class Tutor(models.Model):
 
 class Course(models.Model):
     name = models.CharField(max_length=128, unique=True)
+    bio = models.CharField(max_length=1024, null=True, blank=True, default=None)
     user = models.ForeignKey(Tutor, on_delete=models.CASCADE, null=True, blank=True, default=None)
     slug = models.SlugField(unique=True, null=True)
 
