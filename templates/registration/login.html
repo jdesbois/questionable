@@ -1,23 +1,24 @@
 <!DOCTYPE html>
+{% extends 'main/base.html' %}
 {% load staticfiles %}
 
-<html>
-    <head>
-        <title>
-            Login
-        </title>
-    </head>
-    <body>
-        <h1>Login</h1> 
+{% block title_block %}
+           Questionable: Login
+{% endblock %}
+{% block body_block%}
+<div class="container">
+    <div class="col-sm align-items-center">
+        <h3>Login</h3> 
         <form method="post" action=".">
             {% csrf_token %}
 
             {{ form.as_p }}
 
-            <input type="submit" value="Log In">
+            <input class="btn btn-primary" type="submit" value="Log In">
             <input type="hidden" name="next" value="{{ next }}">
-        </form>   
-
-        <p>Not registered? <a href="{% url 'registration_register' %}"></a></p>
-    </body>
-</html>
+        </form> </br>  
+        <a href="{% url 'social:begin' 'twitter' %}"><button type="button" class="btn btn-primary">Login with Twitter</button></a>
+        <p>Not registered? <a href="{% url 'registration_register' %}">Register Here!</a></p>
+    </div>
+</div>
+{% endblock %}

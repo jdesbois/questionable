@@ -1,0 +1,164 @@
+<!doctype html>
+
+{% extends 'main/base.html' %}
+{% load staticfiles %}
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="icon" href="{% static 'images/question.png' %}" type="image/png">      
+	<title>Questionable</title>
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+	<link rel="stylesheet" href="{% static 'vendors/linericon/style.css' %}">
+	<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+	<link rel="stylesheet" href="{% static 'vendors/lightbox/simpleLightbox.css' %}">
+	<link rel="stylesheet" href="{% static 'vendors/owl-carousel/owl.carousel.min.css' %}">
+	<link rel="stylesheet" href="{% static 'vendors/nice-select/css/nice-select.css' %}">
+	<link rel="stylesheet" href="{% static 'vendors/animate-css/animate.css' %}">
+	<!-- main css -->
+	<link rel="stylesheet" href="{% static '/css/style.css' %}">
+</head>
+
+<body>
+
+
+    <!--================Home Banner Area =================-->
+    <section class="banner_area">
+        <div class="banner_inner d-flex align-items-center">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <div class="banner_content text-center">
+                            <h2>Advanced Programming</h2> 
+                           
+                            <div class="page_link">
+                                <a href="index.html">Home</a>
+                                <a href="courses.html">Courses</a>
+                                <a href="course-details.html">Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================End Home Banner Area =================-->
+
+    <!--================ Start Course Details Area =================-->
+	{% block body_block %}
+    <section class="course_details_area section_gap">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 course_details_left">
+                    <div class="main_image">
+                        <img class="img-fluid" src="{% static 'images/course-details.jpg' %}" alt="">
+                    </div>
+                    <div class="content_wrapper">
+                        <h4 class="title">Outline</h4>
+                        <div class="content">
+                          The course is intended to extend the student's knowledge to encompass a number of important programming techniques necessary for building a modern computing application. The course content will include techniques in Java to deal with a range of issues drawn from the following: program design using an object oriented programming model; modelling data using programming language type systems; event and exception programming; providing a graphical user interface; thread programming; persistence; and distributed programming. It will also cover in brief the underlying Java run time system and techniques found in other languages.
+                        </div>
+                        <h4 class="title">Top Questions</h4>
+                        <div class="content">
+                            <ul class="course_list">
+                                <li class="justify-content-between d-flex">
+                                    <p>How does recursion work?</p>
+                                    <a class="primary-btn text-uppercase" href="#">View Question</a>
+                                </li>
+                                <li class="justify-content-between d-flex">
+                                    <p>What's the difference between an abstract class and a normal class?</p>
+                                    <a class="primary-btn text-uppercase" href="#">View Question</a>
+                                </li>
+                                <li class="justify-content-between d-flex">
+                                    <p>Why use generics?</p>
+                                    <a class="primary-btn text-uppercase" href="#">View Question</a>
+                                </li>
+                                <li class="justify-content-between d-flex">
+                                    <p>When should I use an interface?</p>
+                                    <a class="primary-btn text-uppercase" href="#">View Question</a>
+                                </li>
+                                <li class="justify-content-between d-flex">
+                                    <p>What is multithreading?</p>
+                                    <a class="primary-btn text-uppercase" href="#">View Question</a>
+                                </li>
+                                <li class="justify-content-between d-flex">
+                                    <p>How do I cast a variable?</p>
+                                    <a class="primary-btn text-uppercase" href="#">View Question</a>
+                                </li>
+                                <li class="justify-content-between d-flex">
+                                    <p>What is an iterator and how do I use them?</p>
+                                    <a class="primary-btn text-uppercase" href="#">View Question</a>
+                                </li>
+                                <li class="justify-content-between d-flex">
+                                    <p>When should I used a pattern?</p>
+                                    <a class="primary-btn text-uppercase" href="#">View Question</a>
+                                </li>
+                                <li class="justify-content-between d-flex">
+                                    <p>What's a ditributed system?</p>
+                                    <a class="primary-btn text-uppercase" href="#">View Question</a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-4 right-contents">
+                    <ul>
+                        <li>
+                            <a class="justify-content-between d-flex" href="#">
+                                <p>Lecturer’s Name</p>
+                                <span class="or"> Prof. Duncan Jameson</span>
+								<a class="justify-content-between d-flex" href="#">
+								<p>Office Hours</p>
+                                <span class="or"> Tuesday 2-4 pm</span>
+								<a class="justify-content-between d-flex" href="#">
+								<p>Office</p>
+                                <span class="or">204, Lilybank Gardens</span>
+								<a class="justify-content-between d-flex" href="#">
+								<p>Email</p>
+                                <span class="or">d.jameson@staff.gla.ac.uk</span>
+								
+                            </a>
+							</a>
+                     
+                        <div class="feedeback">
+                            <h6>Submit a Question</h6>
+                            <textarea name="feedback" class="form-control" cols="10" rows="10"></textarea>
+                            <div class="mt-10 text-right">
+                                <a href="#" class="primary-btn text-right text-uppercase">Submit</a>
+                            </div>
+                        </div>
+                        
+                    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+	{% endblock %}
+    <!--================ End Course Details Area =================-->
+		<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+	<script src="{% static 'js/popper.js' %}"></script>
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'js/stellar.js' %}"></script>
+	<script src="{% static 'js/countdown.js' %}"></script>
+	<script src="{% static 'vendors/nice-select/js/jquery.nice-select.min.js' %}"></script>
+	<script src="{% static 'vendors/owl-carousel/owl.carousel.min.js' %}"></script>
+	<script src="{% static 'js/owl-carousel-thumb.min.js' %}"></script>
+	<script src="{% static 'js/jquery.ajaxchimp.min.js' %}"></script>
+	<script src="{% static 'vendors/counter-up/jquery.counterup.js' %}"></script>
+	<script src="{% static 'js/mail-script.js' %}"></script>
+
+
+</body>
+
+</html>

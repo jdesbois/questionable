@@ -22,5 +22,5 @@ urlpatterns = [
     path('main/', include('main.urls')),
     path('admin/', admin.site.urls),
     path('accounts/', include('registration.backends.simple.urls')),
-    path('accounts/profile', views.profile, name='profile'),
+    path('oauth/', include('social_django.urls', namespace='socail')),
 ]

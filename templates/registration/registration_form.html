@@ -1,21 +1,23 @@
 <!DOCTYPE html>
+{% extends 'main/base.html' %}
 {% load staticfiles %}
 
-<html>
-    <head>
-        <title>
-            Register
-        </title>
-    </head>
-    <body>
-        <h1>Register</h1> 
-        <form method="post" action=".">
-            {% csrf_token %}
+{% block title_block %}
+           Questionable: Register
+{% endblock %}
+{% block body_block%}
+<div class="container">
+<br />
+    <h1>Register</h1>
+    <form method="post" action=".">
+        {% csrf_token %}
 
-            {{ form.as_p }}
+        {{ form.as_p }}
 
-            <input type="submit" value="Register">
+        <input type="submit" value="Register">
 
-        </form>   
-    </body>
-</html>
+    </form>
+    <a href="{% url 'main:index' %}">Return to index</a>
+    <br />
+</div>
+{% endblock %}
