@@ -10,9 +10,11 @@ from django.urls import reverse
 
 # DISPLAY VIEWS
 
+
 @login_required
 def home(request):
     return render(request, 'core/home.html')
+
 
 def index(request):
 
