@@ -6,6 +6,7 @@
            Questionable: Update User
 {% endblock %}
 {% block body_block%}
+<div class="container">
     <h1>{{ user.username }}'s Profile</h1>
     <form method="post" action="{% url 'main:update_user' %}" enctype="multipart/form-data">
         {% csrf_token   %}
@@ -22,6 +23,8 @@
         <input type="submit" value="Update">
 
     </form>
-    <a href="{% url 'main:index' %}">Return to index</a>
-    <a href="{% url 'main:profile' %}">Return to profile</a>
+    <br />
+    <a href="{% url 'main:index' %}"><button>Return to index</button></a>
+    <a href="{% url 'main:profile' %}"><button>Return to profile</button> </a>
+</div>
 {% endblock %}
