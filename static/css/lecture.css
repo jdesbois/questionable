@@ -1,0 +1,16 @@
+/* For hiding elements*/
+.hidden{ display:none;}
+
+/* Color for lecturer replies */
+.lightgray{background-color: gainsboro;}
+
+/* force white text */
+.lecturetitle{
+    color: white;
+    font-size: 32pt;
+}
+
+.questiontitle{
+    color: white;
+    font-size: 20pt;
+}

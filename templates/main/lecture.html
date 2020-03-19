@@ -1,46 +1,120 @@
 <!DOCTYPE html>
+
+{% extends 'main/base.html' %}
+{% load staticfiles %}
+
 <html>
 <head>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/lecture.css' %}">
 </head>
 <body>
 
+{% block title_block %}
+Profile
+{% endblock %}
 
-
+{% block body_block %}
 <div class="container">
-  <div class="row bg-secondary text-white rounded">
-     <div class="pl-5 pt-3">
-     	<h2>How do I write to a File in Java?</h2><br/>
-		<p>I have been trying to write to file to AE but keep getting errors.</p></div>
-	
-  </div>
-  <div class="row bg-light text-dark rounded pl-5 pt-3 pb-3">
-  	<strong>Answer:</strong><br/>
-  	If you already have the content you want to write to the file (and not generated on the fly), the java.nio.file.Files addition in Java 7 as part of native I/O provides the simplest and most efficient way to achieve your goals.<br/><br/>
-
-	Basically creating and writing to a file is one line only, moreover one simple method call!<br/>
-  </div>
-  <div class="row bg-white text-white rounded pl-5 pt-2 pb-2">
-
-  </div>
-  <div class="row bg-secondary text-white rounded pl-5 pt-2 pb-2">
-		<h5>Submit a question:</h5>
-  </div>
-  <div class="row bg-light text-dark rounded pl-5">
-  	<div class="form-group">
-	  	<input type="text" class="form-control mt-2 mb-2" placeholder="Enter question">
-	    <textarea class="form-control mt-2 mb-2" placeholder="Description" rows="3"></textarea>
-	    <button type="button" class="btn btn-dark">Submit</button>
+    <div class="row bg-secondary text-white rounded">
+         <div class="pl-5 pt-3">
+            <div class="lecturetitle">{{ course.name }} - {{ lecture.name }}</div><br/>
+         </div>
     </div>
-  </div>
-    <div>
-        <p>Test space</p>
-        <p>Lecutre.name: {{ lecture.name }}</p>
+    <div class="row bg-white text-white rounded pl-5 pt-2 pb-2">
+
     </div>
+<!--    loop through questions-->
+    {% for question in questions %}
+<!--        loop though questions: reply key: value pairs-->
+        {% for q, replies in reply_dict.items %}
+
+<!--            only select replies for current question-->
+            {% if q == question.title %}
+
+<!--            Add question title-->
+            <div class="row bg-secondary text-white rounded">
+                 <div class="pl-5 pt-3" id="{{ question.id }}">
+                    <div class="questiontitle">{{ question.title }} </div>
+                    <p>{{ question.question }}</p>
+
+<!--                     upvote button and votes-->
+                    {% for title, hasvoted in hasvoted_dict.items %}
+                        {% if title == question.title %}
+                            <button type="button"
+                                    class="btn btn-primary mb-2 upvote"
+                                    id="upvote-{{ question.id }}"
+                                    data-questionid="{{ question.id }}"
+                                    {% if hasvoted %} disabled {% endif %}>
+                                Upvote
+                            </button>
+                        {% endif %}
+                     {% endfor %}
+
+                     &nbsp &nbsp Votes: &nbsp
+                     {% for title, count in upvote_dict.items %}
+                        {% if title == question.title %}
+                            <div class="upvotes" id="count-{{ question.id }}">{{ count }}</div><br/>
+                        {% endif %}
+                     {% endfor %}
+                 </div>
+            </div>
+
+            <div class="row bg-white text-white rounded pl-5 pt-2 pb-2">
+
+            </div>
+
+<!--            Loop over and add replies-->
+            {% for reply in replies %}
+            <div class="row lightgray text-dark rounded pl-5 pt-3 pb-3 pr-5 showreplies"
+                 id="showreplies-{{ question.id }}"
+                     data-questionid="{{ question.id }}">
+<!--                <div class="pb-2 pt-2 showreplies"-->
+<!--                     id="showreplies-{{ question.id }}"-->
+<!--                     data-questionid="{{ question.id }}">-->
+                    <h5> Answer:</h5>
+                <div class="hidden replies-{{ question.id }}">{{ reply.reply }}</div><br/>
+            </div>
+             <div class="row bg-white text-white rounded pl-5 pt-2 pb-2">
+
+             </div>
+              {% endfor %}
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+
+<!--    Submit question form-->
+    <div class="row bg-secondary text-white rounded pl-5 pt-2 pb-2">
+        <div class="questiontitle">Submit a question:</div>
+    </div>
+
+    <div class="row lightgray text-dark rounded pl-5 pt-3 pb-3 pr-5">
+    <form id="question_form" method="post" action="/main/course/{{ course.slug }}/{{ lecture.slug }}/create_question/">
+        {% csrf_token %}
+        {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+        {% for field in form.visible_fields %}
+            {{ field.errors }}
+            {{ field.help_text }}
+            {{ field }}
+        {% endfor %}
+        <input type="submit" name="submit" value="Submit Question" />
+    </form>
+    </div>
+
+    <div class="row bg-white text-white rounded pl-5 pt-5 pb-5">
+
+    </div>
+
+
 </div>
+{% endblock %}
 
-
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="{% static 'js/jquery-3.3.1.min.js' %}" crossorigin="anonymous"></script>
+<script src="{% static 'js/upvote-ajax.js' %}" crossorigin="anonymous"></script>
+<script src="{% static 'js/lecture-jquery.js' %}" crossorigin="anonymous"></script>
+<!--<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>-->
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>

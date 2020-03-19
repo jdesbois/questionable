@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+{% extends 'main/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+           Questionable: Create Course
+{% endblock %}
+
+{% block body_block %}
+    <div class="container">
+    <br />
+        <h1>Create Course</h1>
+        <form method="POST" action="{% url 'main:create_course' %}">
+            {% csrf_token %}
+            <table>
+            {{ form.as_table }}
+            </table>
+            <input type="submit" name="submit" value="Create Course" />
+        </form>
+        <a href="{% url 'main:courses' %}">Return to courses</a>
+    <br />
+    </div>
+{% endblock %}
