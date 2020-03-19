@@ -16,13 +16,16 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-6">
                         <div class="banner_content text-center">
-                            <h2>Advanced Programming</h2> 
-                           
-                            <div class="page_link">
-                                <a href="index.html">Home</a>
-                                <a href="courses.html">Courses</a>
-                                <a href="course-details.html">Details</a>
-                            </div>
+							{% if course %}
+							<ul>
+								{% for course in courses %}
+						  <h4> {{course.name}} </h4>
+							{% endfor %}
+							</ul>
+							{else}
+							<strong> No course to display </strong>
+							{% endif %}
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -30,6 +33,7 @@
         </div>
     </section>
 {% endblock %}
+
 </div>
 
 
@@ -44,12 +48,30 @@
                     <div class="content_wrapper">
                         <h4 class="title">Outline</h4>
                         <div class="content">
-                          The course is intended to extend the student's knowledge to encompass a number of important programming techniques necessary for building a modern computing application. The course content will include techniques in Java to deal with a range of issues drawn from the following: program design using an object oriented programming model; modelling data using programming language type systems; event and exception programming; providing a graphical user interface; thread programming; persistence; and distributed programming. It will also cover in brief the underlying Java run time system and techniques found in other languages.
+                             <!--================ Course description to go here =================-->
                         </div>
-                        <h4 class="title">Top Questions</h4>
+                        <h4 class="title">Lectures</h4>
                         <div class="content">
                             <ul class="course_list">
-                              
+                                 <li class="justify-content-between d-flex">
+                                   <div>
+								   {% if course %}
+										<p>{{course.name}}<p>
+										{% if lectures %}
+										<ul>
+											{% for lecture in lectures %}
+												<a href="{{ lecture.url }}"></a>
+												{% endfor %}
+											</ul>
+											{% else %}
+											<strong> No lectures to display </strong>
+											{% endif %}
+										{% else %}
+											The specified course does not exist
+										{% endif %}
+									</div>
+                                    <a class="primary-btn text-uppercase" href="#">View Questions</a>
+                                </li>
 
                 <div class="col-lg-4 right-contents">
                     <ul>
