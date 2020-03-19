@@ -52,23 +52,13 @@
                             </div>
                         </div>
                         <div class="course_content">
-                            <h4>
-                                <a href="course-details.html">Advanced Programming</a>
-                            </h4>
-                            
-                            <div class="course_meta d-flex justify-content-between">
-                                <div>
-                                    <span class="meta_info">
-                                        <a href="#"><i class="lnr lnr-user"></i>355</a>
-                                    </span>
-                                    <span class="meta_info">
-                                        <a href="#">
-                                            <i class="lnr lnr-bubble"></i>35
-                                        </a>
-                                    </span>
-                                </div>
-                             
-                            </div>
+						<div>
+						{% if course %}
+					
+                            <h4> {{course.name}} </h4>
+							
+							<li><a href="{{ course_details.url }}">{{course.name}}</a></li>
+							{% endfor %}
                         </div>
                     </div>
                 </div>
