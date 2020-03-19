@@ -1,9 +1,7 @@
 $(document).ready(function(){
 
      $(".showreplies").hover(function(){
-        //$(this).css("background-color", "darkgray")
         this.style.setProperty('background-color', 'darkgray', 'important');
-        console.log("Test");
      }, function(){
         this.style.setProperty('background-color', 'gainsboro', 'important');
      });
