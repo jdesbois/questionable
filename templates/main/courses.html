@@ -30,7 +30,7 @@
 	{% endblock %}
 </div>
 
-    <!--================ Start Popular Courses Area =================-->
+
 	{% block body_block %}
     <div class="popular_courses lite_bg">
         <div class="container">
@@ -54,11 +54,19 @@
                         <div class="course_content">
 						<div>
 						{% if course %}
-					
                             <h4> {{course.name}} </h4>
-							
+							{% if courses %}
+							<ul>
+								{% for course in courses %}
 							<li><a href="{{ course_details.url }}">{{course.name}}</a></li>
 							{% endfor %}
+							</ul>
+							{else}
+							<strong> No course to display </strong>
+							{% endif %}
+						{% else %}	
+					The specified course does not exist
+						{% endif %}
                         </div>
                     </div>
                 </div>
@@ -156,9 +164,4 @@
         </div>
     </div>
 	{% endblock %}
-    <!--================ End Popular Courses Area =================-->
-
-	
-</body>
-
-</html>
+    

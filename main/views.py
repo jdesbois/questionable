@@ -23,11 +23,11 @@ def index(request):
     return render(request, 'main/index.html', context=context_dict)
 
 
-def show_courses(request, course_name_slug):
+def show_courses(request):
     context_dict = {}
     
     try:
-        courses = Course.objects.get(slug=course_name_slug)
+        courses = Course.objects.get(name = 'course')
         context_dict['courses'] = courses
         
     except Course.DoesNotExist:
