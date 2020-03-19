@@ -1,3 +1,4 @@
+from django.forms import Textarea
 from django import forms
 from main.models import Course, Lecture, Question, Reply, Comment, Profile, Post, Forum
 from django.contrib.auth.models import User
@@ -5,19 +6,19 @@ from django.contrib.auth.models import User
 
 # Creates a from for a course tuple to add to database
 class CourseForm(forms.ModelForm):
-    name = forms.CharField(max_length=128,
-                           help_text="Please enter the course name")
+    name = forms.CharField(max_length=128)
+    bio = forms.CharField(widget=Textarea(attrs={'rows': 10, 'cols': 60}),
+                          max_length=1024)
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     class Meta:
         model = Course
-        fields = ('name',)
+        fields = ('name', 'bio',)
 
 
 # Creates a form for a Lecture tuple to add to database
 class LectureForm(forms.ModelForm):
-    name = forms.CharField(max_length=128,
-                           help_text="Please enter lecture name")
+    name = forms.CharField(max_length=128)
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     class Meta:

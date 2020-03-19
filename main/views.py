@@ -6,9 +6,17 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.db import transaction
 from django.contrib.auth.models import User, Group
+from django.urls import reverse
+from django.views import View
+from django.http import HttpResponse
 
 
 # DISPLAY VIEWS
+
+
+@login_required
+def home(request):
+    return render(request, 'core/home.html')
 
 
 def index(request):
@@ -52,7 +60,7 @@ def show_course(request, course_name_slug):
         context_dict['course'] = None
         context_dict['lectures'] = None
         context_dict['forums'] = None
-    return render(request, 'main/course.html', context=context_dict)
+    return render(request, 'main/course_details.html', context=context_dict)
 
 
 # @login_required
@@ -69,22 +77,36 @@ def show_lecture(request, course_name_slug, lecture_name_slug):
     context_dict = {}
 
     try:
+        course = Course.objects.get(slug=course_name_slug)
         lecture = Lecture.objects.get(slug=lecture_name_slug)
         question_list = Question.objects.filter(lecture=lecture)
+        form = QuestionForm()
 
-        reply_list = {}
+        reply_dict = {}
+        upvote_dict = {}
+        hasvoted_dict = {}
 
         for question in question_list:
-            reply_list[question] = Reply.objects.filter(question=question)
+            reply_dict[question.title] = Reply.objects.filter(question=question)
+            upvotes = Upvote.objects.filter(question=question)
+            upvote_dict[question.title] = upvotes.count()
+            if upvotes.exists():
+                hasvoted_dict[question.title] = True
+            else:
+                hasvoted_dict[question.title] = False
 
+        context_dict['course'] = course
         context_dict['lecture'] = lecture
         context_dict['questions'] = question_list
-        context_dict['replies'] = reply_list
+        context_dict['reply_dict'] = reply_dict
+        context_dict['upvote_dict'] = upvote_dict
+        context_dict['hasvoted_dict'] = hasvoted_dict
+        context_dict['form'] = form
 
     except Lecture.DoesNotExist:
         context_dict['lecture'] = None
         context_dict['questions'] = None
-        context_dict['replies'] = None
+        context_dict['reply_dict'] = None
 
     return render(request, 'main/lecture.html', context=context_dict)
 
@@ -174,21 +196,25 @@ def contact_page(request):
 @login_required(login_url='/accounts/login/')
 def profile(request):
     current_user = request.user
-    check_user(current_user)
-    # context_dict = {}
+    context_dict = {}
+    role = None
+    questions = Question.objects.all()[:3]
+    posts = Post.objects.all()[:3]
+    replies = Reply.objects.all()[:3]
+    context_dict['questions'] = questions
+    context_dict['posts'] = posts
+    context_dict['replies'] = replies
+    
+    if check_user(current_user) == 1:
+        role = "Student"
+    elif check_user(current_user) == 2:
+        role ="Lecturer"
+    else:
+        role = None
+        
+    context_dict['role'] = role
 
-    # try:
-    #     student = Student.objects.get(user=current_user)
-    #     questions = Question.objects.filter(user=student)
-    #     posts = Post.objects.filter(user=student)
-    #     context_dict['questions'] = questions
-    #     context_dict['student'] = True
-    #     context_dict['posts'] = posts
-
-    # except:
-    #     context_dict = {}
-
-    return render(request, 'main/profile.html')
+    return render(request, 'main/profile.html', context=context_dict)
 
 
 # CREATION VIEWS
@@ -211,11 +237,20 @@ def create_course(request):
 
             print(form.errors)
 
-    return render(request, 'main/courses/', {'form': form})
+    return render(request, 'main/create_course.html', {'form': form})
 
 
 @login_required
-def create_lecture(request):
+def create_lecture(request, course_name_slug):
+
+    try:
+        course = Course.objects.get(slug=course_name_slug)
+    except Course.DoesNotExist:
+        course = None
+
+    if course is None:
+        return redirect('/main/course/<slug:course_name_slug>/')
+
     form = LectureForm()
 
     # If user inputs comment
@@ -224,39 +259,94 @@ def create_lecture(request):
         # If input is valid
         if form.is_valid():
             # Save the form
-            lecture = form.save(commit=True)
-            lecture.course = request.course
+            lecture = form.save(commit=False)
+            lecture.course = course
+            lecture.save()
 
-            return redirect('/main/course/<slug:course_name_slug>/')
+            return redirect(reverse('main:course',
+                                    kwargs={'course_name_slug': course_name_slug}))
 
         else:
 
             print(form.errors)
 
-    return render(request, 'main/course/<slug:course_name_slug>/create_lecture.html', {'form': form})
+    context_dict = {'form': form, 'course': course}
+    return render(request, 'main/create_lecture.html', context_dict)
 
 
 @login_required
-def create_question(request):
+def create_question(request, course_name_slug, lecture_name_slug):
+
+    # find lecture object
+    try:
+        lecture = Lecture.objects.get(slug=lecture_name_slug)
+    except Lecture.DoesNoExist:
+        lecture = None
+
+    try:
+        course = Course.objects.get(slug=course_name_slug)
+    except Course.DoesNotExist:
+        course = None
+
+    if course is None or lecture is None:
+        return redirect('/main/course/<slug:course_name_slug>/<slug:lecture_name_slug/')
+
     form = QuestionForm()
 
     # If user inputs comment
     if request.method == 'POST':
+        print("after post")
         form = QuestionForm(request.POST)
         # If input is valid
         if form.is_valid():
             # Save the form
-            question = form.save(commit=True)
-            question.lecture = request.lecture
-            question.user = request.user
+            question = form.save(commit=False)
+            question.lecture = lecture
+            # question.user = request.user
+            question.save()
 
-            return redirect('/main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/')
-
+            # return redirect('/main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/')
+            return redirect(reverse('main:lecture',
+                                    kwargs={'course_name_slug': course_name_slug,
+                                            'lecture_name_slug': lecture_name_slug}))
         else:
-
             print(form.errors)
 
-    return render(request, 'main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/', {'form': form})
+    # why did we previously have to pass form here? Works without it for current setup?
+    # return render(request, 'main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/', {'form': form})
+    return redirect(reverse('main:lecture',
+                            kwargs={'course_name_slug': course_name_slug,
+                                    'lecture_name_slug': lecture_name_slug}))
+
+
+class UpvoteQuestionView(View):
+    # @method_decorator(login_required)
+    def get(self, request):
+        question_id = request.GET['question_id']
+
+        # get question
+        try:
+            question = Question.objects.get(id=int(question_id))
+        except Question.DoesNotExist:
+            return HttpResponse(-1)
+        except ValueError:
+            return HttpResponse(-1)
+
+        # create an upvote
+        u = Upvote.objects.get_or_create(question=question)
+
+        # if a new object is created
+        if(u[1] == True):
+            u[0].save()
+        # else, this upvote has already been cast
+        else:
+            print("Object already exists")
+
+        # count upvotes for given question
+        count = Upvote.objects.filter(question=question).count()
+
+        # return updated count
+        return HttpResponse(count)
 
 
 @login_required
@@ -301,6 +391,8 @@ def create_forum(request):
             print(form.errors)
 
     return render(request, 'main/course/<slug:course_name_slug>/', {'form': form})
+
+
 
 
 @login_required
@@ -395,6 +487,17 @@ def update_user(request):
         'profile_form': profile_form
     })
 
+@login_required
+def set_role(request):
+    return render(request, 'main/request_sent.html')
+
+def delete_user(request):
+
+    current_user = request.user
+    current_user.delete()
+
+
+    return render(request, 'main/delete_user.html')
 
 def check_user(current_user):
     try:

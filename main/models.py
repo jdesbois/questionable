@@ -21,6 +21,7 @@ class Tutor(models.Model):
 
 class Course(models.Model):
     name = models.CharField(max_length=128, unique=True)
+    bio = models.CharField(max_length=1024, null=True, blank=True, default=None)
     user = models.ForeignKey(Tutor, on_delete=models.CASCADE, null=True, blank=True, default=None)
     slug = models.SlugField(unique=True, null=True)
 
@@ -59,7 +60,7 @@ class Question(models.Model):
 class Reply(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     reply = models.CharField(max_length=512)
-    user = models.ForeignKey(Tutor, on_delete=models.CASCADE, default=None)
+    user = models.ForeignKey(Tutor, on_delete=models.CASCADE, default=None, null=True)
 
     def __str__(self):
         # identify by primary key
@@ -102,7 +103,7 @@ class Comment(models.Model):
 
 class Upvote(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    user = models.ForeignKey(Student, on_delete=models.CASCADE, default=None)
+    user = models.ForeignKey(Student, on_delete=models.CASCADE, default=None, null=True, blank=True)
 
     def __str__(self):
         return "Upvote: " + str(self.pk)
@@ -117,8 +118,8 @@ class Enrollment(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    bio = models.TextField(max_length=512)
-    picture = models.ImageField(upload_to='images/', default="images/29511773_1650373861750562_982140361914727316_n.jpg")
+    bio = models.TextField(max_length=512, default="Tell us a little about yourself....")
+    picture = models.ImageField(upload_to='images/', default="images/default.jpg")
 
     def __str__(self):
         return self.user.username
