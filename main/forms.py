@@ -7,6 +7,8 @@ from django.contrib.auth.models import User
 class CourseForm(forms.ModelForm):
     name = forms.CharField(max_length=128,
                            help_text="Please enter the course name")
+    bio = forms.CharField(max_length=1024,
+                          help_text="Please enter course bio")
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     class Meta:
