@@ -10,6 +10,7 @@ from django.urls import reverse
 from django.views import View
 from django.http import HttpResponse
 
+
 # DISPLAY VIEWS
 
 
@@ -19,22 +20,28 @@ def home(request):
 
 
 def index(request):
-
     question_list = Question.objects.order_by('-upvote')[:3]
     question_new = Question.objects.order_by('upvote')[:3]
-    
+
     context_dict = {}
     context_dict = {'message': 'Message sent from the view'}
     context_dict['questions'] = question_list
     context_dict['newquestions'] = question_new
-    
+
     return render(request, 'main/index.html', context=context_dict)
 
 
 def show_courses(request):
     context_dict = {}
-    courses = Course.objects.all()
-    context_dict['courses'] = courses
+    course = {}
+
+    try:
+        courses = Course.objects.all()
+        context_dict['courses'] = courses
+
+    except Course.DoesNotExist:
+        context_dict['courses'] = None
+
     return render(request, 'main/courses.html', context=context_dict)
 
 
@@ -120,7 +127,8 @@ def show_question(request):
         context_dict['replies'] = None
         context_dict['upvotes'] = None
 
-    return render(request, 'main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/question.html', context=context_dict)
+    return render(request, 'main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/question.html',
+                  context=context_dict)
 
 
 # def show_reply(request):
@@ -187,7 +195,6 @@ def contact_page(request):
 # View to generate profile page for logged in user (requires login)
 @login_required(login_url='/accounts/login/')
 def profile(request):
-
     current_user = request.user
     context_dict = {}
     role = None
@@ -204,7 +211,7 @@ def profile(request):
         role ="Lecturer"
     else:
         role = None
-
+        
     context_dict['role'] = role
 
     return render(request, 'main/profile.html', context=context_dict)
@@ -436,7 +443,6 @@ def create_comment(request):
 
 @login_required
 def create_upvote(request):
-
     upvote = None
 
     # If user upvotes question
@@ -450,7 +456,6 @@ def create_upvote(request):
 
 @login_required
 def enroll_user(request):
-
     enroll = None
 
     # If user enrolls in course
@@ -507,6 +512,3 @@ def check_user(current_user):
         except:
             print(-1)
             return -1
-
-    
-    
