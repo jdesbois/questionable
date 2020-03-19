@@ -31,10 +31,11 @@ class LectureForm(forms.ModelForm):
 class QuestionForm(forms.ModelForm):
     title = forms.CharField(max_length=128)
     question = forms.CharField(max_length=512)
+    slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     class Meta:
         model = Question
-        exclude = ('lecture', 'slug')
+        exclude = ('lecture',)
 
 
 # Creates a form for a Lecture tuple to add to database

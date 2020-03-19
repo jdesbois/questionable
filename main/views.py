@@ -357,7 +357,7 @@ def create_reply(request, course_name_slug, lecture_name_slug, question_name_slu
         course = None
 
     try:
-        question = Course.objects.get(slug=question_name_slug)
+        question = Question.objects.get(slug=question_name_slug)
     except Question.DoesNotExist:
         question = None
 
@@ -375,6 +375,7 @@ def create_reply(request, course_name_slug, lecture_name_slug, question_name_slu
             reply = form.save(commit=False)
             # reply.user = request.user
             reply.question = question
+            reply.save()
             return redirect(reverse('main:lecture',
                                     kwargs={'course_name_slug': course_name_slug,
                                             'lecture_name_slug': lecture_name_slug}))
