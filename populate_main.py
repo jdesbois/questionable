@@ -65,8 +65,13 @@ def populate():
                          'ER Diagrams': {'questions': ERDiagram_questions},
                          'SQL': {'questions': SQL_questions}}
 
-
-
+    ####################
+    # Bios
+    ####################
+    
+    database_bio = {'Databases': {'bio': 'The aim of this course is to introduce students to the concepts of information management by way of databases, including relational databases, relational algebra, functional dependency theories, and other data management and analytics solutions. The course will provide students with the opportunity to develop skills which will assist them to manage information in the current digital age.'}}
+    
+    programming_bio = {'Programming': {'bio':'To provide a thorough introduction to problem solving and Java programming, giving a basis for study in topics such as algorithms and data structures, object-oriented design, and human computer interaction. To develop skills, required for implementing solutions to well-specified programming problems, which could then be transferred to other programming languages.'}}
 
     ####################
     # Posts (Forum)
@@ -91,7 +96,7 @@ def populate():
     # Forums
     ################
 
-    programming_forum = {'Porgramming Forum': {'posts': programming_forum_posts}}
+    programming_forum = {'Programming Forum': {'posts': programming_forum_posts}}
 
     database_forum = {'Database Forum': {'posts': database_forum_posts}}
 
@@ -99,8 +104,8 @@ def populate():
     # Courses
     ##############
 
-    courses = {'Programming': {'lectures': programming_lectures, 'forum': programming_forum},
-               'Databases': {'lectures': database_lectures, 'forum': database_forum}}
+    courses = {'Programming': {'lectures': programming_lectures, 'forum': programming_forum, 'bio': programming_bio},
+               'Databases': {'lectures': database_lectures, 'forum': database_forum, 'bio': database_bio}}
 
     ##############
     # Groups
@@ -217,7 +222,6 @@ def add_tutor(user):
     t = Tutor.objects.get_or_create(user=user)[0]
     t.save()
     return t
-
 
 if __name__ == '__main__':
     print('Starting population script...')
