@@ -35,44 +35,38 @@
 {% endblock %}
 
 </div>
-
-
 	{% block body_block %}
     <section class="course_details_area section_gap">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 course_details_left">
+                    <h2 class="title">{{ course.name }}</h2>
                     <div class="main_image">
                         <img class="img-fluid" src="{% static 'images/course-details.jpg' %}" alt="">
                     </div>
                     <div class="content_wrapper">
                         <h4 class="title">Outline</h4>
+                        <p>{{ course.bio }}</p>
                         <div class="content">
                              <!--================ Course description to go here =================-->
                         </div>
                         <h4 class="title">Lectures</h4>
                         <div class="content">
                             <ul class="course_list">
-                                 <li class="justify-content-between d-flex">
-                                   <div>
-								   {% if course %}
-										<p>{{course.name}}<p>
-										{% if lectures %}
-										<ul>
-											{% for lecture in lectures %}
-												<a href="{{ lecture.url }}"></a>
-												{% endfor %}
-											</ul>
-											{% else %}
-											<strong> No lectures to display </strong>
-											{% endif %}
-										{% else %}
-											The specified course does not exist
-										{% endif %}
-									</div>
-                                    <a class="primary-btn text-uppercase" href="#">View Questions</a>
+                                {% if lectures %}
+                                    {% for lecture in lectures %}
+                                    <li class="justify-content-between d-flex">
+                                        <div>
+                                            <a href="/main/course/{{ course.slug }}/{{ lecture.slug }}">
+                                            <h6>{{ lecture.name }}</h6>
+									        </a>
+                                    </div>
+                                    <a class="primary-btn text-uppercase" href="/main/course/{{ course.slug }}/{{ lecture.slug }}">View Questions</a>
                                 </li>
-
+                                {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </div>
                 <div class="col-lg-4 right-contents">
                     <ul>
                         <li>
