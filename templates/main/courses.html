@@ -1,12 +1,11 @@
-<!doctype html>
-
+<!DOCTYPE html>
 {% extends 'main/base.html' %}
 {% load staticfiles %}
 
     
-	{% block title_block %}
+{% block title_block %}
 	Questionable
-	{% endblock %}
+{% endblock %}
 
 <body>
 
@@ -51,18 +50,14 @@
                         <div class="course_content">
 						<div>
 						{% if courses %}
-                            <h4> {{course.name}} </h4>
-							{% if courses %}
 							<ul>
-								{% for course in courses %}
-							<li><a href="{{ course_details.url }}">{{course.name}}</a></li>
-							{% endfor %}
+							{% for course in courses %}
+							 <li><a href="{% url 'main:courses' %}">{{course.name}}</a></li>
+							 {% endfor %}
 							</ul>
-							{else}
 							<strong> No course to display </strong>
-							{% endif %}
 						{% else %}	
-					The specified course does not exist
+					       The specified course does not exist
 						{% endif %}
                         </div>
                     </div>
