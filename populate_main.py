@@ -111,29 +111,76 @@ def populate():
     student = Group(name="Student")
     # student = Group.objects.create(name='Student')
     student.save()
+    #extract perms of model object and adds it to specified group
+    lecture_perms = ContentType.objects.get(app_label='main', model='lecture')
+    l_perms = Permission.objects.filter(content_type=lecture_perms)
 
-    
-    content_type = ContentType.objects.get(app_label='main', model='lecture')
+    reply_perms = ContentType.objects.get(app_label='main', model='reply')
+    r_perms = Permission.objects.filter(content_type=reply_perms)
 
-    perms = Permission.objects.filter(content_type=content_type)
+    comment_perms = ContentType.objects.get(app_label='main', model='comment')
+    com_perms = Permission.objects.filter(content_type=comment_perms)
+
+    course_perms = ContentType.objects.get(app_label='main', model='course')
+    c_perms = Permission.objects.filter(content_type=course_perms)
     
-    for x in perms:
+    for x in l_perms:
         lecturer.permissions.add(x)
-    
-   
+    for x in r_perms:
+        lecturer.permissions.add(x) 
+    for x in com_perms:
+        student.permissions.add(x)
+    for x in c_perms:
+        lecturer.permissions.add(x)
+
+
 
     ##############
     # Users
     ##############
-    user1 =  User.objects.create_user('John', 'noreply@apple.com', 'johnpassword1')
-    user2 = User.objects.create_user('Andrew', 'noreply@apple.com', 'andrewpassword1')
-    user3 = User.objects.create_user('Rebecca', 'noreply@apple.com', 'rebeccapassword1')
-    user4 = User.objects.create_user('Aaron', 'noreply@apple.com', 'aaronpassword1')
 
-    user1.groups.add(lecturer)
-    user2.groups.add(lecturer)
-    user3.groups.add(student)
-    user4.groups.add(student)
+    users = [
+        {
+            'username' : 'John',
+            'email': 'noreply@apple.com',
+            'password': 'johnpassword1',
+        },
+        {
+            'username' : 'Andrew',
+            'email': 'noreply@apple.com',
+            'password': 'andrewpassword1',
+        },
+        {
+            'username' : 'Rebecca',
+            'email': 'noreply@apple.com',
+            'password': 'rebeccapassword1',
+        },
+        {
+            'username' : 'Aaron',
+            'email': 'noreply@apple.com',
+            'password': 'aaronpassword1',
+        },
+        {
+            'username' : 'Alan',
+            'email': 'noreply@apple.com',
+            'password': 'alanpassword1',
+        },
+        {
+            'username' : 'Claire',
+            'email': 'noreply@apple.com',
+            'password': 'clairepassword1',
+        },
+        {
+            'username' : 'Dave',
+            'email': 'noreply@apple.com',
+            'password': 'davepassword1',
+        },
+    ]
+
+    for user in users:
+       u =  User.objects.create_user(user['username'], user['email'], user['password'])
+       add_student(u)
+        
   
 
     # Default admin for /admin (REMOVE BEFORE DEPLOYING)
@@ -145,11 +192,6 @@ def populate():
     user.is_superuser = True
     user.save()
 
-
-    add_student(user3)
-    add_student(user4)
-    add_tutor(user1)
-    add_tutor(user2)
 
     for course, course_data in courses.items():
         c = add_course(course, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse laoreet consectetur odio ut fermentum. Mauris eleifend facilisis placerat. Praesent nec velit consequat, suscipit dui quis, maximus tellus. Donec volutpat consectetur ex a ultrices. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean ullamcorper tempus egestas. In auctor a risus consectetur cursus. Phasellus in sodales nibh. Duis finibus diam lectus, et pellentesque massa feugiat at. Donec molestie rutrum varius. In sollicitudin, massa id tristique rhoncus, odio risus consectetur quam, vel iaculis neque nisi non arcu. Suspendisse vulputate dolor nulla, vel tristique purus pretium ut. In hac habitasse.")
@@ -217,7 +259,6 @@ def add_tutor(user):
     t = Tutor.objects.get_or_create(user=user)[0]
     t.save()
     return t
-
 
 if __name__ == '__main__':
     print('Starting population script...')
