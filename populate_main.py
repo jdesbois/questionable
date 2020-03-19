@@ -175,6 +175,11 @@ def populate():
             'email': 'noreply@apple.com',
             'password': 'davepassword1',
         },
+        {
+            'username' : 'Indy',
+            'email': 'indy@carrot.com',
+            'password': 'ILoveCarrots',
+        },
     ]
 
     for user in users:
