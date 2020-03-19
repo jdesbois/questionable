@@ -80,7 +80,8 @@ def show_lecture(request, course_name_slug, lecture_name_slug):
         course = Course.objects.get(slug=course_name_slug)
         lecture = Lecture.objects.get(slug=lecture_name_slug)
         question_list = Question.objects.filter(lecture=lecture)
-        form = QuestionForm()
+        question_form = QuestionForm()
+        reply_form = ReplyForm()
 
         reply_dict = {}
         upvote_dict = {}
@@ -101,7 +102,8 @@ def show_lecture(request, course_name_slug, lecture_name_slug):
         context_dict['reply_dict'] = reply_dict
         context_dict['upvote_dict'] = upvote_dict
         context_dict['hasvoted_dict'] = hasvoted_dict
-        context_dict['form'] = form
+        context_dict['question_form'] = question_form
+        context_dict['reply_form'] = reply_form
 
     except Lecture.DoesNotExist:
         context_dict['lecture'] = None
@@ -350,7 +352,26 @@ class UpvoteQuestionView(View):
 
 
 @login_required
-def create_reply(request):
+def create_reply(request, course_name_slug, lecture_name_slug, question_name_slug):
+
+    try:
+        lecture = Lecture.objects.get(slug=lecture_name_slug)
+    except Lecture.DoesNoExist:
+        lecture = None
+
+    try:
+        course = Course.objects.get(slug=course_name_slug)
+    except Course.DoesNotExist:
+        course = None
+
+    try:
+        question = Question.objects.get(slug=question_name_slug)
+    except Question.DoesNotExist:
+        question = None
+
+    if course is None or lecture is None:
+        return redirect('/main/course/<slug:course_name_slug>/<slug:lecture_name_slug/')
+
     form = ReplyForm()
 
     # If user inputs comment
@@ -359,17 +380,21 @@ def create_reply(request):
         # If input is valid
         if form.is_valid():
             # Save the form
-            reply = form.save(commit=True)
-            reply.user = request.user
-            reply.question = request.question
-            return redirect('/main/course/lecture/question/')
+            reply = form.save(commit=False)
+            # reply.user = request.user
+            reply.question = question
+            reply.save()
+            return redirect(reverse('main:lecture',
+                                    kwargs={'course_name_slug': course_name_slug,
+                                            'lecture_name_slug': lecture_name_slug}))
 
         else:
 
             print(form.errors)
 
-    return render(request, 'main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/question/', {'form': form})
-
+    return redirect(reverse('main:lecture',
+                            kwargs={'course_name_slug': course_name_slug,
+                                    'lecture_name_slug': lecture_name_slug}))
 
 @login_required
 def create_forum(request):
