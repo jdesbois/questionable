@@ -36,7 +36,8 @@ Profile
             <div class="row bg-secondary text-white rounded">
                  <div class="pl-5 pt-3" id="{{ question.id }}">
                     <div class="questiontitle">{{ question.title }} </div>
-                    <p>{{ question.question }}</p>
+                    <div class="questioncontent mt-2">{{ question.question }}</div>
+                     <div class="questionauthor pt-2 pb-4">Posted by: {{question.user}}</div>
 
 <!--                     upvote button and votes-->
                     {% for title, hasvoted in hasvoted_dict.items %}
@@ -92,7 +93,7 @@ Profile
             <div class="row lightgray text-dark rounded pl-5 pt-3 pb-3 pr-5 showreplies"
                  id="showreplies-{{ question.id }}"
                      data-questionid="{{ question.id }}">
-                    <div><h5> Answer:</h5></div>
+                    <div><h5> Answer (Click to view)</h5></div>
                 <div class="hidden replies-{{ question.id }}">{{ reply.reply }}</div><br/>
             </div>
              <div class="row bg-white text-white rounded pl-5 pt-2 pb-2">

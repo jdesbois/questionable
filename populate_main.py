@@ -146,17 +146,17 @@ def populate():
     user.save()
 
 
-    add_student(user3)
-    add_student(user4)
-    add_tutor(user1)
-    add_tutor(user2)
+    student3 = add_student(user3)
+    student4 = add_student(user4)
+    tutor1 = add_tutor(user1)
+    tutor2 = add_tutor(user2)
 
     for course, course_data in courses.items():
         c = add_course(course, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse laoreet consectetur odio ut fermentum. Mauris eleifend facilisis placerat. Praesent nec velit consequat, suscipit dui quis, maximus tellus. Donec volutpat consectetur ex a ultrices. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean ullamcorper tempus egestas. In auctor a risus consectetur cursus. Phasellus in sodales nibh. Duis finibus diam lectus, et pellentesque massa feugiat at. Donec molestie rutrum varius. In sollicitudin, massa id tristique rhoncus, odio risus consectetur quam, vel iaculis neque nisi non arcu. Suspendisse vulputate dolor nulla, vel tristique purus pretium ut. In hac habitasse.")
         for lecture, lecture_data in course_data['lectures'].items():
             l = add_lecture(c, lecture)
             for question in lecture_data['questions']:
-                q = add_question(l, question['title'], question['question'])
+                q = add_question(l, question['title'], question['question'], student4)
                 add_reply(q, "Donec aliquam dolor sapien, sagittis posuere dolor molestie vel. Aliquam arcu orci, luctus id vestibulum eget, dignissim egestas leo. Vivamus bibendum augue augue, a gravida ante condimentum id. Quisque ut rhoncus nulla. Ut eleifend est ut dui ultrices interdum. Quisque nec vulputate felis. Ut non tortor turpis. Vestibulum pretium nec erat vitae finibus. Maecenas consequat est sit amet fringilla fermentum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;")
         for forum, forum_data in course_data['forum'].items():
             f = add_forum(c, forum)
@@ -171,9 +171,10 @@ def add_reply(question, reply):
     return r
 
 
-def add_question(lect, title, question):
+def add_question(lect, title, question, user):
     q = Question.objects.get_or_create(lecture=lect, title=title)[0]
     q.question = question
+    q.user = user
     q.save()
     return q
 
