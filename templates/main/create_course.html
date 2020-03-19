@@ -7,18 +7,17 @@
 {% endblock %}
 
 {% block body_block %}
-    <div>
-        <form id="courseForm" method="POST" action="{% url 'main:create_course' %}">
+    <div class="container">
+    <br />
+        <h1>Create Course</h1>
+        <form method="POST" action="{% url 'main:create_course' %}">
             {% csrf_token %}
-            {% for hidden in form.hidden_fields %}
-                {{ hidden }}
-            {% endfor %}
-            {% for field in form.visible_fields %}
-                {{ field.erros }}
-                {{ field.help_text }}
-                {{ field }}
-            {% endfor %}
+            <table>
+            {{ form.as_table }}
+            </table>
             <input type="submit" name="submit" value="Create Course" />
         </form>
+        <a href="{% url 'main:courses' %}">Return to courses</a>
+    <br />
     </div>
 {% endblock %}

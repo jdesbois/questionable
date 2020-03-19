@@ -10,6 +10,7 @@ from django.urls import reverse
 from django.views import View
 from django.http import HttpResponse
 
+
 # DISPLAY VIEWS
 
 
@@ -19,22 +20,28 @@ def home(request):
 
 
 def index(request):
-
     question_list = Question.objects.order_by('-upvote')[:3]
     question_new = Question.objects.order_by('upvote')[:3]
-    
+
     context_dict = {}
     context_dict = {'message': 'Message sent from the view'}
     context_dict['questions'] = question_list
     context_dict['newquestions'] = question_new
-    
+
     return render(request, 'main/index.html', context=context_dict)
 
 
 def show_courses(request):
     context_dict = {}
-    courses = Course.objects.all()
-    context_dict['courses'] = courses
+    course = {}
+
+    try:
+        courses = Course.objects.all()
+        context_dict['courses'] = courses
+
+    except Course.DoesNotExist:
+        context_dict['courses'] = None
+
     return render(request, 'main/courses.html', context=context_dict)
 
 
@@ -73,20 +80,46 @@ def show_lecture(request, course_name_slug, lecture_name_slug):
         course = Course.objects.get(slug=course_name_slug)
         lecture = Lecture.objects.get(slug=lecture_name_slug)
         question_list = Question.objects.filter(lecture=lecture)
-        form = QuestionForm()
+        question_form = QuestionForm()
+        reply_form = ReplyForm()
 
         reply_dict = {}
         upvote_dict = {}
         hasvoted_dict = {}
 
+        current_user = request.user
+        if check_user(current_user=current_user) == 2:
+            is_tutor = True
+            is_student = False
+            print("tutor")
+        elif check_user(current_user=current_user) == 1:
+            is_student = True
+            is_tutor = False
+            print("student")
+        else:
+            is_student = False
+            is_tutor = False
+            print("neither")
+
         for question in question_list:
             reply_dict[question.title] = Reply.objects.filter(question=question)
             upvotes = Upvote.objects.filter(question=question)
             upvote_dict[question.title] = upvotes.count()
-            if upvotes.exists():
-                hasvoted_dict[question.title] = True
+
+            if is_student:
+                current_student = Student.objects.get(user=current_user)
+                user_upvote = Upvote.objects.filter(question=question, user=current_student)
+
+                if user_upvote.exists():
+                    hasvoted_dict[question.title] = True
+                else:
+                    hasvoted_dict[question.title] = False
+
+            # disable otherwise
             else:
-                hasvoted_dict[question.title] = False
+                hasvoted_dict[question.title] = True
+
+
 
         context_dict['course'] = course
         context_dict['lecture'] = lecture
@@ -94,7 +127,10 @@ def show_lecture(request, course_name_slug, lecture_name_slug):
         context_dict['reply_dict'] = reply_dict
         context_dict['upvote_dict'] = upvote_dict
         context_dict['hasvoted_dict'] = hasvoted_dict
-        context_dict['form'] = form
+        context_dict['question_form'] = question_form
+        context_dict['reply_form'] = reply_form
+        context_dict['is_tutor'] = is_tutor
+        context_dict['is_student'] = is_student
 
     except Lecture.DoesNotExist:
         context_dict['lecture'] = None
@@ -120,7 +156,8 @@ def show_question(request):
         context_dict['replies'] = None
         context_dict['upvotes'] = None
 
-    return render(request, 'main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/question.html', context=context_dict)
+    return render(request, 'main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/question.html',
+                  context=context_dict)
 
 
 # def show_reply(request):
@@ -203,7 +240,7 @@ def profile(request):
         role ="Lecturer"
     else:
         role = None
-
+        
     context_dict['role'] = role
 
     return render(request, 'main/profile.html', context=context_dict)
@@ -324,15 +361,31 @@ class UpvoteQuestionView(View):
         except ValueError:
             return HttpResponse(-1)
 
-        # create an upvote
-        u = Upvote.objects.get_or_create(question=question)
-
-        # if a new object is created
-        if(u[1] == True):
-            u[0].save()
-        # else, this upvote has already been cast
+        current_user = request.user
+        if check_user(current_user=current_user) == 2:
+            is_tutor = True
+            is_student = False
+            print("tutor")
+        elif check_user(current_user=current_user) == 1:
+            is_student = True
+            is_tutor = False
+            print("student")
         else:
-            print("Object already exists")
+            is_student = False
+            is_tutor = False
+            print("neither")
+
+        # create an upvote
+        if is_student:
+            current_student = Student.objects.get(user=current_user)
+            u = Upvote.objects.get_or_create(question=question, user = current_student)
+
+            # if a new object is created
+            if(u[1] == True):
+                u[0].save()
+            # else, this upvote has already been cast
+            else:
+                print("Object already exists")
 
         # count upvotes for given question
         count = Upvote.objects.filter(question=question).count()
@@ -342,7 +395,26 @@ class UpvoteQuestionView(View):
 
 
 @login_required
-def create_reply(request):
+def create_reply(request, course_name_slug, lecture_name_slug, question_name_slug):
+
+    try:
+        lecture = Lecture.objects.get(slug=lecture_name_slug)
+    except Lecture.DoesNoExist:
+        lecture = None
+
+    try:
+        course = Course.objects.get(slug=course_name_slug)
+    except Course.DoesNotExist:
+        course = None
+
+    try:
+        question = Question.objects.get(slug=question_name_slug)
+    except Question.DoesNotExist:
+        question = None
+
+    if course is None or lecture is None:
+        return redirect('/main/course/<slug:course_name_slug>/<slug:lecture_name_slug/')
+
     form = ReplyForm()
 
     # If user inputs comment
@@ -351,17 +423,21 @@ def create_reply(request):
         # If input is valid
         if form.is_valid():
             # Save the form
-            reply = form.save(commit=True)
-            reply.user = request.user
-            reply.question = request.question
-            return redirect('/main/course/lecture/question/')
+            reply = form.save(commit=False)
+            # reply.user = request.user
+            reply.question = question
+            reply.save()
+            return redirect(reverse('main:lecture',
+                                    kwargs={'course_name_slug': course_name_slug,
+                                            'lecture_name_slug': lecture_name_slug}))
 
         else:
 
             print(form.errors)
 
-    return render(request, 'main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/question/', {'form': form})
-
+    return redirect(reverse('main:lecture',
+                            kwargs={'course_name_slug': course_name_slug,
+                                    'lecture_name_slug': lecture_name_slug}))
 
 @login_required
 def create_forum(request):
@@ -435,7 +511,6 @@ def create_comment(request):
 
 @login_required
 def create_upvote(request):
-
     upvote = None
 
     # If user upvotes question
@@ -449,7 +524,6 @@ def create_upvote(request):
 
 @login_required
 def enroll_user(request):
-
     enroll = None
 
     # If user enrolls in course
@@ -485,6 +559,14 @@ def update_user(request):
 def set_role(request):
     return render(request, 'main/request_sent.html')
 
+def delete_user(request):
+
+    current_user = request.user
+    current_user.delete()
+
+
+    return render(request, 'main/delete_user.html')
+
 def check_user(current_user):
     try:
         Student.objects.get(user=current_user)
@@ -498,6 +580,3 @@ def check_user(current_user):
         except:
             print(-1)
             return -1
-
-    
-    

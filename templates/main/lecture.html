@@ -36,18 +36,23 @@ Profile
             <div class="row bg-secondary text-white rounded">
                  <div class="pl-5 pt-3" id="{{ question.id }}">
                     <div class="questiontitle">{{ question.title }} </div>
-                    <p>{{ question.question }}</p>
+                    <div class="questioncontent mt-2">{{ question.question }}</div>
+                     {% if is_tutor == True %}
+                     <div class="questionauthor pt-2 pb-4">Posted by: {{question.user}}</div>
+                     {% endif %}
 
 <!--                     upvote button and votes-->
                     {% for title, hasvoted in hasvoted_dict.items %}
                         {% if title == question.title %}
+                            {% if is_student %}
                             <button type="button"
-                                    class="btn btn-primary mb-2 upvote"
+                                    class="btn btn-primary mb-2 mt-3 upvote"
                                     id="upvote-{{ question.id }}"
                                     data-questionid="{{ question.id }}"
                                     {% if hasvoted %} disabled {% endif %}>
                                 Upvote
                             </button>
+                            {% endif %}
                         {% endif %}
                      {% endfor %}
 
@@ -64,15 +69,36 @@ Profile
 
             </div>
 
+<!--            reply form-->
+            {% if is_tutor == True %}
+            <div class="row lightgray text-dark rounded pl-5 pt-3 pb-3 pr-5">
+                <h5>Write Reply</h5>
+                <form id="reply_form-{{question.id}}"
+                      method="post"
+                      action="/main/course/{{ course.slug }}/{{ lecture.slug }}/{{ question.slug }}/create_reply/">
+                    {% csrf_token %}
+                    {% for hidden in reply_form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+                    {% for field in reply_form.visible_fields %}
+                        {{ field.errors }}
+                        {{ field.help_text }}
+                        {{ field }}
+                    {% endfor %}
+                    <input type="submit" name="submit" value="Submit Reply" />
+                </form>
+            </div>
+            {% endif %}
+
+            <div class="row bg-white text-white rounded pl-5 pt-2 pb-2">
+
+            </div>
 <!--            Loop over and add replies-->
             {% for reply in replies %}
             <div class="row lightgray text-dark rounded pl-5 pt-3 pb-3 pr-5 showreplies"
                  id="showreplies-{{ question.id }}"
                      data-questionid="{{ question.id }}">
-<!--                <div class="pb-2 pt-2 showreplies"-->
-<!--                     id="showreplies-{{ question.id }}"-->
-<!--                     data-questionid="{{ question.id }}">-->
-                    <h5> Answer:</h5>
+                    <div><h5> Answer (Click to view)</h5></div>
                 <div class="hidden replies-{{ question.id }}">{{ reply.reply }}</div><br/>
             </div>
              <div class="row bg-white text-white rounded pl-5 pt-2 pb-2">
@@ -84,17 +110,19 @@ Profile
     {% endfor %}
 
 <!--    Submit question form-->
+    {% if is_student == True %}
     <div class="row bg-secondary text-white rounded pl-5 pt-2 pb-2">
         <div class="questiontitle">Submit a question:</div>
     </div>
 
+
     <div class="row lightgray text-dark rounded pl-5 pt-3 pb-3 pr-5">
     <form id="question_form" method="post" action="/main/course/{{ course.slug }}/{{ lecture.slug }}/create_question/">
         {% csrf_token %}
-        {% for hidden in form.hidden_fields %}
+        {% for hidden in question_form.hidden_fields %}
             {{ hidden }}
         {% endfor %}
-        {% for field in form.visible_fields %}
+        {% for field in question_form.visible_fields %}
             {{ field.errors }}
             {{ field.help_text }}
             {{ field }}
@@ -102,6 +130,7 @@ Profile
         <input type="submit" name="submit" value="Submit Question" />
     </form>
     </div>
+    {% endif %}
 
     <div class="row bg-white text-white rounded pl-5 pt-5 pb-5">
 

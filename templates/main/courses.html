@@ -1,12 +1,11 @@
-<!doctype html>
-
+<!DOCTYPE html>
 {% extends 'main/base.html' %}
 {% load staticfiles %}
 
     
-	{% block title_block %}
+{% block title_block %}
 	Questionable
-	{% endblock %}
+{% endblock %}
 
 <body>
 
@@ -30,7 +29,7 @@
 	{% endblock %}
 </div>
 
-    <!--================ Start Popular Courses Area =================-->
+
 	{% block body_block %}
     <div class="popular_courses lite_bg">
         <div class="container">
@@ -41,134 +40,30 @@
                     </div>
                 </div>
             </div>
+
             <div class="row">
-                <!-- single course -->
-                <div class="col-lg-3 col-md-6">
+                <!-- course -->
+                {% if courses %}
+                {% for course in courses %}
+                <div class="col-lg-3 col-md-4">
+
                     <div class="single_course">
                         <div class="course_head overlay">
                               <img class="img-fluid w-100" src="{% static 'images/trainer1.jpg' %}" alt="">
-                            <div class="authr_meta">
-                                <span>Professor Jameson</span>
-                            </div>
                         </div>
                         <div class="course_content">
-                            <h4>
-                                <a href="course-details.html">Advanced Programming</a>
-                            </h4>
-                            
-                            <div class="course_meta d-flex justify-content-between">
-                                <div>
-                                    <span class="meta_info">
-                                        <a href="#"><i class="lnr lnr-user"></i>355</a>
-                                    </span>
-                                    <span class="meta_info">
-                                        <a href="#">
-                                            <i class="lnr lnr-bubble"></i>35
-                                        </a>
-                                    </span>
-                                </div>
-                             
-                            </div>
+                            <a href="{% url 'main:course' course.slug %}">{{course.name}}</a>
+                            <p>{{ course.bio }}</p>
                         </div>
                     </div>
+
                 </div>
-                <!-- single course -->
-                <div class="col-lg-3 col-md-6">
-                    <div class="single_course">
-                        <div class="course_head overlay">
-                            <img class="img-fluid w-100" src="{% static 'images/trainer1.jpg' %}" alt="">
-                            <div class="authr_meta">
-                                <span>Dr K.Mackenzie</span>
-                            </div>
-                        </div>
-                        <div class="course_content">
-                            <h4>
-                                <a href="course-details.html">Internet Technology</a>
-                            </h4>
-                            
-                            <div class="course_meta d-flex justify-content-between">
-                                <div>
-                                    <span class="meta_info">
-                                        <a href="#">
-                                            <i class="lnr lnr-user"></i>355
-                                        </a>
-                                    </span>
-                                    <span class="meta_info"><a href="#">
-                                            <i class="lnr lnr-bubble"></i>35
-                                        </a></span>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- single course -->
-                <div class="col-lg-3 col-md-6">
-                    <div class="single_course">
-                        <div class="course_head overlay">
-                           <img class="img-fluid w-100" src="{% static 'images/trainer1.jpg' %}" alt="">
-                            <div class="authr_meta">
-                                <span>Professor P.Andrews</span>
-                            </div>
-                        </div>
-                        <div class="course_content">
-                            <h4>
-                                <a href="course-details.html">Crytopgraphy</a>
-                            </h4>
-                            
-                            <div class="course_meta d-flex justify-content-between">
-                                <div>
-                                    <span class="meta_info">
-                                        <a href="#">
-                                            <i class="lnr lnr-user"></i>355
-                                        </a>
-                                    </span>
-                                    <span class="meta_info"><a href="#">
-                                            <i class="lnr lnr-bubble"></i>35
-                                        </a></span>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- single course -->
-                <div class="col-lg-3 col-md-6">
-                    <div class="single_course">
-                        <div class="course_head overlay">
-                            <img class="img-fluid w-100" src="{% static 'images/trainer1.jpg' %}" alt="">
-                            <div class="authr_meta">
-                                <span>Dr L.Matthews</span>
-                            </div>
-                        </div>
-                        <div class="course_content">
-                            <h4>
-                                <a href="course-details.html">Machine Learning</a>
-                            </h4>
-                           
-                            <div class="course_meta d-flex justify-content-between">
-                                <div>
-                                    <span class="meta_info">
-                                        <a href="#">
-                                            <i class="lnr lnr-user"></i>355
-                                        </a>
-                                    </span>
-                                    <span class="meta_info"><a href="#">
-                                            <i class="lnr lnr-bubble"></i>35
-                                        </a></span>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>
+
+
 	{% endblock %}
-    <!--================ End Popular Courses Area =================-->
-
-	
-</body>
-
-</html>
+    
