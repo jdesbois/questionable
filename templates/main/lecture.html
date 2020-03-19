@@ -37,13 +37,15 @@ Profile
                  <div class="pl-5 pt-3" id="{{ question.id }}">
                     <div class="questiontitle">{{ question.title }} </div>
                     <div class="questioncontent mt-2">{{ question.question }}</div>
+                     {% if is_tutor == True %}
                      <div class="questionauthor pt-2 pb-4">Posted by: {{question.user}}</div>
+                     {% endif %}
 
 <!--                     upvote button and votes-->
                     {% for title, hasvoted in hasvoted_dict.items %}
                         {% if title == question.title %}
                             <button type="button"
-                                    class="btn btn-primary mb-2 upvote"
+                                    class="btn btn-primary mb-2 mt-3 upvote"
                                     id="upvote-{{ question.id }}"
                                     data-questionid="{{ question.id }}"
                                     {% if hasvoted %} disabled {% endif %}>
@@ -66,6 +68,7 @@ Profile
             </div>
 
 <!--            reply form-->
+            {% if is_tutor == True %}
             <div class="row lightgray text-dark rounded pl-5 pt-3 pb-3 pr-5">
                 <h5>Write Reply</h5>
                 <form id="reply_form-{{question.id}}"
@@ -83,7 +86,7 @@ Profile
                     <input type="submit" name="submit" value="Submit Reply" />
                 </form>
             </div>
-
+            {% endif %}
 
             <div class="row bg-white text-white rounded pl-5 pt-2 pb-2">
 
@@ -105,9 +108,11 @@ Profile
     {% endfor %}
 
 <!--    Submit question form-->
+    {% if is_student == True %}
     <div class="row bg-secondary text-white rounded pl-5 pt-2 pb-2">
         <div class="questiontitle">Submit a question:</div>
     </div>
+
 
     <div class="row lightgray text-dark rounded pl-5 pt-3 pb-3 pr-5">
     <form id="question_form" method="post" action="/main/course/{{ course.slug }}/{{ lecture.slug }}/create_question/">
@@ -123,6 +128,7 @@ Profile
         <input type="submit" name="submit" value="Submit Question" />
     </form>
     </div>
+    {% endif %}
 
     <div class="row bg-white text-white rounded pl-5 pt-5 pb-5">
 
