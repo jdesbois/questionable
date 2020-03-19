@@ -96,6 +96,20 @@ def show_lecture(request, course_name_slug, lecture_name_slug):
             else:
                 hasvoted_dict[question.title] = False
 
+        current_user = request.user
+        if check_user(current_user=current_user) == 2:
+            is_tutor = True
+            is_student = False
+            print("tutor")
+        elif check_user(current_user=current_user) == 1:
+            is_student = True
+            is_tutor = False
+            print("student")
+        else:
+            is_student = False
+            is_tutor = False
+            print("neither")
+
         context_dict['course'] = course
         context_dict['lecture'] = lecture
         context_dict['questions'] = question_list
@@ -104,6 +118,8 @@ def show_lecture(request, course_name_slug, lecture_name_slug):
         context_dict['hasvoted_dict'] = hasvoted_dict
         context_dict['question_form'] = question_form
         context_dict['reply_form'] = reply_form
+        context_dict['is_tutor'] = is_tutor
+        context_dict['is_student'] = is_student
 
     except Lecture.DoesNotExist:
         context_dict['lecture'] = None
