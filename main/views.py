@@ -342,7 +342,26 @@ class UpvoteQuestionView(View):
 
 
 @login_required
-def create_reply(request):
+def create_reply(request, course_name_slug, lecture_name_slug, question_name_slug):
+
+    try:
+        lecture = Lecture.objects.get(slug=lecture_name_slug)
+    except Lecture.DoesNoExist:
+        lecture = None
+
+    try:
+        course = Course.objects.get(slug=course_name_slug)
+    except Course.DoesNotExist:
+        course = None
+
+    try:
+        question = Course.objects.get(slug=question_name_slug)
+    except Question.DoesNotExist:
+        question = None
+
+    if course is None or lecture is None:
+        return redirect('/main/course/<slug:course_name_slug>/<slug:lecture_name_slug/')
+
     form = ReplyForm()
 
     # If user inputs comment
@@ -351,17 +370,20 @@ def create_reply(request):
         # If input is valid
         if form.is_valid():
             # Save the form
-            reply = form.save(commit=True)
-            reply.user = request.user
-            reply.question = request.question
-            return redirect('/main/course/lecture/question/')
+            reply = form.save(commit=False)
+            # reply.user = request.user
+            reply.question = question
+            return redirect(reverse('main:lecture',
+                                    kwargs={'course_name_slug': course_name_slug,
+                                            'lecture_name_slug': lecture_name_slug}))
 
         else:
 
             print(form.errors)
 
-    return render(request, 'main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/question/', {'form': form})
-
+    return redirect(reverse('main:lecture',
+                            kwargs={'course_name_slug': course_name_slug,
+                                    'lecture_name_slug': lecture_name_slug}))
 
 @login_required
 def create_forum(request):

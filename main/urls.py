@@ -22,7 +22,7 @@ urlpatterns = [
     path('course/<slug:course_name_slug>/create_lecture', views.create_lecture, name='create_lecture'),
     path('course/<slug:course_name_slug>/<slug:lecture_name_slug>/create_question/',
          views.create_question, name='create_question'),
-    path('course/<slug:course_name_slug>/<slug:lecture_name_slug>/question/create_reply',
+    path('course/<slug:course_name_slug>/<slug:lecture_name_slug>/<slug:question_name_slug>/create_reply',
          views.create_reply, name='create_reply'),
     path('course/<slug:course_name_slug>/create_forum', views.create_forum, name='create_forum'),
     path('course/<slug:course_name_slug>/<slug:forum_name_slug>/create_post', views.create_post, name='create_post'),
