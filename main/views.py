@@ -73,7 +73,8 @@ def show_lecture(request, course_name_slug, lecture_name_slug):
         course = Course.objects.get(slug=course_name_slug)
         lecture = Lecture.objects.get(slug=lecture_name_slug)
         question_list = Question.objects.filter(lecture=lecture)
-        form = QuestionForm()
+        question_form = QuestionForm()
+        reply_form = ReplyForm()
 
         reply_dict = {}
         upvote_dict = {}
@@ -94,7 +95,8 @@ def show_lecture(request, course_name_slug, lecture_name_slug):
         context_dict['reply_dict'] = reply_dict
         context_dict['upvote_dict'] = upvote_dict
         context_dict['hasvoted_dict'] = hasvoted_dict
-        context_dict['form'] = form
+        context_dict['question_form'] = question_form
+        context_dict['reply_form'] = reply_form
 
     except Lecture.DoesNotExist:
         context_dict['lecture'] = None

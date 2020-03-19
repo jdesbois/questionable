@@ -34,7 +34,7 @@ class QuestionForm(forms.ModelForm):
 
     class Meta:
         model = Question
-        exclude = ('lecture',)
+        exclude = ('lecture', 'slug')
 
 
 # Creates a form for a Lecture tuple to add to database
