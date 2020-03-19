@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-    console.log("Test");
+
 
     $(".upvote").click(function(){
 
@@ -31,27 +31,3 @@ $(document).ready(function(){
     });
 
 });
-
-
-   // var buttontag;
-   // buttontag = str.concat("#upvote-", $(this).attr('data-questionid'));
-
-   // var counttag;
-  //  counttag = str.concat("#count-", $(this).attr('data-questionid'));
-
-   // Console.log(buttontag);
-
-   // $(buttontag).click(function(){
-      //  var questionid;
-    //    questionid = $(this).attr('data-questionid');
-
-    //    $.get('/main/upvote/',
-          //  {'question_id': questionid},
-          //  function(data){
-             //   $(counttag).html(data);
-             //   $(buttontag).hide();
-          //  })
-
-
-   // });
-//});

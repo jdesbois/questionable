@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 
+{% extends 'main/base.html' %}
 {% load staticfiles %}
 
 <html>
@@ -9,10 +10,15 @@
 </head>
 <body>
 
+{% block title_block %}
+Profile
+{% endblock %}
+
+{% block body_block %}
 <div class="container">
     <div class="row bg-secondary text-white rounded">
          <div class="pl-5 pt-3">
-            <h1>{{ course.name }} - {{ lecture.name }}</h1><br/>
+            <div class="lecturetitle">{{ course.name }} - {{ lecture.name }}</div><br/>
          </div>
     </div>
     <div class="row bg-white text-white rounded pl-5 pt-2 pb-2">
@@ -29,7 +35,7 @@
 <!--            Add question title-->
             <div class="row bg-secondary text-white rounded">
                  <div class="pl-5 pt-3" id="{{ question.id }}">
-                    <h2>{{ question.title }} </h2>
+                    <div class="questiontitle">{{ question.title }} </div>
                     <p>{{ question.question }}</p>
 
 <!--                     upvote button and votes-->
@@ -79,19 +85,10 @@
 
 <!--    Submit question form-->
     <div class="row bg-secondary text-white rounded pl-5 pt-2 pb-2">
-        <h5>Submit a question:</h5>
+        <div class="questiontitle">Submit a question:</div>
     </div>
 
-<!--    <div class="row bg-light text-dark rounded pl-5">-->
-<!--        <div class="form-group">-->
-<!--            <input type="text" class="form-control mt-2 mb-2" placeholder="Enter question">-->
-<!--            <textarea class="form-control mt-2 mb-2" placeholder="Description" rows="3"></textarea>-->
-<!--            <button type="button" class="btn btn-dark">Submit</button>-->
-<!--        </div>-->
-<!--    </div>-->
-    <div class="row bg-white text-white rounded pl-5 pt-2 pb-2">
-
-    </div>
+    <div class="row lightgray text-dark rounded pl-5 pt-3 pb-3 pr-5">
     <form id="question_form" method="post" action="/main/course/{{ course.slug }}/{{ lecture.slug }}/create_question/">
         {% csrf_token %}
         {% for hidden in form.hidden_fields %}
@@ -104,6 +101,7 @@
         {% endfor %}
         <input type="submit" name="submit" value="Submit Question" />
     </form>
+    </div>
 
     <div class="row bg-white text-white rounded pl-5 pt-5 pb-5">
 
@@ -111,6 +109,7 @@
 
 
 </div>
+{% endblock %}
 
 <script src="{% static 'js/jquery-3.3.1.min.js' %}" crossorigin="anonymous"></script>
 <script src="{% static 'js/upvote-ajax.js' %}" crossorigin="anonymous"></script>
