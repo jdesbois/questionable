@@ -87,15 +87,6 @@ def show_lecture(request, course_name_slug, lecture_name_slug):
         upvote_dict = {}
         hasvoted_dict = {}
 
-        for question in question_list:
-            reply_dict[question.title] = Reply.objects.filter(question=question)
-            upvotes = Upvote.objects.filter(question=question)
-            upvote_dict[question.title] = upvotes.count()
-            if upvotes.exists():
-                hasvoted_dict[question.title] = True
-            else:
-                hasvoted_dict[question.title] = False
-
         current_user = request.user
         if check_user(current_user=current_user) == 2:
             is_tutor = True
@@ -109,6 +100,26 @@ def show_lecture(request, course_name_slug, lecture_name_slug):
             is_student = False
             is_tutor = False
             print("neither")
+
+        for question in question_list:
+            reply_dict[question.title] = Reply.objects.filter(question=question)
+            upvotes = Upvote.objects.filter(question=question)
+            upvote_dict[question.title] = upvotes.count()
+
+            if is_student:
+                current_student = Student.objects.get(user=current_user)
+                user_upvote = Upvote.objects.filter(question=question, user=current_student)
+
+                if user_upvote.exists():
+                    hasvoted_dict[question.title] = True
+                else:
+                    hasvoted_dict[question.title] = False
+
+            # disable otherwise
+            else:
+                hasvoted_dict[question.title] = True
+
+
 
         context_dict['course'] = course
         context_dict['lecture'] = lecture
@@ -350,15 +361,31 @@ class UpvoteQuestionView(View):
         except ValueError:
             return HttpResponse(-1)
 
-        # create an upvote
-        u = Upvote.objects.get_or_create(question=question)
-
-        # if a new object is created
-        if(u[1] == True):
-            u[0].save()
-        # else, this upvote has already been cast
+        current_user = request.user
+        if check_user(current_user=current_user) == 2:
+            is_tutor = True
+            is_student = False
+            print("tutor")
+        elif check_user(current_user=current_user) == 1:
+            is_student = True
+            is_tutor = False
+            print("student")
         else:
-            print("Object already exists")
+            is_student = False
+            is_tutor = False
+            print("neither")
+
+        # create an upvote
+        if is_student:
+            current_student = Student.objects.get(user=current_user)
+            u = Upvote.objects.get_or_create(question=question, user = current_student)
+
+            # if a new object is created
+            if(u[1] == True):
+                u[0].save()
+            # else, this upvote has already been cast
+            else:
+                print("Object already exists")
 
         # count upvotes for given question
         count = Upvote.objects.filter(question=question).count()

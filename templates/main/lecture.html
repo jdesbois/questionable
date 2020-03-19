@@ -44,6 +44,7 @@ Profile
 <!--                     upvote button and votes-->
                     {% for title, hasvoted in hasvoted_dict.items %}
                         {% if title == question.title %}
+                            {% if is_student %}
                             <button type="button"
                                     class="btn btn-primary mb-2 mt-3 upvote"
                                     id="upvote-{{ question.id }}"
@@ -51,6 +52,7 @@ Profile
                                     {% if hasvoted %} disabled {% endif %}>
                                 Upvote
                             </button>
+                            {% endif %}
                         {% endif %}
                      {% endfor %}
 
