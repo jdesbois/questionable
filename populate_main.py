@@ -111,29 +111,81 @@ def populate():
     student = Group(name="Student")
     # student = Group.objects.create(name='Student')
     student.save()
+    #extract perms of model object and adds it to specified group
+    lecture_perms = ContentType.objects.get(app_label='main', model='lecture')
+    l_perms = Permission.objects.filter(content_type=lecture_perms)
 
-    
-    content_type = ContentType.objects.get(app_label='main', model='lecture')
+    reply_perms = ContentType.objects.get(app_label='main', model='reply')
+    r_perms = Permission.objects.filter(content_type=reply_perms)
 
-    perms = Permission.objects.filter(content_type=content_type)
+    comment_perms = ContentType.objects.get(app_label='main', model='comment')
+    com_perms = Permission.objects.filter(content_type=comment_perms)
+
+    course_perms = ContentType.objects.get(app_label='main', model='course')
+    c_perms = Permission.objects.filter(content_type=course_perms)
     
-    for x in perms:
+    for x in l_perms:
         lecturer.permissions.add(x)
-    
-   
+    for x in r_perms:
+        lecturer.permissions.add(x) 
+    for x in com_perms:
+        student.permissions.add(x)
+    for x in c_perms:
+        lecturer.permissions.add(x)
+
+
 
     ##############
     # Users
     ##############
-    user1 =  User.objects.create_user('John', 'noreply@apple.com', 'johnpassword1')
-    user2 = User.objects.create_user('Andrew', 'noreply@apple.com', 'andrewpassword1')
-    user3 = User.objects.create_user('Rebecca', 'noreply@apple.com', 'rebeccapassword1')
-    user4 = User.objects.create_user('Aaron', 'noreply@apple.com', 'aaronpassword1')
 
-    user1.groups.add(lecturer)
-    user2.groups.add(lecturer)
-    user3.groups.add(student)
-    user4.groups.add(student)
+    users = [
+        {
+            'username' : 'Dory',
+            'email': 'noreply@apple.com',
+            'password': 'dorypassword1',
+        },
+        {
+            'username' : 'Mike',
+            'email': 'noreply@apple.com',
+            'password': 'mikepassword1',
+        },
+        {
+            'username' : 'Becca',
+            'email': 'noreply@apple.com',
+            'password': 'beccapassword1',
+        },
+        {
+            'username' : 'Archie',
+            'email': 'noreply@apple.com',
+            'password': 'archiepassword1',
+        },
+        {
+            'username' : 'Alan',
+            'email': 'noreply@apple.com',
+            'password': 'alanpassword1',
+        },
+        {
+            'username' : 'Claire',
+            'email': 'noreply@apple.com',
+            'password': 'clairepassword1',
+        },
+        {
+            'username' : 'Dave',
+            'email': 'noreply@apple.com',
+            'password': 'davepassword1',
+        },
+        {
+            'username' : 'Indy',
+            'email': 'indy@carrot.com',
+            'password': 'ILoveCarrots',
+        },
+    ]
+
+    for user in users:
+       u =  User.objects.create_user(user['username'], user['email'], user['password'])
+       add_student(u)
+        
   
 
     # Default admin for /admin (REMOVE BEFORE DEPLOYING)
@@ -145,6 +197,10 @@ def populate():
     user.is_superuser = True
     user.save()
 
+    user1 = User.objects.create_user("John", "noreplay@apple.com", "johnpassword1")
+    user2 = User.objects.create_user("Andrew", "noreplay@apple.com", "andrewpassword1")
+    user3 = User.objects.create_user("Rebecca", "noreplay@apple.com", "rebeccapassword1")
+    user4 = User.objects.create_user("Aaron", "noreplay@apple.com", "aaronpassword1")
 
     student3 = add_student(user3)
     student4 = add_student(user4)
@@ -218,7 +274,6 @@ def add_tutor(user):
     t = Tutor.objects.get_or_create(user=user)[0]
     t.save()
     return t
-
 
 if __name__ == '__main__':
     print('Starting population script...')
