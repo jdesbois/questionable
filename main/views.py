@@ -187,6 +187,7 @@ def contact_page(request):
 # View to generate profile page for logged in user (requires login)
 @login_required(login_url='/accounts/login/')
 def profile(request):
+
     current_user = request.user
     context_dict = {}
     role = None
@@ -484,6 +485,14 @@ def update_user(request):
 @login_required
 def set_role(request):
     return render(request, 'main/request_sent.html')
+
+def delete_user(request):
+
+    current_user = request.user
+    current_user.delete()
+
+
+    return render(request, 'main/delete_user.html')
 
 def check_user(current_user):
     try:

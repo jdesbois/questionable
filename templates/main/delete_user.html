@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+{% extends 'main/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+           Questionable: User Deleted
+{% endblock %}
+{% block body_block%}
+<div class="container">
+        <h1>User deleted successfully!</h1> 
+        <a href="{% url 'main:index' %}">Return to index</a>
+</div>
+{% endblock %}
