@@ -48,7 +48,7 @@
 							{% if newquestions %}
 								<ul>
 								{% for question in newquestions %}
-								<li><a href="{% url 'main:lecture' question.lecture.course.slug question.lecture.slug %}">{{question.title}}</a></li>
+								<li><a style="color:white" href="{% url 'main:lecture' question.lecture.course.slug question.lecture.slug %}">{{question.title}}</a></li>
 								{% endfor %}
 									
 							{% else %}
@@ -68,7 +68,7 @@
 							{% if questions %}
 								<ul class="feature_box">
 								{% for question in questions %}
-									<li><a href="{% url 'main:lecture' question.lecture.course.slug question.lecture.slug %}">{{question.title}}</a></li>
+									<li><a style="color:white" href="{% url 'main:lecture' question.lecture.course.slug question.lecture.slug %}">{{question.title}}</a></li>
 									{% endfor %}
 									</ul>
 								{% else %}
