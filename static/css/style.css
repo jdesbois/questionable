@@ -658,9 +658,9 @@ button:focus {
     -moz-transition: all 0.3s ease 0s;
     -o-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s; }
-  .single_course:hover h4 a {a
-    color: #00aee0; }
-
+  .single_course:hover h4 a {
+    color: #00aee0; 
+  }
 /* End Popular Courses Area css
 ============================================================================================ */
 /* Start Courses Details Area css
