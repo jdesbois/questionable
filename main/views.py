@@ -34,6 +34,17 @@ def index(request):
 def show_courses(request):
     context_dict = {}
     course = {}
+    current_user = request.user
+    role = None
+
+    if check_user(current_user) == 1:
+        role = "student"
+    elif check_user(current_user) == 2:
+        role = "lecturer"
+    else:
+        role = None
+    
+    context_dict['role'] = role
 
     try:
         courses = Course.objects.all()
@@ -48,6 +59,17 @@ def show_courses(request):
 def show_course(request, course_name_slug):
     context_dict = {}
 
+    current_user = request.user
+    role = None
+
+    if check_user(current_user) == 1:
+        role = "student"
+    elif check_user(current_user) == 2:
+        role = "lecturer"
+    else:
+        role = None
+    
+    context_dict['role'] = role
     try:
         course = Course.objects.get(slug=course_name_slug)
         lecture_list = Lecture.objects.filter(course=course)
@@ -477,7 +499,15 @@ def create_reply(request, course_name_slug, lecture_name_slug, question_name_slu
                                     'lecture_name_slug': lecture_name_slug}))
 
 @login_required
-def create_forum(request):
+def create_forum(request, course_name_slug):
+
+    try:
+        course = Course.objects.get(slug=course_name_slug)
+    except Course.DoesNoteExist:
+        course = None
+    if course is None: 
+        return redirect('main/course/<slug:course_name_slug>')
+
     form = ForumForm()
 
     # If user inputs comment
@@ -494,8 +524,9 @@ def create_forum(request):
         else:
 
             print(form.errors)
-
-    return render(request, 'main/course/<slug:course_name_slug>/', {'form': form})
+            
+    context_dict = {'form': form, 'course': course}
+    return render(request, 'main/create_forum.html', context_dict)
 
 
 
