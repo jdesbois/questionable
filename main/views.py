@@ -626,6 +626,10 @@ def update_user(request):
 
 @login_required
 def set_role(request):
+    current_user = request.user
+    Student.objects.get(user=current_user).delete()
+    Tutor.objects.create(user=current_user)
+
     return render(request, 'main/request_sent.html')
 
 def delete_user(request):
