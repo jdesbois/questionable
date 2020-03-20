@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block body_block %}
-    <div>
+    <div class="container">
         <h1>Create Lecture</h1>
         <form method="POST" action="{% url 'main:create_lecture' course.slug %}">
             {% csrf_token %}
@@ -15,5 +15,6 @@
             {{ form.as_p }}
             <input type="submit" name="submit" value="Create Lecture" />
         </form>
+        <p></p>
     </div>
 {% endblock %}

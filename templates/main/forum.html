@@ -6,12 +6,14 @@ Forum
 {% endblock %}
 
 {% block body_block %}
+<div class="container">
     <h1>{{ forum.name }}</h1>
     {% if posts %} 
     {% for post in posts %} 
     <ul>
         <li>{{ post.title }}</li>
     </ul>
+</div>
     {% endfor %}
     {% endif %}
 {% endblock %}

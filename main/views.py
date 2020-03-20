@@ -516,15 +516,16 @@ def create_forum(request, course_name_slug):
         # If input is valid
         if form.is_valid():
             # Save the form
-            forum = form.save(commit=True)
-            forum.course = request.course
+            forum = form.save(commit=False)
+            forum.course = course
+            forum.save()
 
-            return redirect('/main/course/<slug:course_name_slug>/')
+            return redirect(reverse('main:course', kwargs={'course_name_slug': course_name_slug}))
 
         else:
 
             print(form.errors)
-            
+
     context_dict = {'form': form, 'course': course}
     return render(request, 'main/create_forum.html', context_dict)
 
