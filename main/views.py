@@ -110,6 +110,7 @@ def show_lecture(request, course_name_slug, lecture_name_slug):
                 current_student = Student.objects.get(user=current_user)
                 user_upvote = Upvote.objects.filter(question=question, user=current_student)
 
+
                 if user_upvote.exists():
                     hasvoted_dict[question.title] = True
                 else:
@@ -322,24 +323,44 @@ def create_question(request, course_name_slug, lecture_name_slug):
 
     form = QuestionForm()
 
-    # If user inputs comment
-    if request.method == 'POST':
-        print("after post")
-        form = QuestionForm(request.POST)
-        # If input is valid
-        if form.is_valid():
-            # Save the form
-            question = form.save(commit=False)
-            question.lecture = lecture
-            # question.user = request.user
-            question.save()
+    current_user = request.user
+    if check_user(current_user=current_user) == 2:
+        is_tutor = True
+        is_student = False
+        print("tutor")
+    elif check_user(current_user=current_user) == 1:
+        is_student = True
+        is_tutor = False
+        print("student")
+    else:
+        is_student = False
+        is_tutor = False
+        print("neither")
 
-            # return redirect('/main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/')
-            return redirect(reverse('main:lecture',
-                                    kwargs={'course_name_slug': course_name_slug,
-                                            'lecture_name_slug': lecture_name_slug}))
-        else:
-            print(form.errors)
+    if is_student:
+        current_student = Student.objects.get(user=current_user)
+        # If user inputs comment
+        if request.method == 'POST':
+            print("after post")
+            form = QuestionForm(request.POST)
+            # If input is valid
+            if form.is_valid():
+                # Save the form
+                question = form.save(commit=False)
+                question.lecture = lecture
+                question.user = current_student
+                question.save()
+
+                # return redirect('/main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/')
+                return redirect(reverse('main:lecture',
+                                        kwargs={'course_name_slug': course_name_slug,
+                                                'lecture_name_slug': lecture_name_slug}))
+            else:
+                print(form.errors)
+    else:
+        return redirect(reverse('main:lecture',
+                                kwargs={'course_name_slug': course_name_slug,
+                                        'lecture_name_slug': lecture_name_slug}))
 
     # why did we previously have to pass form here? Works without it for current setup?
     # return render(request, 'main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/', {'form': form})
@@ -417,23 +438,39 @@ def create_reply(request, course_name_slug, lecture_name_slug, question_name_slu
 
     form = ReplyForm()
 
-    # If user inputs comment
-    if request.method == 'POST':
-        form = ReplyForm(request.POST)
-        # If input is valid
-        if form.is_valid():
-            # Save the form
-            reply = form.save(commit=False)
-            # reply.user = request.user
-            reply.question = question
-            reply.save()
-            return redirect(reverse('main:lecture',
-                                    kwargs={'course_name_slug': course_name_slug,
-                                            'lecture_name_slug': lecture_name_slug}))
+    current_user = request.user
+    if check_user(current_user=current_user) == 2:
+        is_tutor = True
+        is_student = False
+        print("tutor")
+    elif check_user(current_user=current_user) == 1:
+        is_student = True
+        is_tutor = False
+        print("student")
+    else:
+        is_student = False
+        is_tutor = False
+        print("neither")
 
-        else:
+    if is_tutor:
+        current_tutor = Tutor.objects.get(user=current_user)
+        # If user inputs comment
+        if request.method == 'POST':
+            form = ReplyForm(request.POST)
+            # If input is valid
+            if form.is_valid():
+                # Save the form
+                reply = form.save(commit=False)
+                reply.user = current_tutor
+                reply.question = question
+                reply.save()
+                return redirect(reverse('main:lecture',
+                                        kwargs={'course_name_slug': course_name_slug,
+                                                'lecture_name_slug': lecture_name_slug}))
 
-            print(form.errors)
+            else:
+
+                print(form.errors)
 
     return redirect(reverse('main:lecture',
                             kwargs={'course_name_slug': course_name_slug,

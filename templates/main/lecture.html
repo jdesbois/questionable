@@ -72,7 +72,8 @@ Profile
 <!--            reply form-->
             {% if is_tutor == True %}
             <div class="row lightgray text-dark rounded pl-5 pt-3 pb-3 pr-5">
-                <h5>Write Reply</h5>
+                <div class="col pt-2 writereply">Write Reply</div>
+                <div class="col-8">
                 <form id="reply_form-{{question.id}}"
                       method="post"
                       action="/main/course/{{ course.slug }}/{{ lecture.slug }}/{{ question.slug }}/create_reply/">
@@ -85,7 +86,10 @@ Profile
                         {{ field.help_text }}
                         {{ field }}
                     {% endfor %}
-                    <input type="submit" name="submit" value="Submit Reply" />
+                    </div>
+                    <div class="col pt-2">
+                    <input class="btn btn-secondary " type="submit" name="submit" value="Submit Reply" />
+                    </div>
                 </form>
             </div>
             {% endif %}
@@ -111,25 +115,25 @@ Profile
 
 <!--    Submit question form-->
     {% if is_student == True %}
-    <div class="row bg-secondary text-white rounded pl-5 pt-2 pb-2">
-        <div class="questiontitle">Submit a question:</div>
-    </div>
+        <div class="row bg-secondary text-white rounded pl-5 pt-2 pb-2">
+            <div class="questiontitle">Submit a question:</div>
+        </div>
 
 
-    <div class="row lightgray text-dark rounded pl-5 pt-3 pb-3 pr-5">
-    <form id="question_form" method="post" action="/main/course/{{ course.slug }}/{{ lecture.slug }}/create_question/">
-        {% csrf_token %}
-        {% for hidden in question_form.hidden_fields %}
-            {{ hidden }}
-        {% endfor %}
-        {% for field in question_form.visible_fields %}
-            {{ field.errors }}
-            {{ field.help_text }}
-            {{ field }}
-        {% endfor %}
-        <input type="submit" name="submit" value="Submit Question" />
-    </form>
-    </div>
+        <div class="row lightgray text-dark rounded pl-5 pt-3 pb-3 pr-5">
+        <form id="question_form" method="post" action="/main/course/{{ course.slug }}/{{ lecture.slug }}/create_question/">
+            {% csrf_token %}
+            {% for hidden in question_form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+            {% for field in question_form.visible_fields %}
+                {{ field.errors }}
+                {{ field.help_text }}
+                {{ field }}
+            {% endfor %}
+            <input class="btn btn-secondary" type="submit" name="submit" value="Submit Question" />
+        </form>
+        </div>
     {% endif %}
 
     <div class="row bg-white text-white rounded pl-5 pt-5 pb-5">

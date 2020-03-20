@@ -28,18 +28,18 @@ class LectureForm(forms.ModelForm):
 
 # Creates a form for a Lecture tuple to add to database
 class QuestionForm(forms.ModelForm):
-    title = forms.CharField(max_length=128)
-    question = forms.CharField(max_length=512)
+    title = forms.CharField(max_length=128, help_text="Enter Question:", widget=forms.TextInput(attrs={'class' : 'form-control mt-2 mb-2'}))
+    question = forms.CharField(max_length=512, help_text="Description:", widget=forms.TextInput(attrs={'class' : 'form-control mt-2 mb-2'}))
     slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     class Meta:
         model = Question
-        exclude = ('lecture',)
+        exclude = ('lecture', 'user')
 
 
 # Creates a form for a Lecture tuple to add to database
 class ReplyForm(forms.ModelForm):
-    reply = forms.CharField(max_length=512)
+    reply = forms.CharField(max_length=512, widget=forms.TextInput(attrs={'class' : 'form-control mt-2 mb-2'}))
 
     class Meta:
         model = Reply
