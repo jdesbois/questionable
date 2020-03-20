@@ -60,7 +60,7 @@ class Question(models.Model):
     slug = models.SlugField(unique=True, null=True)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        self.slug = self.id
         super(Question, self).save(*args, **kwargs)
 
     def __str__(self):

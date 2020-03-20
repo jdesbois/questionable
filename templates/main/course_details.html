@@ -22,7 +22,10 @@
                         <div class="content">
                              <!--================ Course description to go here =================-->
                         </div>
-
+                        {% if role == "lecturer" %}
+                        <a href="{% url 'main:create_lecture' course.slug %}"><button class="btn btn-primary">Create Lecture</button></a>
+                        <a href="{% url 'main:create_forum' course.slug %}"><button class="btn btn-primary">Create Forum</button></a>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-lg-4 right-contents">
