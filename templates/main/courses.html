@@ -30,7 +30,8 @@
 </div>
 
 
-	{% block body_block %}
+    {% block body_block %}
+
     <div class="popular_courses lite_bg">
         <div class="container">
             <div class="row justify-content-center">
@@ -40,12 +41,21 @@
                     </div>
                 </div>
             </div>
-
+        
+            <div class="row">
+                <div class="col-lg-6">
+                    {% if role == "lecturer" %}
+                    <a href="{% url 'main:create_course' %}"><button class="btn btn-primary">Create Course</button></a>
+                    <p></p>
+                    {% endif %}
+                </div>
+            </div>
+       
             <div class="row">
                 <!-- course -->
                 {% if courses %}
                 {% for course in courses %}
-                <div class="col-lg-3 col-md-4">
+                <div class="col-lg-3 col-md-6">
 
                     <div class="single_course">
                         <div class="course_head overlay">
