@@ -7,32 +7,12 @@
 	Questionable
 	{% endblock %}
 
-<div>
-{% block banner_block %}
-    <section class="banner_area">
-        <div class="banner_inner d-flex align-items-center">
-            <div class="overlay"></div>
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-6">
-                        <div class="banner_content text-center">
-
-                        </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-{% endblock %}
-
-</div>
 	{% block body_block %}
     <section class="course_details_area section_gap">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 course_details_left">
-                    <h2 class="title">{{ course.name }}</h2>
+                    <h2 class="title">Course: {{ course.name }}</h2>
                     <div class="main_image">
                         <img class="img-fluid" src="{% static 'images/course-details.jpg' %}" alt="">
                     </div>
@@ -42,56 +22,31 @@
                         <div class="content">
                              <!--================ Course description to go here =================-->
                         </div>
-                        <h4 class="title">Lectures</h4>
-                        <div class="content">
-                            <ul class="course_list">
-                                {% if lectures %}
-                                    {% for lecture in lectures %}
-                                    <li class="justify-content-between d-flex">
-                                        <div>
-                                            <a href="/main/course/{{ course.slug }}/{{ lecture.slug }}">
-                                            <h6>{{ lecture.name }}</h6>
-									        </a>
-                                    </div>
-                                    <a class="primary-btn text-uppercase" href="/main/course/{{ course.slug }}/{{ lecture.slug }}">View Questions</a>
-                                </li>
-                                {% endfor %}
-                                {% endif %}
-                            </ul>
-                        </div>
-                <div class="col-lg-4 right-contents">
-                    <ul>
-                        <li>
-                            <a class="justify-content-between d-flex" href="#">
-                                <p>Lecturer’s Name</p>
-                                <span class="or"> Prof. Duncan Jameson</span>
-								<a class="justify-content-between d-flex" href="#">
-								<p>Office Hours</p>
-                                <span class="or"> Tuesday 2-4 pm</span>
-								<a class="justify-content-between d-flex" href="#">
-								<p>Office</p>
-                                <span class="or">204, Lilybank Gardens</span>
-								<a class="justify-content-between d-flex" href="#">
-								<p>Email</p>
-                                <span class="or">d.jameson@staff.gla.ac.uk</span>
-								
-                            </a>
-							</a>
-                     
-                        <div class="feedeback">
-                            <h6>Submit a Question</h6>
-                            <textarea name="feedback" class="form-control" cols="10" rows="10"></textarea>
-                            <div class="mt-10 text-right">
-                                <a href="#" class="primary-btn text-right text-uppercase">Submit</a>
-                            </div>
-                        </div>
-                        
-                    
-                            </div>
-                        </div>
+
                     </div>
                 </div>
-            </div>
+                <div class="col-lg-4 right-contents">
+                    <h4 class="title">Forums</h4>
+                    <ul class="course_list">
+                        {% if forums %}
+                        {% for forum in forums %}
+                        <a href="{% url 'main:forum' course.slug forum.slug %}"><li class="justify-content-between">{{ forum.name }}</li></a>
+                        {% endfor %}
+                        {% endif %}
+                    </ul>
+
+                        <h4 class="title">Lectures</h4>
+                        <ul class="course_list">
+                            {% if lectures %}
+                            {% for lecture in lectures%}
+                            <a href="{% url 'main:lecture' course.slug lecture.slug %}"><li class="justify-content-between">{{ lecture.name }}</li></a>
+                            {% endfor %}
+                            {% endif %}
+                        </ul>
+
+                    </div>
+        </div>
+        </div>
         </div>
     </section>
 	{% endblock %}

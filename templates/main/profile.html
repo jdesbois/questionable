@@ -10,7 +10,7 @@ Profile
 <div class="container">
   <br />
   <div class="row">
-    <div class="col-sm-3">
+    <div class="col-lg-4">
       <div class="card" style="width: 18rem;">
         <img src="../media/{{ user.profile.picture }}" class="card-img-top" alt="...">
         <div class="card-body">
@@ -37,8 +37,7 @@ Profile
         </div>
       </div>
     </div>
-    <div class="col-sm-1"><p></p></div>
-    <div class="col-sm-8">
+    <div class="col-lg-8 right-contents">
 
       <div class="card">
         <div class="card-header">
@@ -48,7 +47,7 @@ Profile
           {% if questions %}
           {% for question in questions %}
           
-          <a href="/main/course/{{question.lecture.course.slug}}/{{question.lecture.slug}}/{{question.slug}}">
+          <a href="{% url 'main:lecture' question.lecture.course.slug question.lecture.slug %}">
             <h5 class="card-title">{{question.title}}</h5>
           </a>
           <p class="card-text">{{ question.question }}</p>

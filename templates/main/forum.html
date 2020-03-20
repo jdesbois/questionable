@@ -1,9 +1,17 @@
 <!DOCTYPE html>
 {% extends 'main/base.html' %}
+{% load staticfiles %}
 {% block title_block %}
 Forum
 {% endblock %}
 
 {% block body_block %}
-<h1>This would be a forum page</h1>
+    <h1>{{ forum.name }}</h1>
+    {% if posts %} 
+    {% for post in posts %} 
+    <ul>
+        <li>{{ post.title }}</li>
+    </ul>
+    {% endfor %}
+    {% endif %}
 {% endblock %}

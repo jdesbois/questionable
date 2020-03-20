@@ -174,7 +174,7 @@ def show_question(request):
 #     return render(request, 'main/course/lecture/question/reply.html', context=context_dict)
 
 
-def show_forum(request, forum_name_slug):
+def show_forum(request, course_name_slug,forum_name_slug):
     context_dict = {}
     try:
         forum = Forum.objects.get(slug=forum_name_slug)
@@ -184,7 +184,7 @@ def show_forum(request, forum_name_slug):
     except Forum.DoesNotExist:
         context_dict['forum'] = None
         context_dict['posts'] = None
-    return render(request, 'main/course/<slug:course_name_slug>/forum.html', context=context_dict)
+    return render(request, 'main/forum.html', context=context_dict)
 
 
 def show_post(request):
