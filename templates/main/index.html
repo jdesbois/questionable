@@ -19,6 +19,9 @@
 							<div class="row">
 								<div class="col-lg-6">
 									<div class="banner_content">
+
+											<h3 style="color: whitesmoke; text-shadow: 2px 2px grey;">Welcome to Questionable <br />Creating a community of learners.</h3>
+
 									</div>
 		
 								</div>
@@ -34,6 +37,7 @@
 		<div class="container">
 			<div class="row justify-content-end">
 				<div class="col-lg-4">
+
 					<div class="single_feature d-flex flex-row pb-30">
 						<div class="icon">
 							<span class="lnr lnr-book"></span>
@@ -44,7 +48,7 @@
 							{% if newquestions %}
 								<ul>
 								{% for question in newquestions %}
-								<li>{{question.title}}</li>
+								<li><a style="color:white" href="{% url 'main:lecture' question.lecture.course.slug question.lecture.slug %}">{{question.title}}</a></li>
 								{% endfor %}
 									
 							{% else %}
@@ -62,9 +66,9 @@
 							<h4>Top Questions</h4>      
 							<div>
 							{% if questions %}
-								<ul>
+								<ul class="feature_box">
 								{% for question in questions %}
-									<li>{{question.title}}</li>
+									<li><a style="color:white" href="{% url 'main:lecture' question.lecture.course.slug question.lecture.slug %}">{{question.title}}</a></li>
 									{% endfor %}
 									</ul>
 								{% else %}

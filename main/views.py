@@ -400,6 +400,9 @@ def create_question(request, course_name_slug, lecture_name_slug):
                 question = form.save(commit=False)
                 question.lecture = lecture
                 question.user = current_student
+                # first save creates id
+                question.save()
+                # re-save so slugify can pick up the question ID
                 question.save()
 
                 # return redirect('/main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/')
@@ -546,7 +549,10 @@ def create_forum(request, course_name_slug):
             # Save the form
             forum = form.save(commit=False)
             forum.course = course
-            forum.save()
+            try: 
+                forum.save()
+            except:
+                return redirect(reverse('main:error'))
 
             return redirect(reverse('main:course', kwargs={'course_name_slug': course_name_slug}))
 
@@ -706,6 +712,10 @@ def delete_user(request):
     current_user.delete()
 
     return render(request, 'main/delete_user.html')
+
+
+def error(request):
+    return render(request, 'main/error.html')
 
 
 def check_user(current_user):
