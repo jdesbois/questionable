@@ -54,7 +54,7 @@ class Lecture(models.Model):
 
 class Question(models.Model):
     lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE)
-    user = models.ForeignKey(Student, on_delete=models.CASCADE, null=True, blank=True, default=None)
+    user = models.ForeignKey(Student, on_delete=models.SET_NULL, null=True, blank=True, default=None)
     title = models.CharField(max_length=128)
     question = models.CharField(max_length=512)
     slug = models.SlugField(unique=True, null=True)
@@ -70,7 +70,7 @@ class Question(models.Model):
 class Reply(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     reply = models.CharField(max_length=512)
-    user = models.ForeignKey(Tutor, on_delete=models.CASCADE, default=None, null=True)
+    user = models.ForeignKey(Tutor, on_delete=models.SET_NULL, default=None, null=True)
 
     def __str__(self):
         # identify by primary key
@@ -93,7 +93,7 @@ class Forum(models.Model):
 
 class Post(models.Model):
     forum = models.ForeignKey(Forum, on_delete=models.CASCADE)
-    user = models.ForeignKey(Student, on_delete=models.CASCADE, null=True, blank=True, default=None)
+    user = models.ForeignKey(Student, on_delete=models.SET_NULL, null=True, blank=True, default=None)
     title = models.CharField(max_length=128)
     post = models.CharField(max_length=512)
 
@@ -113,7 +113,7 @@ class Comment(models.Model):
 
 class Upvote(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    user = models.ForeignKey(Student, on_delete=models.CASCADE, default=None, null=True, blank=True)
+    user = models.ForeignKey(Student, on_delete=models.SET_NULL, default=None, null=True, blank=True)
 
     def __str__(self):
         return "Upvote: " + str(self.pk)
