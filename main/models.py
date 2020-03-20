@@ -10,7 +10,12 @@ class Student(models.Model):
 
     def __str__(self):
         return self.user.username
-
+        
+# @receiver(post_save, sender=User)
+# def create_or_update_student(sender, instance, created, **kwargs):
+#     if created:
+#         Student.objects.create(user=instance)
+#     instance.student.save()
 
 class Tutor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -21,6 +26,7 @@ class Tutor(models.Model):
 
 class Course(models.Model):
     name = models.CharField(max_length=128, unique=True)
+    bio = models.CharField(max_length=1024, null=True, blank=True, default=None)
     user = models.ForeignKey(Tutor, on_delete=models.CASCADE, null=True, blank=True, default=None)
     slug = models.SlugField(unique=True, null=True)
 
@@ -51,6 +57,11 @@ class Question(models.Model):
     user = models.ForeignKey(Student, on_delete=models.CASCADE, null=True, blank=True, default=None)
     title = models.CharField(max_length=128)
     question = models.CharField(max_length=512)
+    slug = models.SlugField(unique=True, null=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Question, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.title
@@ -102,7 +113,7 @@ class Comment(models.Model):
 
 class Upvote(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    user = models.ForeignKey(Student, on_delete=models.CASCADE, default=None)
+    user = models.ForeignKey(Student, on_delete=models.CASCADE, default=None, null=True, blank=True)
 
     def __str__(self):
         return "Upvote: " + str(self.pk)
@@ -118,7 +129,7 @@ class Enrollment(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=512, default="Tell us a little about yourself....")
-    picture = models.ImageField(upload_to='images/', default="images/29511773_1650373861750562_982140361914727316_n.jpg")
+    picture = models.ImageField(upload_to='images/', default="images/default.jpg")
 
     def __str__(self):
         return self.user.username

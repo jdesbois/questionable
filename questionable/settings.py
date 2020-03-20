@@ -60,8 +60,8 @@ REGISTRATION_AUTO_LOGIN = True
 LOGIN_REDIRECT_URL = 'index'
 
 #The page users are directed to if they are not logged in.
-LOGIN_URL = 'login'
-LOGOUT_URL = 'logout'
+LOGIN_URL = 'auth_login'
+LOGOUT_URL = 'auth_logout'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

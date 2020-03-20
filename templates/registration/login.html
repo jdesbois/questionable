@@ -17,7 +17,8 @@
             <input class="btn btn-primary" type="submit" value="Log In">
             <input type="hidden" name="next" value="{{ next }}">
         </form> </br>  
-        <a href="{% url 'social:begin' 'twitter' %}"><button type="button" class="btn btn-primary">Login with Twitter</button></a>
+        <a href="{% url 'social:begin' 'twitter' %}"><button type="button" class="btn btn-primary"><i class="fa fa-twitter"></i> Login with Twitter</button></a>
+        <p></p>
         <p>Not registered? <a href="{% url 'registration_register' %}">Register Here!</a></p>
     </div>
 </div>
