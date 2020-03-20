@@ -29,7 +29,7 @@ Profile
 <!--        loop though posts: comment key: value pairs-->
         {% for p, comments in comment_dict.items %}
 
-<!--            only select replies for current question-->
+<!--            only select comments for current post-->
             {% if p == post.title %}
 
 <!--            Add post title-->
@@ -38,7 +38,7 @@ Profile
                     <div class="questiontitle">{{ post.title }} </div>
                     <div class="questioncontent mt-2">{{ post.post }}</div>
                      {% if is_tutor == True %}
-                     <div class="questionauthor pt-2 pb-4">Posted by: {{post.user}}</div>
+                     <div class="questionauthor pt-2 pb-4">Posted by: {{ post.user }}</div>
                      {% endif %}
                 </div>
             </div>
@@ -47,12 +47,12 @@ Profile
 
             </div>
 
-<!--            comment form-->
-            {% if is_tutor == True %}
+            <!--            comment form-->
+            {% if is_user %}
             <div class="row lightgray text-dark rounded pl-5 pt-3 pb-3 pr-5">
                 <div class="col pt-2 writereply">Write Comment</div>
                 <div class="col-8">
-                <form id="comment_form-{{post.id}}"
+                <form id="comment_form-{{post.title}}"
                       method="post"
                       action="/main/course/{{ course.slug }}/{{ forum.slug }}/{{ post.slug }}/create_comment/">
                     {% csrf_token %}
@@ -74,7 +74,6 @@ Profile
 
             </div>
             {% endif %}
-            {% if comments %}
 
 <!--            Loop over and add comments-->
 
@@ -83,7 +82,7 @@ Profile
                      data-questionid="{{ post.id }}">
                 <div class="container">
 
-                    <div class="row" }><h5 class="answer-{{ post.id }}">Comments (Click to view)</h5></div>
+                    <div class="row" }><h5 class="comment-{{ post.id }}">Comments (Click to view)</h5></div>
 
                     {% for comment in comments %}
                     <div class="row hidden replies-{{ post.id }}"><h6>{{ comment.user}}:</h6></div>
@@ -96,9 +95,6 @@ Profile
 
             </div>
             {% endif %}
-
-
-            {% endif %}
         {% endfor %}
 
         <div class="row breakline text-white rounded pl-5 pt-1 ml-5 mr-5">
@@ -110,7 +106,7 @@ Profile
     {% endfor %}
 
 <!--    Submit post form-->
-    {% if is_student == True %}
+    {% if is_user %}
         <div class="row lightgray rounded pl-5 pt-2 pb-2">
             <div class="questiontitle">Submit a post:</div>
         </div>

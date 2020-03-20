@@ -204,6 +204,7 @@ def populate():
     user2 = User.objects.create_user("Andrew", "noreplay@apple.com", "andrewpassword1")
     user3 = User.objects.create_user("Rebecca", "noreplay@apple.com", "rebeccapassword1")
     user4 = User.objects.create_user("Aaron", "noreplay@apple.com", "aaronpassword1")
+    user5 = User.objects.create_user("Bob", "noreplay@apple.com", "bobpassword1")
 
     student3 = add_student(user3)
     student4 = add_student(user4)
@@ -221,7 +222,7 @@ def populate():
             f = add_forum(c, forum)
             for post in forum_data['posts']:
                 p = add_post(f, post['title'], post['post'])
-                add_comment(p, "Test reply text", student3)
+                add_comment(p, "Test reply text", user5)
 
 
 def add_reply(question, reply, user):

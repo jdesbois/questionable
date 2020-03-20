@@ -93,9 +93,14 @@ class Forum(models.Model):
 
 class Post(models.Model):
     forum = models.ForeignKey(Forum, on_delete=models.CASCADE)
-    user = models.ForeignKey(Student, on_delete=models.CASCADE, null=True, blank=True, default=None)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, default=None)
     title = models.CharField(max_length=128)
     post = models.CharField(max_length=512)
+    slug = models.SlugField(unique=True, null=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Post, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.title
@@ -104,7 +109,7 @@ class Post(models.Model):
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, default=None)
     comment = models.CharField(max_length=512)
-    user = models.ForeignKey(Student, on_delete=models.CASCADE, default=None)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=None, null=True)
 
     def __str__(self):
         # identify by primary key

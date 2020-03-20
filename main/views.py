@@ -43,7 +43,7 @@ def show_courses(request):
         role = "lecturer"
     else:
         role = None
-    
+
     context_dict['role'] = role
 
     try:
@@ -68,7 +68,7 @@ def show_course(request, course_name_slug):
         role = "lecturer"
     else:
         role = None
-    
+
     context_dict['role'] = role
     try:
         course = Course.objects.get(slug=course_name_slug)
@@ -132,7 +132,6 @@ def show_lecture(request, course_name_slug, lecture_name_slug):
                 current_student = Student.objects.get(user=current_user)
                 user_upvote = Upvote.objects.filter(question=question, user=current_student)
 
-
                 if user_upvote.exists():
                     hasvoted_dict[question.title] = True
                 else:
@@ -194,8 +193,7 @@ def show_question(request):
 #     return render(request, 'main/course/lecture/question/reply.html', context=context_dict)
 
 
-def show_forum(request, course_name_slug,forum_name_slug):
-
+def show_forum(request, course_name_slug, forum_name_slug):
     context_dict = {}
 
     try:
@@ -208,18 +206,19 @@ def show_forum(request, course_name_slug,forum_name_slug):
         comment_dict = {}
 
         current_user = request.user
+        registered_account = check_user(current_user=current_user)
+
+        if registered_account != 1 and registered_account != 2:
+            is_user = False
+        else:
+            is_user = True
+
         if check_user(current_user=current_user) == 2:
             is_tutor = True
-            is_student = False
             print("tutor")
-        elif check_user(current_user=current_user) == 1:
-            is_student = True
+        else:
             is_tutor = False
             print("student")
-        else:
-            is_student = False
-            is_tutor = False
-            print("neither")
 
         for post in post_list:
             comment_dict[post.title] = Comment.objects.filter(post=post)
@@ -231,7 +230,7 @@ def show_forum(request, course_name_slug,forum_name_slug):
         context_dict['post_form'] = post_form
         context_dict['comment_form'] = comment_form
         context_dict['is_tutor'] = is_tutor
-        context_dict['is_student'] = is_student
+        context_dict['is_user'] = is_user
 
     except Forum.DoesNotExist:
         context_dict['forum'] = None
@@ -288,14 +287,14 @@ def profile(request):
     context_dict['questions'] = questions
     context_dict['posts'] = posts
     context_dict['replies'] = replies
-    
+
     if check_user(current_user) == 1:
         role = "Student"
     elif check_user(current_user) == 2:
-        role ="Lecturer"
+        role = "Lecturer"
     else:
         role = None
-        
+
     context_dict['role'] = role
 
     return render(request, 'main/profile.html', context=context_dict)
@@ -326,7 +325,6 @@ def create_course(request):
 
 @login_required
 def create_lecture(request, course_name_slug):
-
     try:
         course = Course.objects.get(slug=course_name_slug)
     except Course.DoesNotExist:
@@ -360,7 +358,6 @@ def create_lecture(request, course_name_slug):
 
 @login_required
 def create_question(request, course_name_slug, lecture_name_slug):
-
     # find lecture object
     try:
         lecture = Lecture.objects.get(slug=lecture_name_slug)
@@ -373,7 +370,7 @@ def create_question(request, course_name_slug, lecture_name_slug):
         course = None
 
     if course is None or lecture is None:
-        return redirect('/main/course/<slug:course_name_slug>/<slug:lecture_name_slug/')
+        return redirect('/main/lecture/<slug:course_name_slug>/<slug:lecture_name_slug/')
 
     form = QuestionForm()
 
@@ -453,10 +450,10 @@ class UpvoteQuestionView(View):
         # create an upvote
         if is_student:
             current_student = Student.objects.get(user=current_user)
-            u = Upvote.objects.get_or_create(question=question, user = current_student)
+            u = Upvote.objects.get_or_create(question=question, user=current_student)
 
             # if a new object is created
-            if(u[1] == True):
+            if (u[1] == True):
                 u[0].save()
             # else, this upvote has already been cast
             else:
@@ -471,7 +468,6 @@ class UpvoteQuestionView(View):
 
 @login_required
 def create_reply(request, course_name_slug, lecture_name_slug, question_name_slug):
-
     try:
         lecture = Lecture.objects.get(slug=lecture_name_slug)
     except Lecture.DoesNoExist:
@@ -488,7 +484,7 @@ def create_reply(request, course_name_slug, lecture_name_slug, question_name_slu
         question = None
 
     if course is None or lecture is None:
-        return redirect('/main/course/<slug:course_name_slug>/<slug:lecture_name_slug/')
+        return redirect('/main/lecture/<slug:course_name_slug>/<slug:lecture_name_slug/')
 
     form = ReplyForm()
 
@@ -530,15 +526,15 @@ def create_reply(request, course_name_slug, lecture_name_slug, question_name_slu
                             kwargs={'course_name_slug': course_name_slug,
                                     'lecture_name_slug': lecture_name_slug}))
 
+
 @login_required
 def create_forum(request, course_name_slug):
-
     try:
         course = Course.objects.get(slug=course_name_slug)
     except Course.DoesNoteExist:
         course = None
-    if course is None: 
-        return redirect('main/course/<slug:course_name_slug>')
+    if course is None:
+        return redirect('main/forum/<slug:course_name_slug>')
 
     form = ForumForm()
 
@@ -562,34 +558,69 @@ def create_forum(request, course_name_slug):
     return render(request, 'main/create_forum.html', context_dict)
 
 
-
-
 @login_required
-def create_post(request):
+def create_post(request, course_name_slug, forum_name_slug):
+    # find lecture object
+    try:
+        forum = Forum.objects.get(slug=forum_name_slug)
+    except Forum.DoesNoExist:
+        forum = None
+
+    try:
+        course = Course.objects.get(slug=course_name_slug)
+    except Course.DoesNotExist:
+        course = None
+
+    if course is None or forum is None:
+        return redirect('/main/forum/<slug:course_name_slug>/<slug:forum_name_slug/')
+
     form = PostForm()
 
-    # If user inputs comment
     if request.method == 'POST':
+        print("after post")
         form = PostForm(request.POST)
         # If input is valid
         if form.is_valid():
             # Save the form
-            post = form.save(commit=True)
-            post.forum = request.forum
+            post = form.save(commit=False)
+            post.forum = forum
             post.user = request.user
+            post.save()
 
-            return redirect('/main/course/<slug:course_name_slug>/<slug:forum_name_slug>/')
-
+            # return redirect('/main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/')
+            return redirect(reverse('main:forum',
+                                    kwargs={'course_name_slug': course_name_slug,
+                                            'forum_name_slug': forum_name_slug}))
         else:
-
             print(form.errors)
 
-    return render(request, 'main/<slug:course_name_slug>/<slug:course_name_slug>/', {'form': form})
+    # return render(request, 'main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/', {'form': form})
+    return redirect(reverse('main:forum',
+                            kwargs={'course_name_slug': course_name_slug,
+                                    'forum_name_slug': forum_name_slug}))
 
 
 @login_required
-def create_comment(request):
-    form = CommentForm()
+def create_comment(request, course_name_slug, forum_name_slug, post_name_slug):
+    try:
+        forum = Forum.objects.get(slug=forum_name_slug)
+    except Forum.DoesNoExist:
+        forum = None
+
+    try:
+        course = Course.objects.get(slug=course_name_slug)
+    except Course.DoesNotExist:
+        course = None
+
+    try:
+        post = Post.objects.get(slug=post_name_slug)
+    except Post.DoesNotExist:
+        post = None
+
+    if course is None or forum is None:
+        return redirect('/main/forum/<slug:course_name_slug>/<slug:forum_name_slug/')
+
+    form = ReplyForm()
 
     # If user inputs comment
     if request.method == 'POST':
@@ -597,17 +628,21 @@ def create_comment(request):
         # If input is valid
         if form.is_valid():
             # Save the form
-            comment = form.save(commit=True)
-            comment.post = request.post
+            comment = form.save(commit=False)
             comment.user = request.user
-
-            return redirect('/main/course/<slug:course_name_slug>/<slug:forum_name_slug>/post/')
+            comment.post = post
+            comment.save()
+            return redirect(reverse('main:forum',
+                                    kwargs={'course_name_slug': course_name_slug,
+                                            'forum_name_slug': forum_name_slug}))
 
         else:
 
             print(form.errors)
 
-    return render(request, 'main/course/<slug:course_name_slug>/<slug:forum_name_slug>/post/', {'form': form})
+    return redirect(reverse('main:forum',
+                            kwargs={'course_name_slug': course_name_slug,
+                                    'forum_name_slug': forum_name_slug}))
 
 
 @login_required
@@ -656,6 +691,7 @@ def update_user(request):
         'profile_form': profile_form
     })
 
+
 @login_required
 def set_role(request):
     current_user = request.user
@@ -664,13 +700,13 @@ def set_role(request):
 
     return render(request, 'main/request_sent.html')
 
-def delete_user(request):
 
+def delete_user(request):
     current_user = request.user
     current_user.delete()
 
-
     return render(request, 'main/delete_user.html')
+
 
 def check_user(current_user):
     try:
