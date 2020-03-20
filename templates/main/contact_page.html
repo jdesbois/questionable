@@ -3,30 +3,37 @@
 {% extends 'main/base.html' %}
 {% load staticfiles %}
 
-<head>
-	<!-- Required meta tags -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="icon" href="{% static 'images/question.png' %}" type="image/png">      
-	<title>Questionable</title>
-	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
-	<link rel="stylesheet" href="{% static 'vendors/linericon/style.css' %}">
-	<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
-	<link rel="stylesheet" href="{% static 'vendors/lightbox/simpleLightbox.css' %}">
-	<link rel="stylesheet" href="{% static 'vendors/owl-carousel/owl.carousel.min.css' %}">
-	<link rel="stylesheet" href="{% static 'vendors/nice-select/css/nice-select.css' %}">
-	<link rel="stylesheet" href="{% static 'vendors/animate-css/animate.css' %}">
-	<!-- main css -->
-	<link rel="stylesheet" href="{% static '/css/style.css' %}">
-</head>
-
+{% block title_block %}
+Contact
+{% endblock %}
  <!--================ Start Contact/About page Area =================-->
 
-<div>
+
 	{% block body_block%}
-	{% endblock %}
+
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<h2 class="title">About Questionable</h2>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<h2 class="title">Contact Us</h2>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-6">
+
+			</div>
+			<div class="col-lg-6">
+				
+			</div>
+		</div>
 	</div>
+
+	{% endblock %}
+
 
 		<!--================ End Feature Area =================-->
 	
