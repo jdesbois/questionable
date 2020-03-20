@@ -250,7 +250,7 @@ def profile(request):
 # CREATION VIEWS
 
 
-@login_required
+@login_required(login_url='/accounts/login/')
 def create_course(request):
     form = CourseForm()
 
@@ -270,7 +270,7 @@ def create_course(request):
     return render(request, 'main/create_course.html', {'form': form})
 
 
-@login_required
+@login_required(login_url='/accounts/login/')
 def create_lecture(request, course_name_slug):
 
     try:
@@ -304,7 +304,7 @@ def create_lecture(request, course_name_slug):
     return render(request, 'main/create_lecture.html', context_dict)
 
 
-@login_required
+@login_required(login_url='/accounts/login/')
 def create_question(request, course_name_slug, lecture_name_slug):
 
     # find lecture object
@@ -415,7 +415,7 @@ class UpvoteQuestionView(View):
         return HttpResponse(count)
 
 
-@login_required
+@login_required(login_url='/accounts/login/')
 def create_reply(request, course_name_slug, lecture_name_slug, question_name_slug):
 
     try:
@@ -476,7 +476,7 @@ def create_reply(request, course_name_slug, lecture_name_slug, question_name_slu
                             kwargs={'course_name_slug': course_name_slug,
                                     'lecture_name_slug': lecture_name_slug}))
 
-@login_required
+@login_required(login_url='/accounts/login/')
 def create_forum(request):
     form = ForumForm()
 
@@ -500,7 +500,7 @@ def create_forum(request):
 
 
 
-@login_required
+@login_required(login_url='/accounts/login/')
 def create_post(request):
     form = PostForm()
 
@@ -523,7 +523,7 @@ def create_post(request):
     return render(request, 'main/<slug:course_name_slug>/<slug:course_name_slug>/', {'form': form})
 
 
-@login_required
+@login_required(login_url='/accounts/login/')
 def create_comment(request):
     form = CommentForm()
 
@@ -546,7 +546,7 @@ def create_comment(request):
     return render(request, 'main/course/<slug:course_name_slug>/<slug:forum_name_slug>/post/', {'form': form})
 
 
-@login_required
+@login_required(login_url='/accounts/login/')
 def create_upvote(request):
     upvote = None
 
@@ -559,7 +559,7 @@ def create_upvote(request):
     return render(request, 'main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/question', {'upvote': upvote})
 
 
-@login_required
+@login_required(login_url='/accounts/login/')
 def enroll_user(request):
     enroll = None
 
@@ -572,7 +572,7 @@ def enroll_user(request):
     return render(request, 'main/courses', {'enrollment': enroll})
 
 
-@login_required
+@login_required(login_url='/accounts/login/')
 @transaction.atomic
 def update_user(request):
     if request.method == 'POST':
@@ -592,7 +592,7 @@ def update_user(request):
         'profile_form': profile_form
     })
 
-@login_required
+@login_required(login_url='/accounts/login/')
 def set_role(request):
     return render(request, 'main/request_sent.html')
 
