@@ -183,7 +183,7 @@ def show_forum(request, forum_name_slug):
     except Forum.DoesNotExist:
         context_dict['forum'] = None
         context_dict['posts'] = None
-    return render(request, 'main/course/<slug:course_name_slug>/forum.html', context=context_dict)
+    return render(request, 'main/forum.html', context=context_dict)
 
 
 def show_post(request):

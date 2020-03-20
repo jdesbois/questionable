@@ -91,7 +91,7 @@ def populate():
     # Forums
     ################
 
-    programming_forum = {'Porgramming Forum': {'posts': programming_forum_posts}}
+    programming_forum = {'Programming Forum': {'posts': programming_forum_posts}}
 
     database_forum = {'Database Forum': {'posts': database_forum_posts}}
 
