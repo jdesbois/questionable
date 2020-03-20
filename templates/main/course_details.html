@@ -29,11 +29,11 @@
                                     {% for lecture in lectures %}
                                     <li class="justify-content-between d-flex">
                                         <div>
-                                            <a href="/main/course/{{ course.slug }}/{{ lecture.slug }}">
+                                            <a href="/main/course/{{ course.slug }}/lecutre/{{ lecture.slug }}">
                                             <h6>{{ lecture.name }}</h6>
 									        </a>
                                     </div>
-                                    <a class="primary-btn text-uppercase" href="/main/course/{{ course.slug }}/{{ lecture.slug }}">View Questions</a>
+                                    <a class="primary-btn text-uppercase" href="/main/course/{{ course.slug }}/lecture/{{ lecture.slug }}">View Questions</a>
                                 </li>
                                 {% endfor %}
                                 {% endif %}
@@ -46,7 +46,7 @@
                     <ul class="course_list">
                         {% if forums %}
                         {% for forum in forums %}
-                        <a href="{% url 'main:forum' forum.slug %}"><li class="justify-content-between d-flex">{{ forum.name }}</li></a>
+                        <a href="/main/course/{{ course.slug }}/forum/{{ forum.slug }}"><li class="justify-content-between d-flex">{{ forum.name }}</li></a>
                     </ul>
                         {% endfor %}
                         {% endif %}
