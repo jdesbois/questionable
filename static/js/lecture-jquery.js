@@ -18,7 +18,16 @@ $(document).ready(function(){
         repliestag = ".replies-" + questionid;
         console.log(repliestag);
 
+        // id for 'answer' text
+        var answertag;
+        answertag = ".answer-" + questionid
+        console.log(answertag);
+
+        // slide to view
         $(repliestag).slideToggle();
+
+        // toggle between 'Answer' and 'Answer (Click to view)'
+        $(answertag).text($(answertag).text() == 'Answer (Click to view)' ? 'Answer' : 'Answer (Click to view)');
 
 
 
