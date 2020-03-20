@@ -2,6 +2,7 @@
 
 {% extends 'main/base.html' %}
 {% load staticfiles %}
+<<<<<<< HEAD
 
 <html>
 <head>
@@ -10,12 +11,15 @@
 </head>
 <body>
 
+=======
+>>>>>>> c71f8bf65018e0b4cba907b1541a114358cf76ab
 {% block title_block %}
 Profile
 {% endblock %}
 
 {% block body_block %}
 <div class="container">
+<<<<<<< HEAD
     <div class="row bg-secondary text-white rounded">
          <div class="pl-5 pt-3">
             <div class="lecturetitle">{{ course.name }} - {{ forum.name }}</div><br/>
@@ -124,3 +128,15 @@ Profile
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
 </html>
+=======
+    <h1>{{ forum.name }}</h1>
+    {% if posts %} 
+    {% for post in posts %} 
+    <ul>
+        <li>{{ post.title }}</li>
+    </ul>
+</div>
+    {% endfor %}
+    {% endif %}
+{% endblock %}
+>>>>>>> c71f8bf65018e0b4cba907b1541a114358cf76ab

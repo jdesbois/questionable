@@ -22,7 +22,7 @@ $(document).ready(function(){
         $.get('/main/upvote/',
             {'question_id': questionid},
             function(data){
-                $(counttag).html(data);
+                $(counttag).html("Votes: " + data);
                 $(buttontag).attr("disabled", true);
             })
 
