@@ -1,5 +1,5 @@
 from django.test import TestCase
-from main.models import Course
+from main.models import Course, Lecture
 
 # Create your tests here.
 class CourseTestCase(TestCase):
@@ -12,3 +12,13 @@ class CourseTestCase(TestCase):
         course2 = Course.objects.get(name="Database")
         self.assertEquals(course1.name, "Programming")
         self.assertEquals(course2.name, "Database")
+
+class LectureTestCase(TestCase):
+    def setUp(self):
+        course = Course.objects.create(name="Programming")
+        Lecture.objects.create(name="Hello World", course=course)
+
+    def test_crouse_lecture(self):
+        lecture = Lecture.objects.get(name="Hello World")
+        self.assertEquals(lecture.name, "Hello World")
+        self.assertEquals(lecture.course.name, "Programming")
