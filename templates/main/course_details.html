@@ -22,23 +22,7 @@
                         <div class="content">
                              <!--================ Course description to go here =================-->
                         </div>
-                        <h4 class="title">Lectures</h4>
-                        <div class="content">
-                            <ul class="course_list">
-                                {% if lectures %}
-                                    {% for lecture in lectures %}
-                                    <li class="justify-content-between d-flex">
-                                        <div>
-                                            <a href="/main/course/{{ course.slug }}/lecutre/{{ lecture.slug }}">
-                                            <h6>{{ lecture.name }}</h6>
-									        </a>
-                                    </div>
-                                    <a class="primary-btn text-uppercase" href="/main/course/{{ course.slug }}/lecture/{{ lecture.slug }}">View Questions</a>
-                                </li>
-                                {% endfor %}
-                                {% endif %}
-                            </ul>
-                        </div>
+
                     </div>
                 </div>
                 <div class="col-lg-4 right-contents">
@@ -46,13 +30,20 @@
                     <ul class="course_list">
                         {% if forums %}
                         {% for forum in forums %}
-                        <a href="/main/course/{{ course.slug }}/forum/{{ forum.slug }}"><li class="justify-content-between d-flex">{{ forum.name }}</li></a>
-                    </ul>
+                        <a href="{% url 'main:forum' course.slug forum.slug %}"><li class="justify-content-between">{{ forum.name }}</li></a>
                         {% endfor %}
                         {% endif %}
-                     
-                        
-                    
+                    </ul>
+
+                        <h4 class="title">Lectures</h4>
+                        <ul class="course_list">
+                            {% if lectures %}
+                            {% for lecture in lectures%}
+                            <a href="{% url 'main:lecture' course.slug lecture.slug %}"><li class="justify-content-between">{{ lecture.name }}</li></a>
+                            {% endfor %}
+                            {% endif %}
+                        </ul>
+
                     </div>
         </div>
         </div>
