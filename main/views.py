@@ -142,8 +142,6 @@ def show_lecture(request, course_name_slug, lecture_name_slug):
             else:
                 hasvoted_dict[question.title] = True
 
-
-
         context_dict['course'] = course
         context_dict['lecture'] = lecture
         context_dict['questions'] = question_list
@@ -518,7 +516,10 @@ def create_forum(request, course_name_slug):
             # Save the form
             forum = form.save(commit=False)
             forum.course = course
-            forum.save()
+            try: 
+                forum.save()
+            except:
+                return redirect(reverse('main:error'))
 
             return redirect(reverse('main:course', kwargs={'course_name_slug': course_name_slug}))
 
@@ -639,6 +640,9 @@ def delete_user(request):
 
 
     return render(request, 'main/delete_user.html')
+
+def error(request):
+    return render(request, 'main/error.html')
 
 def check_user(current_user):
     try:
