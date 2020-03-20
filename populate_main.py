@@ -213,7 +213,7 @@ def populate():
             l = add_lecture(c, lecture)
             for question in lecture_data['questions']:
                 q = add_question(l, question['title'], question['question'], student4)
-                add_reply(q, "Donec aliquam dolor sapien, sagittis posuere dolor molestie vel. Aliquam arcu orci, luctus id vestibulum eget, dignissim egestas leo. Vivamus bibendum augue augue, a gravida ante condimentum id. Quisque ut rhoncus nulla. Ut eleifend est ut dui ultrices interdum. Quisque nec vulputate felis. Ut non tortor turpis. Vestibulum pretium nec erat vitae finibus. Maecenas consequat est sit amet fringilla fermentum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;")
+                add_reply(q, "Donec aliquam dolor sapien, sagittis posuere dolor molestie vel. Aliquam arcu orci, luctus id vestibulum eget, dignissim egestas leo. Vivamus bibendum augue augue, a gravida ante condimentum id. Quisque ut rhoncus nulla. Ut eleifend est ut dui ultrices interdum. Quisque nec vulputate felis. Ut non tortor turpis. Vestibulum pretium nec erat vitae finibus. Maecenas consequat est sit amet fringilla fermentum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;", tutor1)
         for forum, forum_data in course_data['forum'].items():
             f = add_forum(c, forum)
             for post in forum_data['posts']:
@@ -221,8 +221,9 @@ def populate():
                 # add_reply(question, "Test reply text")
 
 
-def add_reply(question, reply):
+def add_reply(question, reply, user):
     r = Reply.objects.get_or_create(question=question, reply=reply)[0]
+    r.user = user
     r.save()
     return r
 
