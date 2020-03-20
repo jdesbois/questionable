@@ -66,7 +66,7 @@
 							<h4>Top Questions</h4>      
 							<div>
 							{% if questions %}
-								<ul>
+								<ul class="feature_box">
 								{% for question in questions %}
 									<li><a href="{% url 'main:lecture' question.lecture.course.slug question.lecture.slug %}">{{question.title}}</a></li>
 									{% endfor %}

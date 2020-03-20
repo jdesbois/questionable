@@ -18,11 +18,13 @@ h6 {
 
 .list {
   list-style: none;
+  color: white;
   margin: 0px;
   padding: 0px; }
 
 a {
   text-decoration: none;
+  color: white !important;
   transition: all 0.3s ease-in-out; }
   a:hover, a:focus {
     text-decoration: none;
@@ -62,6 +64,10 @@ button:focus {
     .mt--100 {
       margin-top: 0px; } }
 
+.feature_box li {
+  text-decoration: none;
+  color: white;
+}
 /*---------------------------------------------------- */
 /*----------------------------------------------------*/
 .section_gap {
