@@ -3,7 +3,7 @@ $(document).ready(function(){
      $(".showreplies").hover(function(){
         this.style.setProperty('background-color', 'darkgray', 'important');
      }, function(){
-        this.style.setProperty('background-color', 'gainsboro', 'important');
+        this.style.setProperty('background-color', 'rgba(240, 240, 240, 0.9)', 'important');
      });
 
     $(".showreplies").click(function(){

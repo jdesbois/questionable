@@ -16,14 +16,21 @@ Profile
 
 {% block body_block %}
 <div class="container">
-    <div class="row bg-secondary text-white rounded">
+    <div class="row lightgray rounded">
          <div class="pl-5 pt-3">
             <div class="lecturetitle">{{ course.name }} - {{ lecture.name }}</div><br/>
          </div>
     </div>
-    <div class="row bg-white text-white rounded pl-5 pt-2 pb-2">
+    <div class="row bg-white rounded pl-5 pt-2 pb-2">
 
     </div>
+    <div class="row breakline text-white rounded pl-5 pt-1 ml-5 mr-5">
+
+    </div>
+    <div class="row bg-white text-white rounded pl-5 pt-2 pb-2 ">
+
+    </div>
+
 <!--    loop through questions-->
     {% for question in questions %}
 <!--        loop though questions: reply key: value pairs-->
@@ -33,7 +40,7 @@ Profile
             {% if q == question.title %}
 
 <!--            Add question title-->
-            <div class="row bg-secondary text-white rounded">
+            <div class="row lightgray rounded">
                  <div class="pl-5 pt-3" id="{{ question.id }}">
                     <div class="questiontitle">{{ question.title }} </div>
                     <div class="questioncontent mt-2">{{ question.question }}</div>
@@ -65,7 +72,7 @@ Profile
                  </div>
             </div>
 
-            <div class="row bg-white text-white rounded pl-5 pt-2 pb-2">
+            <div class="row bg-white rounded pl-5 pt-2 pb-2">
 
             </div>
 
@@ -88,13 +95,13 @@ Profile
                     {% endfor %}
                     </div>
                     <div class="col pt-2">
-                    <input class="btn btn-secondary " type="submit" name="submit" value="Submit Reply" />
+                    <input class="btn lightgray " type="submit" name="submit" value="Submit Reply" />
                     </div>
                 </form>
             </div>
             {% endif %}
 
-            <div class="row bg-white text-white rounded pl-5 pt-2 pb-2">
+            <div class="row bg-white rounded pl-5 pt-2 pb-2">
 
             </div>
 <!--            Loop over and add replies-->
@@ -105,17 +112,23 @@ Profile
                     <div><h5> Answer (Click to view)</h5></div>
                 <div class="hidden replies-{{ question.id }}">{{ reply.reply }}</div><br/>
             </div>
-             <div class="row bg-white text-white rounded pl-5 pt-2 pb-2">
+             <div class="row bg-white rounded pl-5 pt-2 pb-2">
 
              </div>
               {% endfor %}
             {% endif %}
         {% endfor %}
+        <div class="row breakline text-white rounded pl-5 pt-1 ml-5 mr-5">
+
+        </div>
+        <div class="row bg-white text-white rounded pl-5 pt-2 pb-2">
+
+        </div>
     {% endfor %}
 
 <!--    Submit question form-->
     {% if is_student == True %}
-        <div class="row bg-secondary text-white rounded pl-5 pt-2 pb-2">
+        <div class="row lightgray rounded pl-5 pt-2 pb-2">
             <div class="questiontitle">Submit a question:</div>
         </div>
 
@@ -131,12 +144,12 @@ Profile
                 {{ field.help_text }}
                 {{ field }}
             {% endfor %}
-            <input class="btn btn-secondary" type="submit" name="submit" value="Submit Question" />
+            <input class="btn lightgray" type="submit" name="submit" value="Submit Question" />
         </form>
         </div>
     {% endif %}
 
-    <div class="row bg-white text-white rounded pl-5 pt-5 pb-5">
+    <div class="row bg-white rounded pl-5 pt-5 pb-5">
 
     </div>
 
