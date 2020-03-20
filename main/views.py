@@ -371,6 +371,9 @@ def create_question(request, course_name_slug, lecture_name_slug):
                 question = form.save(commit=False)
                 question.lecture = lecture
                 question.user = current_student
+                # first save creates id
+                question.save()
+                # re-save so slugify can pick up the question ID
                 question.save()
 
                 # return redirect('/main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/')
