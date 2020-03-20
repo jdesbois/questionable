@@ -173,7 +173,7 @@ def show_question(request):
 #     return render(request, 'main/course/lecture/question/reply.html', context=context_dict)
 
 
-def show_forum(request, course_name_slug, forum_name_slug):
+def show_forum(request, course_name_slug,forum_name_slug):
     context_dict = {}
     try:
         forum = Forum.objects.get(slug=forum_name_slug)
