@@ -197,10 +197,14 @@ def populate():
     user.is_superuser = True
     user.save()
 
+
     user1 = User.objects.create_user("John", "noreplay@apple.com", "johnpassword1")
     user2 = User.objects.create_user("Andrew", "noreplay@apple.com", "andrewpassword1")
     user3 = User.objects.create_user("Rebecca", "noreplay@apple.com", "rebeccapassword1")
     user4 = User.objects.create_user("Aaron", "noreplay@apple.com", "aaronpassword1")
+    user5 = User.objects.get(username="Indy")
+
+    update_user(user5)
 
     student3 = add_student(user3)
     student4 = add_student(user4)
@@ -274,6 +278,10 @@ def add_tutor(user):
     t = Tutor.objects.get_or_create(user=user)[0]
     t.save()
     return t
+
+def update_user(user):
+    Student.objects.get(user=user).delete()
+    Tutor.objects.create(user=user)
 
 if __name__ == '__main__':
     print('Starting population script...')
