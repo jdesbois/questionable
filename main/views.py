@@ -120,8 +120,6 @@ def show_lecture(request, course_name_slug, lecture_name_slug):
             else:
                 hasvoted_dict[question.title] = True
 
-
-
         context_dict['course'] = course
         context_dict['lecture'] = lecture
         context_dict['questions'] = question_list
@@ -174,17 +172,50 @@ def show_question(request):
 #     return render(request, 'main/course/lecture/question/reply.html', context=context_dict)
 
 
-def show_forum(request, forum_name_slug):
+def show_forum(request, course_name_slug, forum_name_slug):
     context_dict = {}
+
     try:
+        course = Course.objects.get(slug=course_name_slug)
         forum = Forum.objects.get(slug=forum_name_slug)
-        post_list = Post.objects.filter(forum=forum)
-        context_dict['forum'] = forum
+        post_list = Forum.objects.filter(forum=forum)
+        post_form = PostForm()
+        comment_form = CommentForm()
+
+        comment_dict = {}
+
+        current_user = request.user
+        if check_user(current_user=current_user) == 2:
+            is_tutor = True
+            is_student = False
+            print("tutor")
+        elif check_user(current_user=current_user) == 1:
+            is_student = True
+            is_tutor = False
+            print("student")
+        else:
+            is_student = False
+            is_tutor = False
+            print("neither")
+
+        for post in post_list:
+            comment_dict[post.title] = Comment.objects.filter(post=post)
+
+        context_dict['course'] = course
+        context_dict['forums'] = forum
         context_dict['posts'] = post_list
-    except Forum.DoesNotExist:
-        context_dict['forum'] = None
-        context_dict['posts'] = None
-    return render(request, 'main/course/<slug:course_name_slug>/forum.html', context=context_dict)
+        context_dict['comment_dict'] = comment_dict
+        context_dict['post_form'] = post_form
+        context_dict['reply_form'] = comment_form
+        context_dict['is_tutor'] = is_tutor
+        context_dict['is_student'] = is_student
+
+    except Lecture.DoesNotExist:
+        context_dict['lecture'] = None
+        context_dict['questions'] = None
+        context_dict['reply_dict'] = None
+
+    return render(request, 'main/forum.html', context=context_dict)
 
 
 def show_post(request):

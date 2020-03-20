@@ -1,9 +1,126 @@
 <!DOCTYPE html>
+
 {% extends 'main/base.html' %}
+{% load staticfiles %}
+
+<html>
+<head>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/lecture.css' %}">
+</head>
+<body>
+
 {% block title_block %}
-Forum
+Profile
 {% endblock %}
 
 {% block body_block %}
-<h1>This would be a forum page</h1>
+<div class="container">
+    <div class="row bg-secondary text-white rounded">
+         <div class="pl-5 pt-3">
+            <div class="lecturetitle">{{ course.name }} - {{ forum.name }}</div><br/>
+         </div>
+    </div>
+    <div class="row bg-white text-white rounded pl-5 pt-2 pb-2">
+
+    </div>
+<!--    loop through posts-->
+    {% for post in posts %}
+<!--        loop though posts: comment key: value pairs-->
+        {% for p, comments in comment_dict.items %}
+
+<!--            only select replies for current question-->
+            {% if p == post.title %}
+
+<!--            Add post title-->
+            <div class="row bg-secondary text-white rounded">
+                 <div class="pl-5 pt-3" id="{{ question.id }}">
+                    <div class="posttitle">{{ post.title }} </div>
+                    <div class="postcontent mt-2">{{ post.question }}</div>
+                     {% if is_tutor == True %}
+                     <div class="postauthor pt-2 pb-4">Posted by: {{post.user}}</div>
+                     {% endif %}
+
+<!--            comment form-->
+            {% if is_tutor == True %}
+            <div class="row lightgray text-dark rounded pl-5 pt-3 pb-3 pr-5">
+                <div class="col pt-2 writereply">Write Comment</div>
+                <div class="col-8">
+                <form id="comment_form-{{post.id}}"
+                      method="post"
+                      action="/main/course/{{ course.slug }}/{{ forum.slug }}/{{ post.slug }}/create_comment/">
+                    {% csrf_token %}
+                    {% for hidden in comment_form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+                    {% for field in comment_form.visible_fields %}
+                        {{ field.errors }}
+                        {{ field.help_text }}
+                        {{ field }}
+                    {% endfor %}
+                    </div>
+                    <div class="col pt-2">
+                    <input class="btn btn-secondary " type="submit" name="submit" value="Submit Comment" />
+                    </div>
+                </form>
+            </div>
+            {% endif %}
+
+            <div class="row bg-white text-white rounded pl-5 pt-2 pb-2">
+
+            </div>
+<!--            Loop over and add comments-->
+            {% for comment in comments %}
+            <div class="row lightgray text-dark rounded pl-5 pt-3 pb-3 pr-5 showreplies"
+                 id="showcomments-{{ post.id }}"
+                     data-postid="{{ post.id }}">
+                    <div><h5> Answer (Click to view)</h5></div>
+                <div class="hidden comments-{{ post.id }}">{{ comment.comment }}</div><br/>
+            </div>
+             <div class="row bg-white text-white rounded pl-5 pt-2 pb-2">
+
+             </div>
+              {% endfor %}
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+
+<!--    Submit post form-->
+    {% if is_student == True %}
+        <div class="row bg-secondary text-white rounded pl-5 pt-2 pb-2">
+            <div class="questiontitle">Submit a post:</div>
+        </div>
+
+
+        <div class="row lightgray text-dark rounded pl-5 pt-3 pb-3 pr-5">
+        <form id="question_form" method="post" action="/main/course/{{ course.slug }}/{{ post.slug }}/create_post/">
+            {% csrf_token %}
+            {% for hidden in post_form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+            {% for field in post_form.visible_fields %}
+                {{ field.errors }}
+                {{ field.help_text }}
+                {{ field }}
+            {% endfor %}
+            <input class="btn btn-secondary" type="submit" name="submit" value="Submit Post" />
+        </form>
+        </div>
+    {% endif %}
+
+    <div class="row bg-white text-white rounded pl-5 pt-5 pb-5">
+
+    </div>
+
+
+</div>
 {% endblock %}
+
+<script src="{% static 'js/jquery-3.3.1.min.js' %}" crossorigin="anonymous"></script>
+<script src="{% static 'js/upvote-ajax.js' %}" crossorigin="anonymous"></script>
+<script src="{% static 'js/lecture-jquery.js' %}" crossorigin="anonymous"></script>
+<!--<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>-->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>
