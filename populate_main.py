@@ -200,9 +200,12 @@ def populate():
                          'ER Diagrams': {'questions': ERDiagram_questions},
                          'SQL': {'questions': SQL_questions}}
 
-    ####################
-    # Comments (Post)
-    ####################
+    internet_technology_lectures = {}
+
+    algorithms_lectures = {}
+
+    artificial_intelligence_lectures = {}
+
 
     ####################
     # Posts (Forum)
@@ -214,10 +217,10 @@ def populate():
          'author': user3,
          'comments': [["How much?", user4],
                       ["£10", user3],
-                      ["Can I pick it up Friday?", user4]]},
+                      ["Can I pick it up Friday?", user5]]},
         {'title': 'Group wanted.',
          'post': 'Looking for group members for project.',
-         'author': user4,
+         'author': user5,
          'comments': [["We need one more for our team if you'd like to join?", user3],
                       ["That would be great, thanks!", user4]]}
     ]
@@ -226,11 +229,52 @@ def populate():
         {'title': 'Anyone else having trouble with Postgres?',
          'post': 'Server won\'t run.',
          'author': user4,
-         'comments': [["I did, I found the lecture video from 23/10 helpful.", user3]]},
+         'comments': [["I did, I found the lecture video from 23/10 helpful.", user3],
+                      ["There's a great page on stack overflow if you google 'Postgres setup for PGAdmin'", user5]]},
         {'title': 'Study buddies wanted - apply within.',
          'post': 'Looking for people to study databases with',
          'author': user3,
-         'comments': [["We have a study group every Thursday at 7pm", user4]]}
+         'comments': [["We have a study group every Thursday at 7pm", user4],
+                      ["We have a space in our study group! We meet after Itech every Wednesday!", user5]]}
+    ]
+
+    internet_technology_forum_posts = [
+        {'title': 'Can anyone help me with rango chapter 6?',
+         'post': 'I keep getting a page not found error but I made the template just as they said in the book?',
+         'author': user5,
+         'comments': [["I can help you out if you want to set up zoom and screenshare?", user3],
+                      ["Do you have any screenshots? Or a link to your github?", user4]]}
+        {'title': 'Need help setting up my virtual environment',
+         'post': 'I don\'t understand what a virtual environment or how it helps to start with so I\'m totally lost',
+         'author': user4,
+         'comments': [["There's a page dedicated to this at the end of the book? Just check the contents page", user3],
+                      ["Have you tried googling it?", user5]]}
+    ]
+
+    algorithms_forum_posts = [
+        {'title': 'Does anyone have a good link to find some more material on complexity calculations?',
+         'post': 'I\'ve went through all the lecture material and I still don\'t understand how to calculate a big O notation! Help please!!',
+         'author': user5,
+         'comments': [["Theres some great stuff on Geek for Geeks!", user3],
+                      ["Yeah I found the Geek for Geek material really helpful too!", user4]]}
+        {'title': 'Need help with lab 3',
+         'post': 'For question 2 do I need to use the classes from last week?',
+         'author': user4,
+         'comments': [["I'm not sure either! I eamailed the lecturer about it and I'm waiting for a reply. Will let you know when they get back to me", user3],
+                      ["The start of the lab says that the question require last weeks lab.", user5]]}
+    ]
+
+    artificial_intelligence_forum_posts = [
+        {'title': 'Can anyone help me with rango chapter 6?',
+         'post': 'I keep getting a page not found error but I made the template just as they said in the book?',
+         'author': user5,
+         'comments': [["I can help you out if you want to set up zoom and screenshare?", user3],
+                      ["Do you have any screenshots? Or a link to your github?", user4]]}
+        {'title': 'Need help setting up my virtual environment',
+         'post': 'I don\'t understand what a virtual environment or how it helps to start with so I\'m totally lost',
+         'author': user4,
+         'comments': [["There's a page dedicated to this at the end of the book? Just check the contents page", user3],
+                      ["Have you tried googling it?", user5]]}
     ]
 
     ################
@@ -241,12 +285,17 @@ def populate():
 
     database_forum = {'Database Forum': {'posts': database_forum_posts}}
 
+    internet_technology_forum = {'Internet Technology': {'posts': internet_technology_forum_posts}}
+
     ##############
     # Courses
     ##############
 
     courses = {'Programming': {'lectures': programming_lectures, 'forum': programming_forum},
-               'Databases': {'lectures': database_lectures, 'forum': database_forum}}
+               'Databases': {'lectures': database_lectures, 'forum': database_forum},
+               'Internet Technology': {'lectures': internet_technology_lectures, 'forum': internet_technology_forum},
+               'Algorithms': {'lectures': algorithms_lectures, 'forum': algorithms_forum_posts},
+               'Artificial Intelligence': artificial_intelligence_lectures, 'forum': artificial_intelligence_forum_posts}
 
     for course, course_data in courses.items():
         c = add_course(course, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse laoreet consectetur odio ut fermentum. Mauris eleifend facilisis placerat. Praesent nec velit consequat, suscipit dui quis, maximus tellus. Donec volutpat consectetur ex a ultrices. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean ullamcorper tempus egestas. In auctor a risus consectetur cursus. Phasellus in sodales nibh. Duis finibus diam lectus, et pellentesque massa feugiat at. Donec molestie rutrum varius. In sollicitudin, massa id tristique rhoncus, odio risus consectetur quam, vel iaculis neque nisi non arcu. Suspendisse vulputate dolor nulla, vel tristique purus pretium ut. In hac habitasse.")
