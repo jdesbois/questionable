@@ -21,25 +21,32 @@ def populate():
 
     hello_world_questions = [
         {'title': 'Help, I\'ve deleted my path variable.',
-         'question': 'Where can I buy a new laptop?'},
+         'question': 'Where can I buy a new laptop?',
+         'replies': ["Please see Lecture 1, slide 8",
+                     "I'm available for my office hour Wed 12-1pm"]},
         {'title': 'What is MVC?',
-        'question': 'Unsure how to implement model, view controller.'}
+        'question': 'Unsure how to implement model, view controller.',
+         'replies': []}
     ]
 
     intro_to_java_questions =[]
 
     objects_questions = [
         {'title': 'Constructors',
-         'question': 'How is a constructor created and used?'},
+         'question': 'How is a constructor created and used?',
+         'replies': []},
         {'title': 'Pass by reference',
-         'question': 'What is the difference between pass by reference and by value?'}
+         'question': 'What is the difference between pass by reference and by value?',
+         'replies': []}
     ]
 
     DBIntro_questions = [
         {'title': 'What is a database',
-         'question': 'And how does it work?'},
+         'question': 'And how does it work?',
+         'replies': []},
         {'title': 'What is a foreign key?',
-         'question': 'And where is it from?'}
+         'question': 'And where is it from?',
+         'replies': []}
     ]
 
     ERDiagram_questions = [
@@ -48,9 +55,11 @@ def populate():
 
     SQL_questions = [
         {'title': 'My database is odd',
-         'question': 'How can I normalize it?'},
+         'question': 'How can I normalize it?',
+         'replies': []},
         {'title': 'SQL vs NoSQL',
-         'question': 'What is the difference between SQL and NoSQL?'}
+         'question': 'What is the difference between SQL and NoSQL?',
+         'replies': []}
     ]
 
     ################
@@ -213,7 +222,8 @@ def populate():
             l = add_lecture(c, lecture)
             for question in lecture_data['questions']:
                 q = add_question(l, question['title'], question['question'], student4)
-                add_reply(q, "Donec aliquam dolor sapien, sagittis posuere dolor molestie vel. Aliquam arcu orci, luctus id vestibulum eget, dignissim egestas leo. Vivamus bibendum augue augue, a gravida ante condimentum id. Quisque ut rhoncus nulla. Ut eleifend est ut dui ultrices interdum. Quisque nec vulputate felis. Ut non tortor turpis. Vestibulum pretium nec erat vitae finibus. Maecenas consequat est sit amet fringilla fermentum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;", tutor1)
+                for reply in question['replies']:
+                    add_reply(q, reply, tutor1)
         for forum, forum_data in course_data['forum'].items():
             f = add_forum(c, forum)
             for post in forum_data['posts']:
