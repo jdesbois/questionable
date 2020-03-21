@@ -271,6 +271,7 @@ def profile(request):
 
 
 @login_required
+@permission_required('main.add_course', raise_exception=True)
 def create_course(request):
     form = CourseForm()
 
@@ -291,6 +292,7 @@ def create_course(request):
 
 
 @login_required
+@permission_required('main.add_lecture',  raise_exception=True)
 def create_lecture(request, course_name_slug):
 
     try:
@@ -439,6 +441,7 @@ class UpvoteQuestionView(View):
 
 
 @login_required
+@permission_required('main.add_reply',  raise_exception=True)
 def create_reply(request, course_name_slug, lecture_name_slug, question_name_slug):
 
     try:
@@ -500,6 +503,7 @@ def create_reply(request, course_name_slug, lecture_name_slug, question_name_slu
                                     'lecture_name_slug': lecture_name_slug}))
 
 @login_required
+@permission_required('main.add_forum',  raise_exception=True)
 def create_forum(request, course_name_slug):
 
     try:

@@ -123,6 +123,9 @@ def populate():
 
     course_perms = ContentType.objects.get(app_label='main', model='course')
     c_perms = Permission.objects.filter(content_type=course_perms)
+
+    forum_perms = ContentType.objects.get(app_label='main', model='forum')
+    f_perms = Permission.objects.filter(content_type=forum_perms)
     
     for x in l_perms:
         lecturer.permissions.add(x)
@@ -131,6 +134,8 @@ def populate():
     for x in com_perms:
         student.permissions.add(x)
     for x in c_perms:
+        lecturer.permissions.add(x)
+    for x in f_perms:
         lecturer.permissions.add(x)
 
 
@@ -204,8 +209,14 @@ def populate():
 
     student3 = add_student(user3)
     student4 = add_student(user4)
+    
+    user4.groups.add(student)
+    user3.groups.add(student)
     tutor1 = add_tutor(user1)
     tutor2 = add_tutor(user2)
+
+    user1.groups.add(lecturer)
+    user2.groups.add(lecturer)
 
     for course, course_data in courses.items():
         c = add_course(course, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse laoreet consectetur odio ut fermentum. Mauris eleifend facilisis placerat. Praesent nec velit consequat, suscipit dui quis, maximus tellus. Donec volutpat consectetur ex a ultrices. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean ullamcorper tempus egestas. In auctor a risus consectetur cursus. Phasellus in sodales nibh. Duis finibus diam lectus, et pellentesque massa feugiat at. Donec molestie rutrum varius. In sollicitudin, massa id tristique rhoncus, odio risus consectetur quam, vel iaculis neque nisi non arcu. Suspendisse vulputate dolor nulla, vel tristique purus pretium ut. In hac habitasse.")
