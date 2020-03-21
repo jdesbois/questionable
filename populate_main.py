@@ -243,7 +243,7 @@ def populate():
          'post': 'I keep getting a page not found error but I made the template just as they said in the book?',
          'author': user5,
          'comments': [["I can help you out if you want to set up zoom and screenshare?", user3],
-                      ["Do you have any screenshots? Or a link to your github?", user4]]}
+                      ["Do you have any screenshots? Or a link to your github?", user4]]},
         {'title': 'Need help setting up my virtual environment',
          'post': 'I don\'t understand what a virtual environment or how it helps to start with so I\'m totally lost',
          'author': user4,
@@ -254,9 +254,9 @@ def populate():
     algorithms_forum_posts = [
         {'title': 'Does anyone have a good link to find some more material on complexity calculations?',
          'post': 'I\'ve went through all the lecture material and I still don\'t understand how to calculate a big O notation! Help please!!',
-         'author': user5,
-         'comments': [["Theres some great stuff on Geek for Geeks!", user3],
-                      ["Yeah I found the Geek for Geek material really helpful too!", user4]]}
+         'author': user3,
+         'comments': [["Theres some great stuff on Geek for Geeks!", user5],
+                      ["Yeah I found the Geek for Geek material really helpful too!", user4]]},
         {'title': 'Need help with lab 3',
          'post': 'For question 2 do I need to use the classes from last week?',
          'author': user4,
@@ -265,16 +265,16 @@ def populate():
     ]
 
     artificial_intelligence_forum_posts = [
-        {'title': 'Can anyone help me with rango chapter 6?',
-         'post': 'I keep getting a page not found error but I made the template just as they said in the book?',
+        {'title': 'I\'m getting an issue with my deep learning model, it keeps assigning the dataset backwards?',
+         'post': 'Everything thats not a car is getting tagged with car and for some reason it thinks all cars are giraffes, help!',
          'author': user5,
-         'comments': [["I can help you out if you want to set up zoom and screenshare?", user3],
-                      ["Do you have any screenshots? Or a link to your github?", user4]]}
-        {'title': 'Need help setting up my virtual environment',
-         'post': 'I don\'t understand what a virtual environment or how it helps to start with so I\'m totally lost',
+         'comments': [["I can help you out if you want to set up skype and screenshare?", user3],
+                      ["Can you link to your github so I can see if I can find an issue?", user4]]},
+        {'title': 'I made a serious mistake',
+         'post': 'I downloaded the wrong deeplearning package and now my model has taken over the trident program. What do I do?!',
          'author': user4,
-         'comments': [["There's a page dedicated to this at the end of the book? Just check the contents page", user3],
-                      ["Have you tried googling it?", user5]]}
+         'comments': [["This might be a bit beyond a forum post?", user3],
+                      ["Lol! You created skynet...", user5]]}
     ]
 
     ################
@@ -287,6 +287,10 @@ def populate():
 
     internet_technology_forum = {'Internet Technology': {'posts': internet_technology_forum_posts}}
 
+    algorithms_forum = {'Algorithms': {'posts': algorithms_forum_posts}}
+
+    artificial_intelligence_forum = {'Artificial Intelligence': {'posts': artificial_intelligence_forum_posts}}
+
     ##############
     # Courses
     ##############
@@ -294,8 +298,8 @@ def populate():
     courses = {'Programming': {'lectures': programming_lectures, 'forum': programming_forum},
                'Databases': {'lectures': database_lectures, 'forum': database_forum},
                'Internet Technology': {'lectures': internet_technology_lectures, 'forum': internet_technology_forum},
-               'Algorithms': {'lectures': algorithms_lectures, 'forum': algorithms_forum_posts},
-               'Artificial Intelligence': artificial_intelligence_lectures, 'forum': artificial_intelligence_forum_posts}
+               'Algorithms': {'lectures': algorithms_lectures, 'forum': algorithms_forum},
+               'Artificial Intelligence': {'lectures': artificial_intelligence_lectures, 'forum': artificial_intelligence_forum}}
 
     for course, course_data in courses.items():
         c = add_course(course, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse laoreet consectetur odio ut fermentum. Mauris eleifend facilisis placerat. Praesent nec velit consequat, suscipit dui quis, maximus tellus. Donec volutpat consectetur ex a ultrices. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean ullamcorper tempus egestas. In auctor a risus consectetur cursus. Phasellus in sodales nibh. Duis finibus diam lectus, et pellentesque massa feugiat at. Donec molestie rutrum varius. In sollicitudin, massa id tristique rhoncus, odio risus consectetur quam, vel iaculis neque nisi non arcu. Suspendisse vulputate dolor nulla, vel tristique purus pretium ut. In hac habitasse.")
