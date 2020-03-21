@@ -75,6 +75,9 @@ def populate():
                          'SQL': {'questions': SQL_questions}}
 
 
+    ####################
+    # Comments (Post)
+    ####################
 
 
     ####################
@@ -210,6 +213,8 @@ def populate():
     user2 = User.objects.create_user("Andrew", "noreplay@apple.com", "andrewpassword1")
     user3 = User.objects.create_user("Rebecca", "noreplay@apple.com", "rebeccapassword1")
     user4 = User.objects.create_user("Aaron", "noreplay@apple.com", "aaronpassword1")
+    user5 = User.objects.create_user("Bob", "noreplay@apple.com", "bobpassword1")
+
 
     student3 = add_student(user3)
     student4 = add_student(user4)
@@ -227,8 +232,8 @@ def populate():
         for forum, forum_data in course_data['forum'].items():
             f = add_forum(c, forum)
             for post in forum_data['posts']:
-                c = add_post(f, post['title'], post['post'])
-                # add_reply(question, "Test reply text")
+                p = add_post(f, post['title'], post['post'])
+                add_comment(p, "Test reply text", user5)
 
 
 def add_reply(question, reply, user):
@@ -252,15 +257,16 @@ def add_lecture(course, name):
     return l
 
 
-def add_comment(post, comment):
+def add_comment(post, comment, user):
     c = Comment.objects.get_or_create(post=post, comment=comment)[0]
+    c.user = user
     c.save()
     return c
 
 
 def add_post(forum, title, post):
     q = Post.objects.get_or_create(forum=forum, title=title)[0]
-    q.question = post
+    q.post = post
     q.save()
     return q
 

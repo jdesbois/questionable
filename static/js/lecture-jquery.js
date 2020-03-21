@@ -23,6 +23,11 @@ $(document).ready(function(){
         answertag = ".answer-" + questionid
         console.log(answertag);
 
+        // id for 'comment' text
+        var commenttag;
+        commenttag = ".comment-" + questionid
+        console.log(commenttag);
+
         // slide to view
         $(repliestag).slideToggle();
 
