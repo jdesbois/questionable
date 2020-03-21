@@ -14,6 +14,7 @@ urlpatterns = [
     path('set_role', views.set_role, name="set_role"),
     path('delete_user', views.delete_user, name='delete_user'),
     path('error', views.error, name='error'),
+    path('set_role', views.set_role, name="set_role"),
     path('course/<slug:course_name_slug>/', views.show_course, name='course'),
     path('lecture/<slug:course_name_slug>/<slug:lecture_name_slug>/', views.show_lecture, name='lecture'),
     path('course/<slug:course_name_slug>/<slug:lecture_name_slug>/question/', views.show_question, name='question'),

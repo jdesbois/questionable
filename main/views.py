@@ -300,6 +300,8 @@ def profile(request):
     return render(request, 'main/profile.html', context=context_dict)
 
 
+
+
 # CREATION VIEWS
 
 
@@ -707,17 +709,27 @@ def update_user(request):
 
 @login_required
 def set_role(request):
+    context_dict = {}
+    users = Student.objects.all()
+    context_dict['users'] = users
 
-    current_user = request.user
-    Student.objects.get(user=current_user).delete()
-    Tutor.objects.create(user=current_user)
-    student_group = Group.objects.get(name="Student")
-    lecturer_group = Group.objects.get(name="Lecturer")
-    current_user.groups.remove(student_group)
-    current_user.groups.add(lecturer_group)
+    if request.method == 'POST':
+        print(request.POST.get('selected_user'))
+        selected_user = request.POST.get('selected_user')
+        current_user = User.objects.get(username=selected_user)
+        Tutor.objects.create(user=current_user)
+        Student.objects.get(user=current_user).delete()
+        
+        student_group = Group.objects.get(name="Student")
+        lecturer_group = Group.objects.get(name="Lecturer")
+        current_user.groups.remove(student_group)
+        current_user.groups.add(lecturer_group)
+    else:
 
-    return render(request, 'main/request_sent.html')
 
+        return render(request, 'main/manage_users.html', context=context_dict)
+
+    return render(request, 'main/manage_users.html', context=context_dict)
 
 def delete_user(request):
     current_user = request.user
