@@ -15,7 +15,6 @@ class Student(models.Model):
 def create_or_update_student(sender, instance, created, **kwargs):
     if created:
         Student.objects.create(user=instance)
-    instance.student.save()
 
 class Tutor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

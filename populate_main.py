@@ -317,6 +317,7 @@ def add_student(user):
     return s
 
 def add_tutor(user):
+    student = Student.objects.get(user=user).delete()
     t = Tutor.objects.get_or_create(user=user)[0]
     t.save()
     return t
