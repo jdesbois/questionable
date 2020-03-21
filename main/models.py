@@ -93,13 +93,13 @@ class Forum(models.Model):
 
 class Post(models.Model):
     forum = models.ForeignKey(Forum, on_delete=models.CASCADE)
-    user = models.ForeignKey(Student, on_delete=models.SET_NULL, null=True, blank=True, default=None)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, default=None)
     title = models.CharField(max_length=128)
     post = models.CharField(max_length=512)
     slug = models.SlugField(unique=True, null=True)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        self.slug = self.id
         super(Post, self).save(*args, **kwargs)
 
     def __str__(self):

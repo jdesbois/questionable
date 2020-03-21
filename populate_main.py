@@ -206,6 +206,7 @@ def populate():
     user4 = User.objects.create_user("Aaron", "noreplay@apple.com", "aaronpassword1")
     user5 = User.objects.create_user("Bob", "noreplay@apple.com", "bobpassword1")
 
+
     student3 = add_student(user3)
     student4 = add_student(user4)
     tutor1 = add_tutor(user1)

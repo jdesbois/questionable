@@ -591,6 +591,9 @@ def create_post(request, course_name_slug, forum_name_slug):
             post = form.save(commit=False)
             post.forum = forum
             post.user = request.user
+            # save 1 creates id
+            post.save()
+            # save 2 uodates slug
             post.save()
 
             # return redirect('/main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/')
@@ -623,7 +626,7 @@ def create_comment(request, course_name_slug, forum_name_slug, post_name_slug):
     except Post.DoesNotExist:
         post = None
 
-    if course is None or forum is None:
+    if course is None or forum is None or post is None:
         return redirect('/main/forum/<slug:course_name_slug>/<slug:forum_name_slug/')
 
     form = ReplyForm()
