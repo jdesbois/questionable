@@ -8,20 +8,21 @@ User Management
 {% endblock %}
 
 {% block body_block%}
-<div class="container">
+<div class="container course_details_area">
     <div class="row">
         <div class="col-lg-3"><p></p></div>
-        <div class="col-lg-6">
-            <h3>List of Student Accounts</h3>
+        <div class="col-lg-6 course_details_left">
+            <h3 class="title">List of Student Accounts</h3>
             <ul class="list-group">
                 {% if users %}
                 {% for user in users %}
                 <li class="list-group-item">
-                    <p>{{ user.user.username }}</p>
+                    
                     <form action="{% url 'main:set_role' %}" method="POST">
                         {% csrf_token %}
+                        <h6>{{ user.user.username }}</h6>
                         <input type="hidden" name="selected_user" value="{{user.user}}"/>
-                        <button type="submit" class="btn btn-primary mb-2">Upgrade to Lecturer </button>
+                        <button type="submit" class="btn btn-primary">Upgrade to Lecturer </button>
                     </form>    
                 </li>
                 {% endfor %}
