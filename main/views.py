@@ -707,9 +707,14 @@ def update_user(request):
 
 @login_required
 def set_role(request):
+
     current_user = request.user
     Student.objects.get(user=current_user).delete()
     Tutor.objects.create(user=current_user)
+    student_group = Group.objects.get(name="Student")
+    lecturer_group = Group.objects.get(name="Lecturer")
+    current_user.groups.remove(student_group)
+    current_user.groups.add(lecturer_group)
 
     return render(request, 'main/request_sent.html')
 
