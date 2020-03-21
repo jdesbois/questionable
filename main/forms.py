@@ -59,8 +59,9 @@ class ForumForm(forms.ModelForm):
 
 # Creates a form to add a post tuple to the database
 class PostForm(forms.ModelForm):
-    title = forms.CharField(max_length=128)
-    post = forms.CharField(max_length=512)
+    title = forms.CharField(max_length=128, widget=forms.TextInput(attrs={'class' : 'form-control mt-2 mb-2'}))
+    post = forms.CharField(max_length=512, widget=forms.TextInput(attrs={'class' : 'form-control mt-2 mb-2'}))
+    slug = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     class Meta:
         model = Post
@@ -69,7 +70,7 @@ class PostForm(forms.ModelForm):
 
 # Creates a form for a Lecture tuple to add to database
 class CommentForm(forms.ModelForm):
-    comment = forms.CharField(max_length=512)
+    comment = forms.CharField(max_length=512, widget=forms.TextInput(attrs={'class' : 'form-control mt-2 mb-2'}))
 
     class Meta:
         model = Comment
