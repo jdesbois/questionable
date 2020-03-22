@@ -9,6 +9,7 @@ from django.contrib.auth.models import User, Group
 from django.urls import reverse
 from django.views import View
 from django.http import HttpResponse
+from django.db.models import Count
 
 
 # DISPLAY VIEWS
@@ -20,12 +21,15 @@ def home(request):
 
 
 def index(request):
-    question_list = Question.objects.order_by('-upvote')[:3]
+    upvotes = Upvote.objects.values('question').annotate(upvote_count=Count('question'))
     question_new = Question.objects.order_by('-id')[:3]
+    questions_top = upvotes.order_by('-upvote_count')[:3]
+    questions = Question.objects.filter(id__in=(questions_top[0]['question'],questions_top[1]['question'],questions_top[2]['question']))
+    question = Question.objects.get(id=questions_top[0]['question'])
+    
 
     context_dict = {}
-    context_dict = {'message': 'Message sent from the view'}
-    context_dict['questions'] = question_list
+    context_dict['questions'] = questions
     context_dict['newquestions'] = question_new
 
     return render(request, 'main/index.html', context=context_dict)
