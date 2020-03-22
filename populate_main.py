@@ -5,7 +5,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'questionable.settings')
 import django
 django.setup()
 
-from main.models import Course, Lecture, Question, Reply, Forum, Post, Comment, Tutor, Student
+from main.models import Course, Lecture, Question, Reply, Forum, Post, Comment, Tutor, Student, Upvote
 from django.db import models
 from django.contrib.auth.models import User, Group, Permission
 from django.contrib.contenttypes.models import ContentType
@@ -135,12 +135,14 @@ def populate():
         {'title': 'What version of Java are we using?',
          'question': "I've seen online that there are 13 versions of Java, which version will we use for this course?",
          'author': student3,
+         'upvotes': [student3],
          'replies': [["We will be using Java 1.8.", tutor1],
                      ["Also worth investigating Eclipse, the development environment the staff will use to teach.",
                       tutor1]]},
         {'title': 'Main method help.',
          'question': 'What is the correct way to write a main metho?',
          'author': student4,
+         'upvotes': [student4],
          'replies': [["public static void main(String args){}", tutor1],
                      ["Try inserting 'System.out.println(\"Hello World\");' in this method.", tutor1]]}
     ]
@@ -151,12 +153,14 @@ def populate():
         {'title': 'Constructors',
          'question': 'How is a constructor created and used?',
          'author': student4,
+         'upvotes': [student3, student4],
          'replies': [["A constructor is called to create an initial instance of an object." +
                       "It can be passed variables and use these to set the initial parameters of the object",
                       tutor2]]},
         {'title': 'Pass by reference',
          'question': 'What is the difference between pass by reference and by value?',
          'author': student3,
+         'upvotes': [student4],
          'replies': [["When an object is passed by reference, the passed value is an address pointing to that object." +
                       "When an object is passed by value the object itself is passed", tutor2],
                      ["Note that objects can only be passed by reference in Java.", tutor2]]}
@@ -166,10 +170,12 @@ def populate():
         {'title': 'What is a database',
          'question': 'And how does it work?',
          'author': student4,
+         'upvotes': [student3, student4],
          'replies': []},
         {'title': 'What is a foreign key?',
          'question': 'And where is it from?',
          'author': student3,
+         'upvotes': [],
          'replies': []}
     ]
 
@@ -181,10 +187,12 @@ def populate():
         {'title': 'My database is odd',
          'question': 'How can I normalize it?',
          'author': student3,
+         'upvotes': [student4],
          'replies': []},
         {'title': 'SQL vs NoSQL',
          'question': 'What is the difference between SQL and NoSQL?',
          'author': student4,
+         'upvotes': [student4],
          'replies': []}
     ]
 
@@ -192,11 +200,13 @@ def populate():
         {'title': 'New to Python',
          'question': "I've never programmed in python before. Where can I find good resources to learn?",
          'author': student3,
+         'upvotes': [],
          'replies': [["The course textbook 'Tango with Django' provides a list of resource.", tutor1],
                      ["I personally would recommend CodeAcademy.com", tutor1]]},
         {'title': 'Lab grading',
          'question': 'How will labs be marked?',
          'author': student4,
+         'upvotes': [student3, student4],
          'replies': [["The chapters in TWD have automated tests, we will check your code against these.", tutor1]]}
     ]
 
@@ -204,10 +214,12 @@ def populate():
         {'title': 'Versioning',
          'question': 'What versions of python and django will we be using?',
          'author': student4,
+         'upvotes': [student4],
          'replies': [["Python 3.7.5 & Django 2.1.5", tutor1]]},
         {'title': 'Virtual environment',
          'question': 'What is the best way to set up a virtual environment on windows',
          'author': student3,
+         'upvotes': [student3],
          'replies': [["I would recommend Anaconda Prompt, but the IDE pycharm also offers virtual environment options", tutor1]]}
     ]
 
@@ -217,10 +229,12 @@ def populate():
         {'title': 'Labs Assessment',
          'question': 'Will the labs form part of our assessment?',
          'author': student3,
+         'upvotes': [student3, student4],
         'replies': [["No, however we will help students with their assessed exercises at the lab", tutor2]]},
         {'title': 'Exam',
          'question': 'What format will the exam take?',
          'author': student4,
+         'upvotes': [student3],
         'replies': [["The exam will be multiple choice.", tutor2]]}
     ]
 
@@ -354,6 +368,8 @@ def populate():
             l = add_lecture(c, lecture)
             for question in lecture_data['questions']:
                 q = add_question(l, question['title'], question['question'], question['author'])
+                for voter in question['upvotes']:
+                    add_upvote(q, voter)
                 for reply in question['replies']:
                     add_reply(q, reply[0], reply[1])
         for forum, forum_data in course_data['forum'].items():
@@ -362,6 +378,12 @@ def populate():
                 p = add_post(f, post['title'], post['post'], post['author'])
                 for comment in post['comments']:
                     add_comment(p, comment[0], comment[1])
+
+
+def add_upvote(question, user):
+    u = Upvote.objects.get_or_create(question=question, user=user)[0]
+    u.save()
+    return u
 
 
 def add_reply(question, reply, user):
