@@ -21,7 +21,7 @@ def home(request):
 
 def index(request):
     question_list = Question.objects.order_by('-upvote')[:3]
-    question_new = Question.objects.order_by('upvote')[:3]
+    question_new = Question.objects.order_by('-id')[:3]
 
     context_dict = {}
     context_dict = {'message': 'Message sent from the view'}
@@ -281,8 +281,8 @@ def profile(request):
     current_user = request.user
     context_dict = {}
     role = None
-    questions = Question.objects.all()[:3]
-    posts = Post.objects.all()[:3]
+    questions = Question.objects.order_by('-id')[:3]
+    posts = Post.objects.order_by('-id')[:3]
     replies = Reply.objects.all()[:3]
     context_dict['questions'] = questions
     context_dict['posts'] = posts
