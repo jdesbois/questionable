@@ -282,7 +282,7 @@ def profile(request):
     context_dict = {}
     role = None
     questions = Question.objects.order_by('-id')[:3]
-    posts = Post.objects.order_by('id')[:3]
+    posts = Post.objects.order_by('-id')[:3]
     replies = Reply.objects.all()[:3]
     context_dict['questions'] = questions
     context_dict['posts'] = posts
