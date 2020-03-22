@@ -20,7 +20,7 @@ def home(request):
 
 
 def index(request):
-    question_list = Question.objects.order_by('upvote')[:3]
+    question_list = Question.objects.order_by('-upvote')[:3]
     question_new = Question.objects.order_by('-id')[:3]
 
     context_dict = {}
