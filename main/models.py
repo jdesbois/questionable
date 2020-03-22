@@ -123,12 +123,6 @@ class Upvote(models.Model):
         return "Upvote: " + str(self.pk)
 
 
-class Enrollment(models.Model):
-    user = models.ForeignKey(Student, on_delete=models.CASCADE, default=None)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return "Enrollment: " + str(self.pk)
 #User Profile that has a one to one field with User. This is to expand the user model built into Django
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

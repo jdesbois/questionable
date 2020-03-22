@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from main.forms import LectureForm, CourseForm, QuestionForm, CommentForm, ReplyForm, UserForm, ProfileForm, ForumForm, \
     PostForm
-from main.models import Course, Lecture, Question, Reply, Comment, Upvote, Enrollment, Post, Student, Tutor, Forum
+from main.models import Course, Lecture, Question, Reply, Comment, Upvote, Post, Student, Tutor, Forum
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.db import transaction
@@ -109,13 +109,19 @@ def show_lecture(request, course_name_slug, lecture_name_slug):
         course = Course.objects.get(slug=course_name_slug)
         lecture = Lecture.objects.get(slug=lecture_name_slug)
         question_list = Question.objects.filter(lecture=lecture)
+
+        # for students submitting questions
         question_form = QuestionForm()
+
+        # for tutors submitting replies
         reply_form = ReplyForm()
 
+        # for passing via context dict
         reply_dict = {}
         upvote_dict = {}
         hasvoted_dict = {}
 
+        # check which user is accessing
         current_user = request.user
         if check_user(current_user=current_user) == 2:
             is_tutor = True
@@ -131,10 +137,12 @@ def show_lecture(request, course_name_slug, lecture_name_slug):
             print("neither")
 
         for question in question_list:
+            # get objects associated with this question
             reply_dict[question.title] = Reply.objects.filter(question=question)
             upvotes = Upvote.objects.filter(question=question)
             upvote_dict[question.title] = upvotes.count()
 
+            # check whether this student has upvoted (to prevent multiple voting)
             if is_student:
                 current_student = Student.objects.get(user=current_user)
                 user_upvote = Upvote.objects.filter(question=question, user=current_student)
@@ -144,10 +152,11 @@ def show_lecture(request, course_name_slug, lecture_name_slug):
                 else:
                     hasvoted_dict[question.title] = False
 
-            # disable otherwise
+            # disable otherwise, only students can vote
             else:
                 hasvoted_dict[question.title] = True
 
+        # pass required data to context dict
         context_dict['course'] = course
         context_dict['lecture'] = lecture
         context_dict['questions'] = question_list
@@ -377,16 +386,21 @@ def create_question(request, course_name_slug, lecture_name_slug):
     except Lecture.DoesNoExist:
         lecture = None
 
+    # find course object
     try:
         course = Course.objects.get(slug=course_name_slug)
     except Course.DoesNotExist:
         course = None
 
+    # redirect if specified course/lecture combination invalid
     if course is None or lecture is None:
-        return redirect('/main/lecture/<slug:course_name_slug>/<slug:lecture_name_slug/')
+        return redirect(reverse('main:lecture',
+                                kwargs={'course_name_slug': course_name_slug,
+                                        'lecture_name_slug': lecture_name_slug}))
 
     form = QuestionForm()
 
+    # check who is accessing
     current_user = request.user
     if check_user(current_user=current_user) == 2:
         is_tutor = True
@@ -401,6 +415,7 @@ def create_question(request, course_name_slug, lecture_name_slug):
         is_tutor = False
         print("neither")
 
+    # only allow students to create questions
     if is_student:
         current_student = Student.objects.get(user=current_user)
         # If user inputs comment
@@ -418,7 +433,6 @@ def create_question(request, course_name_slug, lecture_name_slug):
                 # re-save so slugify can pick up the question ID
                 question.save()
 
-                # return redirect('/main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/')
                 return redirect(reverse('main:lecture',
                                         kwargs={'course_name_slug': course_name_slug,
                                                 'lecture_name_slug': lecture_name_slug}))
@@ -429,8 +443,6 @@ def create_question(request, course_name_slug, lecture_name_slug):
                                 kwargs={'course_name_slug': course_name_slug,
                                         'lecture_name_slug': lecture_name_slug}))
 
-    # why did we previously have to pass form here? Works without it for current setup?
-    # return render(request, 'main/course/<slug:course_name_slug>/<slug:lecture_name_slug>/', {'form': form})
     return redirect(reverse('main:lecture',
                             kwargs={'course_name_slug': course_name_slug,
                                     'lecture_name_slug': lecture_name_slug}))
@@ -449,6 +461,7 @@ class UpvoteQuestionView(View):
         except ValueError:
             return HttpResponse(-1)
 
+        # check who is accessing
         current_user = request.user
         if check_user(current_user=current_user) == 2:
             is_tutor = True
@@ -463,7 +476,7 @@ class UpvoteQuestionView(View):
             is_tutor = False
             print("neither")
 
-        # create an upvote
+        # only students can upvote
         if is_student:
             current_student = Student.objects.get(user=current_user)
             u = Upvote.objects.get_or_create(question=question, user=current_student)
@@ -485,26 +498,32 @@ class UpvoteQuestionView(View):
 @login_required
 @permission_required('main.add_reply',  raise_exception=True)
 def create_reply(request, course_name_slug, lecture_name_slug, question_name_slug):
+
+    # find lecture object
     try:
         lecture = Lecture.objects.get(slug=lecture_name_slug)
     except Lecture.DoesNoExist:
         lecture = None
 
+    # find course object
     try:
         course = Course.objects.get(slug=course_name_slug)
     except Course.DoesNotExist:
         course = None
 
+    # find question object
     try:
         question = Question.objects.get(slug=question_name_slug)
     except Question.DoesNotExist:
         question = None
 
+    # redirect if specified course/lecture/question combination invalid
     if course is None or lecture is None:
         return redirect('/main/lecture/<slug:course_name_slug>/<slug:lecture_name_slug/')
 
     form = ReplyForm()
 
+    # check who is accessing
     current_user = request.user
     if check_user(current_user=current_user) == 2:
         is_tutor = True
@@ -519,6 +538,7 @@ def create_reply(request, course_name_slug, lecture_name_slug, question_name_slu
         is_tutor = False
         print("neither")
 
+    # only tutors can reply to questions
     if is_tutor:
         current_tutor = Tutor.objects.get(user=current_user)
         # If user inputs comment
@@ -536,7 +556,6 @@ def create_reply(request, course_name_slug, lecture_name_slug, question_name_slu
                                                 'lecture_name_slug': lecture_name_slug}))
 
             else:
-
                 print(form.errors)
 
     return redirect(reverse('main:lecture',
