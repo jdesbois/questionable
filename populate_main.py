@@ -117,15 +117,15 @@ def populate():
     hello_world_questions = [
         {'title': 'What version of Java are we using?',
          'question': "I've seen online that there are 13 versions of Java, which version will we use for this course?",
-         'author': student3,
-         'upvotes': [student3],
+         'author': student1,
+         'upvotes': [student1],
          'replies': [["We will be using Java 1.8.", tutor1],
                      ["Also worth investigating Eclipse, the development environment the staff will use to teach.",
                       tutor1]]},
         {'title': 'Main method help.',
          'question': 'What is the correct way to write a main metho?',
-         'author': student4,
-         'upvotes': [student4],
+         'author': student2,
+         'upvotes': [student2],
          'replies': [["public static void main(String args){}", tutor1],
                      ["Try inserting 'System.out.println(\"Hello World\");' in this method.", tutor1]]}
     ]
@@ -152,12 +152,12 @@ def populate():
     DBIntro_questions = [
         {'title': 'What is a database',
          'question': 'And how does it work?',
-         'author': student4,
-         'upvotes': [student3, student4],
+         'author': student5,
+         'upvotes': [student5, student6],
          'replies': []},
         {'title': 'What is a foreign key?',
-         'question': 'And where is it from?',
-         'author': student3,
+         'question': 'Struggling to understand the difference between primary keys and foreign keys and the constraints on them.',
+         'author': student6,
          'upvotes': [],
          'replies': []}
     ]
@@ -169,41 +169,41 @@ def populate():
     SQL_questions = [
         {'title': 'My database is odd',
          'question': 'How can I normalize it?',
-         'author': student3,
-         'upvotes': [student4],
+         'author': student7,
+         'upvotes': [student8],
          'replies': []},
         {'title': 'SQL vs NoSQL',
          'question': 'What is the difference between SQL and NoSQL?',
-         'author': student4,
-         'upvotes': [student4],
+         'author': student8,
+         'upvotes': [student7],
          'replies': []}
     ]
 
     itech_intro_questions = [
         {'title': 'New to Python',
          'question': "I've never programmed in python before. Where can I find good resources to learn?",
-         'author': student3,
+         'author': student9,
          'upvotes': [],
-         'replies': [["The course textbook 'Tango with Django' provides a list of resource.", tutor1],
-                     ["I personally would recommend CodeAcademy.com", tutor1]]},
+         'replies': [["The course textbook 'Tango with Django' provides a list of resource.", tutor3],
+                     ["I personally would recommend CodeAcademy.com", tutor3]]},
         {'title': 'Lab grading',
          'question': 'How will labs be marked?',
-         'author': student4,
-         'upvotes': [student3, student4],
-         'replies': [["The chapters in TWD have automated tests, we will check your code against these.", tutor1]]}
+         'author': student5,
+         'upvotes': [student6, student4],
+         'replies': [["The chapters in TWD have automated tests, we will check your code against these.", tutor3]]}
     ]
 
     django_questions = [
         {'title': 'Versioning',
          'question': 'What versions of python and django will we be using?',
-         'author': student4,
-         'upvotes': [student4],
-         'replies': [["Python 3.7.5 & Django 2.1.5", tutor1]]},
+         'author': student7,
+         'upvotes': [student1],
+         'replies': [["Python 3.7.5 & Django 2.1.5", tutor3]]},
         {'title': 'Virtual environment',
          'question': 'What is the best way to set up a virtual environment on windows',
-         'author': student3,
-         'upvotes': [student3],
-         'replies': [["I would recommend Anaconda Prompt, but the IDE pycharm also offers virtual environment options", tutor1]]}
+         'author': student4,
+         'upvotes': [student2],
+         'replies': [["I would recommend Anaconda Prompt, but the IDE pycharm also offers virtual environment options", tutor3]]}
     ]
 
     html_questions = []
@@ -211,14 +211,14 @@ def populate():
     ads_intro_questions = [
         {'title': 'Labs Assessment',
          'question': 'Will the labs form part of our assessment?',
-         'author': student3,
-         'upvotes': [student3, student4],
-        'replies': [["No, however we will help students with their assessed exercises at the lab", tutor2]]},
+         'author': student6,
+         'upvotes': [student5, student4],
+        'replies': [["No, however we will help students with their assessed exercises at the lab", tutor4]]},
         {'title': 'Exam',
          'question': 'What format will the exam take?',
-         'author': student4,
-         'upvotes': [student3],
-        'replies': [["The exam will be multiple choice.", tutor2]]}
+         'author': student9,
+         'upvotes': [student8],
+        'replies': [["The exam will be multiple choice.", tutor4]]}
     ]
 
     algorithms_questions = []
@@ -339,14 +339,24 @@ def populate():
     # Courses
     ##############
 
-    courses = {'Programming': {'lectures': programming_lectures, 'forum': programming_forum},
-               'Databases': {'lectures': database_lectures, 'forum': database_forum},
-               'Internet Technology': {'lectures': internet_technology_lectures, 'forum': internet_technology_forum},
-               'Algorithms': {'lectures': algorithms_lectures, 'forum': algorithms_forum},
-               'Artificial Intelligence': {'lectures': artificial_intelligence_lectures, 'forum': artificial_intelligence_forum}}
+    courses = {'Programming': {'lectures': programming_lectures,
+                               'forum': programming_forum,
+                               'bio': "The course aims to provide an initial introudction to programming using the programming language Java, giving a basic coverage of object oriented programming, data structure and algorithms."},
+               'Databases': {'lectures': database_lectures,
+                             'forum': database_forum,
+                               'bio': "The course teaches students the fundamentals of database theory as well as applications. The focus is on relational databases. Student will learn to design normalized databases and implement them using SQL."},
+               'Internet Technology': {'lectures': internet_technology_lectures,
+                                       'forum': internet_technology_forum,
+                                       'bio': "This course introduces students to web development using the python-base framework Django. Students will gain exposure to a wide range of technologies including; HTML, CSS, Javascript, Django, JQuery, AJAX and others."},
+               'Algorithms': {'lectures': algorithms_lectures,
+                              'forum': algorithms_forum,
+                               'bio': "This course intends to develop students understanding of algorithms and data structures. Students will learn how to write algorithm and study their efficiency. The course also covers a range of abstract data types and how these can be implemented in data structures."},
+               'Artificial Intelligence': {'lectures': artificial_intelligence_lectures,
+                                           'forum': artificial_intelligence_forum,
+                                           'bio': ""}}
 
     for course, course_data in courses.items():
-        c = add_course(course, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse laoreet consectetur odio ut fermentum. Mauris eleifend facilisis placerat. Praesent nec velit consequat, suscipit dui quis, maximus tellus. Donec volutpat consectetur ex a ultrices. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean ullamcorper tempus egestas. In auctor a risus consectetur cursus. Phasellus in sodales nibh. Duis finibus diam lectus, et pellentesque massa feugiat at. Donec molestie rutrum varius. In sollicitudin, massa id tristique rhoncus, odio risus consectetur quam, vel iaculis neque nisi non arcu. Suspendisse vulputate dolor nulla, vel tristique purus pretium ut. In hac habitasse.")
+        c = add_course(course, course_data['bio'])
         for lecture, lecture_data in course_data['lectures'].items():
             l = add_lecture(c, lecture)
             for question in lecture_data['questions']:
