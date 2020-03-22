@@ -10,9 +10,13 @@ User Management
 {% block body_block%}
 <div class="container course_details_area">
     <div class="row">
-        <div class="col-lg-3"><p></p></div>
+        <div class="col-lg-3">
+            <p></p>
+
+        </div>
         <div class="col-lg-6 course_details_left">
             <h3 class="title">List of Student Accounts</h3>
+           <p><a href="{% url 'main:profile' %}">Return to profile</a></p> 
             <ul class="list-group">
                 {% if users %}
                 {% for user in users %}
@@ -28,8 +32,9 @@ User Management
                 {% endfor %}
                 {% endif %}
             </ul>
+
         </div>
-        <div class="col-lg-3"><p></p></div>
+        <div class="col-lg-3"></div>
     </div>
 </div>
 {% endblock %}
