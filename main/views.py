@@ -26,7 +26,6 @@ def index(request):
     questions_top = upvotes.order_by('-upvote_count')[:3]
     questions = Question.objects.filter(id__in=(questions_top[0]['question'],questions_top[1]['question'],questions_top[2]['question']))
     question = Question.objects.get(id=questions_top[0]['question'])
-    print(questions)
     
 
     context_dict = {}
