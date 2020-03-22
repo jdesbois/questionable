@@ -10,7 +10,7 @@ class Student(models.Model):
 
     def __str__(self):
         return self.user.username
-        
+# Signal makes sure that every user created is a Student    
 @receiver(post_save, sender=User)
 def create_or_update_student(sender, instance, created, **kwargs):
     if created:
@@ -129,7 +129,7 @@ class Enrollment(models.Model):
 
     def __str__(self):
         return "Enrollment: " + str(self.pk)
-
+#User Profile that has a one to one field with User. This is to expand the user model built into Django
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=512, default="Tell us a little about yourself....")
@@ -137,7 +137,7 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
-
+#Receiver signal that insures that every user created has an associated Profile
 @receiver(post_save, sender=User)
 def create_or_update_user_profile(sender, instance, created, **kwargs):
     if created:

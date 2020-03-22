@@ -21,12 +21,15 @@ def home(request):
 
 
 def index(request):
+    #Queries databse and counts all upvote objects with the same question
     upvotes = Upvote.objects.values('question').annotate(upvote_count=Count('question'))
-    question_new = Question.objects.order_by('-id')[:3]
+    #Orders the previous upvotes query set by highest count to lowest and selects top 3
     questions_top = upvotes.order_by('-upvote_count')[:3]
+    #Queries the database for the top three questions with the most votes based on the three question from the previous query set
     questions = Question.objects.filter(id__in=(questions_top[0]['question'],questions_top[1]['question'],questions_top[2]['question']))
-    question = Question.objects.get(id=questions_top[0]['question'])
-    
+
+    #Queries Questions for the last created by calling descending ID and filtering to 3
+    question_new = Question.objects.order_by('-id')[:3]
 
     context_dict = {}
     context_dict['questions'] = questions
@@ -285,9 +288,11 @@ def profile(request):
     current_user = request.user
     context_dict = {}
     role = None
+    #Queries Database for the last three created questions by grabbing the three highest IDs
     questions = Question.objects.order_by('-id')[:3]
-    posts = Post.objects.order_by('-id')[:3]
-    replies = Reply.objects.all()[:3]
+    #Queries Database for the last three created replies by grabbing the three highest IDs
+    posts = Post.objects.order_by('-id')[:3] 
+    replies = Reply.objects.all()[:3]#This is now redundant but kept for further development
     context_dict['questions'] = questions
     context_dict['posts'] = posts
     context_dict['replies'] = replies
@@ -716,26 +721,27 @@ def set_role(request):
     context_dict = {}
     users = Student.objects.all()
     context_dict['users'] = users
-
+    #If request received is POST, it extracts the user ID from submitted request. Deletes student object for User and assigns new Tutor objects
     if request.method == 'POST':
         print(request.POST.get('selected_user'))
         selected_user = request.POST.get('selected_user')
         current_user = User.objects.get(username=selected_user)
         Tutor.objects.create(user=current_user)
         Student.objects.get(user=current_user).delete()
-        
+        #Groups are used for some backend permissions on creating objects so the groups are also changed
         student_group = Group.objects.get(name="Student")
         lecturer_group = Group.objects.get(name="Lecturer")
         current_user.groups.remove(student_group)
         current_user.groups.add(lecturer_group)
     else:
 
-
+        #If it is not a post request then it loads the manage_users page
         return render(request, 'main/manage_users.html', context=context_dict)
-
+    #Once a request has been made it reloads the manage users page removing the newly upgrade account from the list.
     return render(request, 'main/manage_users.html', context=context_dict)
 
 def delete_user(request):
+    #queires currently logged in user and deletes them
     current_user = request.user
     current_user.delete()
 
@@ -743,9 +749,10 @@ def delete_user(request):
 
 
 def error(request):
+    #simple error page if a user tries to create an object that already exists
     return render(request, 'main/error.html')
 
-
+#Helper method to query if a user has a student or tutor profile assigned to them
 def check_user(current_user):
     try:
         Student.objects.get(user=current_user)
