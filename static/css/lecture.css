@@ -41,3 +41,20 @@ background-color: rgba(240, 240, 240, 0.9);
 .breakline{
     background-color: rgba(0, 179, 0, 0.3);
 }
+
+@media (min-width:992px) {
+    .desktop-only {
+        display:block !important;
+    }
+}
+ 
+
+@media (max-width: 991px) {
+    .mobile-only {
+        display:block !important;
+    }
+ 
+    .desktop-only {
+        display:none !important;
+    }
+}
