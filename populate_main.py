@@ -54,78 +54,61 @@ def populate():
     # Users
     ##############
 
-    users = [
-        {
-            'username': 'Dory',
-            'email': 'noreply@apple.com',
-            'password': 'dorypassword1',
-        },
-        {
-            'username': 'Mike',
-            'email': 'noreply@apple.com',
-            'password': 'mikepassword1',
-        },
-        {
-            'username': 'Becca',
-            'email': 'noreply@apple.com',
-            'password': 'beccapassword1',
-        },
-        {
-            'username': 'Archie',
-            'email': 'noreply@apple.com',
-            'password': 'archiepassword1',
-        },
-        {
-            'username': 'Alan',
-            'email': 'noreply@apple.com',
-            'password': 'alanpassword1',
-        },
-        {
-            'username': 'Claire',
-            'email': 'noreply@apple.com',
-            'password': 'clairepassword1',
-        },
-        {
-            'username': 'Dave',
-            'email': 'noreply@apple.com',
-            'password': 'davepassword1',
-        },
-        {
-            'username': 'Indy',
-            'email': 'indy@carrot.com',
-            'password': 'ILoveCarrots',
-        },
-    ]
-
-    for user in users:
-        u = User.objects.create_user(user['username'], user['email'], user['password'])
-        add_student(u)
-
     # Default admin for /admin (REMOVE BEFORE DEPLOYING)
     admin = User.objects.create_user('admin', 'noreply@apple.com', 'HelloWorld123')
     User1 = get_user_model()
     user = User1.objects.get(username="admin")
+    user.groups.remove(Group.objects.get(name="Student"))
+    Student.objects.get(user=user).delete()
     user.is_staff = True
     user.is_admin = True
     user.is_superuser = True
     user.save()
 
+
     user1 = User.objects.create_user("John", "noreplay@apple.com", "johnpassword1")
     user2 = User.objects.create_user("Andrew", "noreplay@apple.com", "andrewpassword1")
     user3 = User.objects.create_user("Rebecca", "noreplay@apple.com", "rebeccapassword1")
     user4 = User.objects.create_user("Aaron", "noreplay@apple.com", "aaronpassword1")
-    user5 = User.objects.create_user("Bob", "noreplay@apple.com", "bobpassword1")
+    user5 = User.objects.create_user("Dave", "noreplay@apple.com", "davepassword1")
+    user6 = User.objects.create_user("Claire", "noreplay@apple.com", "clairepassword1")
+    user7 = User.objects.create_user("Becca", "noreplay@apple.com", "beccapassword1")
+    user8 = User.objects.create_user("Alan", "noreplay@apple.com", "alanpassword1")
+    user9 = User.objects.create_user("Archie", "noreplay@apple.com", "archiepassword1")
+    user10 = User.objects.create_user("Steve", "noreplay@apple.com", "stevepassword1")
+    user11 = User.objects.create_user("Dory", "noreplay@apple.com", "dorypassword1")
+    user12 = User.objects.create_user("Mike", "noreplay@apple.com", "mikepassword1")
+    user13 = User.objects.create_user("Indy", "noreplay@apple.com", "indypassword1")
 
-    student3 = add_student(user3)
-    student4 = add_student(user4)
-
-    user4.groups.add(student)
+    #Add student profile for student (which should be default) and add user to Student group
+    student1 = add_student(user3)
+    student2 = add_student(user4)
+    student3 = add_student(user5)
+    student4 = add_student(user6)
+    student5 = add_student(user7)
+    student6 = add_student(user8)
+    student7 = add_student(user9)
+    student8 = add_student(user10)
+    student9 = add_student(user11)
     user3.groups.add(student)
+    user4.groups.add(student)
+    user5.groups.add(student)
+    user6.groups.add(student)
+    user7.groups.add(student)
+    user8.groups.add(student)
+    user9.groups.add(student)
+    user10.groups.add(student)
+    user11.groups.add(student)
+
+    #Add tutors profile to user and add user to the Lecturer group
     tutor1 = add_tutor(user1)
     tutor2 = add_tutor(user2)
-
+    tutor3 = add_tutor(user12)
+    tutor4 = add_tutor(user13)
     user1.groups.add(lecturer)
     user2.groups.add(lecturer)
+    user12.groups.add(lecturer)
+    user13.groups.add(lecturer)
 
     ####################
     # Questions
