@@ -105,6 +105,8 @@ def populate():
     admin = User.objects.create_user('admin', 'noreply@apple.com', 'HelloWorld123')
     User1 = get_user_model()
     user = User1.objects.get(username="admin")
+    user.groups.remove(Group.objects.get(name="Student"))
+    Student.objects.get(user=user).delete()
     user.is_staff = True
     user.is_admin = True
     user.is_superuser = True
