@@ -37,7 +37,7 @@ Profile
         {% for q, replies in reply_dict.items %}
 
 <!--            only select replies for current question-->
-            {% if q == question.title %}
+            {% if q == question.id %}
 
 <!--            Add question title-->
             <div class="row lightgray rounded">

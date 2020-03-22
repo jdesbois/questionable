@@ -138,7 +138,7 @@ def show_lecture(request, course_name_slug, lecture_name_slug):
 
         for question in question_list:
             # get objects associated with this question
-            reply_dict[question.title] = Reply.objects.filter(question=question)
+            reply_dict[question.id] = Reply.objects.filter(question=question)
             upvotes = Upvote.objects.filter(question=question)
             upvote_dict[question.title] = upvotes.count()
 
