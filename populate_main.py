@@ -188,6 +188,49 @@ def populate():
          'replies': []}
     ]
 
+    itech_intro_questions = [
+        {'title': 'New to Python',
+         'question': "I've never programmed in python before. Where can I find good resources to learn?",
+         'author': student3,
+         'replies': [["The course textbook 'Tango with Django' provides a list of resource.", tutor1],
+                     ["I personally would recommend CodeAcademy.com", tutor1]]},
+        {'title': 'Lab grading',
+         'question': 'How will labs be marked?',
+         'author': student4,
+         'replies': [["The chapters in TWD have automated tests, we will check your code against these.", tutor1]]}
+    ]
+
+    django_questions = [
+        {'title': 'Versioning',
+         'question': 'What versions of python and django will we be using?',
+         'author': student4,
+         'replies': [["Python 3.7.5 & Django 2.1.5", tutor1]]},
+        {'title': 'Virtual environment',
+         'question': 'What is the best way to set up a virtual environment on windows',
+         'author': student3,
+         'replies': [["I would recommend Anaconda Prompt, but the IDE pycharm also offers virtual environment options", tutor1]]}
+    ]
+
+    html_questions = []
+
+    ads_intro_questions = [
+        {'title': 'Labs Assessment',
+         'question': 'Will the labs form part of our assessment?',
+         'author': student3,
+        'replies': [["No, however we will help students with their assessed exercises at the lab", tutor2]]},
+        {'title': 'Exam',
+         'question': 'What format will the exam take?',
+         'author': student4,
+        'replies': [["The exam will be multiple choice.", tutor2]]}
+    ]
+
+    algorithms_questions = []
+
+    linked_lists_questions = []
+
+
+
+
     ################
     # Lectures
     ################
@@ -200,9 +243,13 @@ def populate():
                          'ER Diagrams': {'questions': ERDiagram_questions},
                          'SQL': {'questions': SQL_questions}}
 
-    internet_technology_lectures = {}
+    internet_technology_lectures = {'ITech Intro': {'questions': itech_intro_questions},
+                            'Django': {'questions': django_questions},
+                            'HTML': {'questions': html_questions}}
 
-    algorithms_lectures = {}
+    algorithms_lectures = {'ADS Intro': {'questions': ads_intro_questions},
+                            'Algorithms': {'questions': algorithms_questions},
+                            'Linked Lists': {'questions': linked_lists_questions}}
 
     artificial_intelligence_lectures = {}
 
