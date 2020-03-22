@@ -118,7 +118,7 @@ def populate():
         {'title': 'What version of Java are we using?',
          'question': "I've seen online that there are 13 versions of Java, which version will we use for this course?",
          'author': student1,
-         'upvotes': [student1],
+         'upvotes': [student1, student2, student3, student4, student5, student8, student9],
          'replies': [["We will be using Java 1.8.", tutor1],
                      ["Also worth investigating Eclipse, the development environment the staff will use to teach.",
                       tutor1]]},
@@ -136,14 +136,14 @@ def populate():
         {'title': 'Constructors',
          'question': 'How is a constructor created and used?',
          'author': student4,
-         'upvotes': [student3, student4],
+         'upvotes': [student3, student4, student5],
          'replies': [["A constructor is called to create an initial instance of an object." +
                       "It can be passed variables and use these to set the initial parameters of the object",
                       tutor2]]},
         {'title': 'Pass by reference',
          'question': 'What is the difference between pass by reference and by value?',
          'author': student3,
-         'upvotes': [student4],
+         'upvotes': [student1, student2, student8, student9],
          'replies': [["When an object is passed by reference, the passed value is an address pointing to that object." +
                       "When an object is passed by value the object itself is passed", tutor2],
                      ["Note that objects can only be passed by reference in Java.", tutor2]]}
@@ -153,12 +153,12 @@ def populate():
         {'title': 'What is a database',
          'question': 'And how does it work?',
          'author': student5,
-         'upvotes': [student5, student6],
+         'upvotes': [student1, student2, student5, student6, student7],
          'replies': []},
         {'title': 'What is a foreign key?',
          'question': 'Struggling to understand the difference between primary keys and foreign keys and the constraints on them.',
          'author': student6,
-         'upvotes': [],
+         'upvotes': [student7, student8, student9],
          'replies': []}
     ]
 
@@ -175,7 +175,7 @@ def populate():
         {'title': 'SQL vs NoSQL',
          'question': 'What is the difference between SQL and NoSQL?',
          'author': student8,
-         'upvotes': [student7],
+         'upvotes': [student4, student5, student6, student7, student8, student9],
          'replies': []}
     ]
 
@@ -189,7 +189,7 @@ def populate():
         {'title': 'Lab grading',
          'question': 'How will labs be marked?',
          'author': student5,
-         'upvotes': [student6, student4],
+         'upvotes': [student1, student2, student3, student8, student9],
          'replies': [["The chapters in TWD have automated tests, we will check your code against these.", tutor3]]}
     ]
 
@@ -202,7 +202,7 @@ def populate():
         {'title': 'Virtual environment',
          'question': 'What is the best way to set up a virtual environment on windows',
          'author': student4,
-         'upvotes': [student2],
+         'upvotes': [student1, student2, student3, student4, student5, student6, student7, student8, student9],
          'replies': [["I would recommend Anaconda Prompt, but the IDE pycharm also offers virtual environment options", tutor3]]}
     ]
 
@@ -212,7 +212,7 @@ def populate():
         {'title': 'Labs Assessment',
          'question': 'Will the labs form part of our assessment?',
          'author': student6,
-         'upvotes': [student5, student4],
+         'upvotes': [student1, student2, student3, student4, student7, student8, student9],
         'replies': [["No, however we will help students with their assessed exercises at the lab", tutor4]]},
         {'title': 'Exam',
          'question': 'What format will the exam take?',
