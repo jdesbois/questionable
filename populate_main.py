@@ -225,7 +225,29 @@ def populate():
 
     linked_lists_questions = []
 
+    ai_intro_questions = []
 
+    intro_to_data_modeling_questions = [{'title': 'Use of alternative database software',
+         'question': 'Can we use MYSQL instead of PgAdmin?',
+         'author': student6,
+         'upvotes': [student5, student4],
+        'replies': [["No, as the automiated tests require functionality that doesn\'t exist in MYSQL.", tutor4]]},
+        {'title': 'Issue setting up modeling environment',
+         'question': 'Is it possible to set aside lab time to help students set up their environments?',
+         'author': student8,
+         'upvotes': [student9],
+        'replies': [["Yes of course! The first 20 minutes of next weeks labs will be used as a time to help students set everything up.", tutor4]]}]
+
+    deep_learning_basics_questions = [{'title': 'Labs Assessment',
+         'question': 'Will the labs form part of our assessment?',
+         'author': student6,
+         'upvotes': [student5, student4],
+        'replies': [["Yes, the deep learning labs are graded and will contribute to your final mark.", tutor4]]},
+        {'title': 'Meeting time',
+         'question': 'Is it possible to set aside some meeting time so student can come and ask questions?',
+         'author': student9,
+         'upvotes': [student8],
+        'replies': [["Unfortunately due to commitments with other courses I will not be able to set aside time for private meetings. I will be available in all labs to answer questions and I try to actively respond to emails", tutor4]]}]
 
 
     ################
@@ -248,7 +270,9 @@ def populate():
                             'Algorithms': {'questions': algorithms_questions},
                             'Linked Lists': {'questions': linked_lists_questions}}
 
-    artificial_intelligence_lectures = {}
+    artificial_intelligence_lectures = {'AI Intro': {'questions': ai_intro_questions},
+                            'Intro to data modelling': {'questions': intro_to_data_modeling_questions},
+                            'Deep learning basics': {'questions': deep_learning_basics_questions}}
 
 
     ####################
@@ -353,7 +377,7 @@ def populate():
                                'bio': "This course intends to develop students understanding of algorithms and data structures. Students will learn how to write algorithm and study their efficiency. The course also covers a range of abstract data types and how these can be implemented in data structures."},
                'Artificial Intelligence': {'lectures': artificial_intelligence_lectures,
                                            'forum': artificial_intelligence_forum,
-                                           'bio': ""}}
+                                           'bio': "This course introduces the concept of artificial intelligence using python machine learning models. Students will gain an understanding of basic machine learning modeling and how to expand multiple machine learning nodes into s deep learning AI."}}
 
     for course, course_data in courses.items():
         c = add_course(course, course_data['bio'])
