@@ -1,5 +1,5 @@
 from django.contrib import admin
-from main.models import Course, Lecture, Question, Reply, Forum, Post, Comment, Student, Tutor, Upvote, Enrollment, Profile
+from main.models import Course, Lecture, Question, Reply, Forum, Post, Comment, Student, Tutor, Upvote, Profile
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 
@@ -27,6 +27,5 @@ admin.site.register(Comment)
 admin.site.register(Student)
 admin.site.register(Tutor)
 admin.site.register(Upvote)
-admin.site.register(Enrollment)
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
