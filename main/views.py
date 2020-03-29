@@ -237,7 +237,7 @@ def show_forum(request, course_name_slug, forum_name_slug):
             print("student")
 
         for post in post_list:
-            comment_dict[post.title] = Comment.objects.filter(post=post)
+            comment_dict[post.id] = Comment.objects.filter(post=post)
 
         context_dict['course'] = course
         context_dict['forum'] = forum

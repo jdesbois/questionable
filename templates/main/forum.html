@@ -30,7 +30,7 @@ Profile
         {% for p, comments in comment_dict.items %}
 
 <!--            only select comments for current post-->
-            {% if p == post.title %}
+            {% if p == post.id %}
 
 <!--            Add post title-->
             <div class="row lightgray rounded">
